@@ -1,0 +1,2 @@
+from helium_integrationtest.environment import get_integrationtest_resource, \
+	path_to_file_url

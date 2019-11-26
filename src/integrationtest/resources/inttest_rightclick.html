@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_rightclick</title>
+	<link type="text/css" rel="stylesheet"
+		  href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ui-contextmenu.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#normalRightclick').mousedown(function(event) {
+				if (event.which == 3) {
+					setResult("Normal rightclick performed.");
+				}
+			});
+			// Disable context menu "Inspect element" etc.:
+			document.getElementById('normalRightclick').oncontextmenu =
+					function(event) {
+						event.preventDefault();
+						event.stopPropagation();
+						return false;
+					};
+			$("#contextMenu").contextmenu({
+				menu: [
+					{title: "Normal item", cmd: "Normal item"},
+					{title: "Item with sub items", cmd: "Item with sub items",
+						children: [
+							{title: "Sub item 1", cmd: "Sub item 1"},
+							{title: "Sub item 2", cmd: "Sub item 2"}
+						]
+					}],
+				// Don't "slide in". On Chrome, Helium sometimes clicks too
+				// early (when the default "sliding in" is not yet complete), in
+				// which case the test fails:
+				show: 0,
+				select: function(event, ui) {
+					setResult(ui.cmd + ' selected.');
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<p id="normalRightclick">Perform a normal rightclick here.</p>
+	<p id="contextMenu">Rightclick here for context menu.</p>
+	<p id="result"></p>
+</body>
+</html>

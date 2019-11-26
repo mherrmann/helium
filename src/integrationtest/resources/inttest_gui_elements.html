@@ -1,0 +1,360 @@
+<html>
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Test page for browser system tests</title>
+        <style>
+            button {
+                width: 100%;
+            }
+            ul.horizontal {
+                list-style-type: none;
+                padding: 0;
+            }
+            ul.horizontal li {
+                display: inline;
+                background-color: lightblue;
+                padding: 0 5px;
+            }
+            tbody {
+                font-size: 11pt;
+            }
+            td.left {
+                text-align: right;
+            }
+            [contenteditable] {
+                border-style: solid;
+                border-width: 1px;
+            }
+            iframe {
+                height: 28px;
+                width: 100%;
+                border: none;
+            }
+        </style>
+	</head>
+	<body>
+		<form>
+			<table style="width: 700px;">
+				<tr>
+					<td>Empty Text Field:</td>
+					<td><input type="text" /></td>
+					<td>Another Text Field:</td>
+					<td><input type="text" /></td>
+				</tr>
+				<tr>
+					<td>Example Text Field:</td>
+					<td>
+						<input type="text" value="Lorem ipsum"
+							   id="exampleTextFieldId"
+							   name="exampleTextFieldName"
+							   class="exampleTextFieldClass"/>
+					</td>
+                    <td>CheckBox</td>
+                    <td>
+						<input type="checkbox" id="checkBoxId"
+							   name="checkBoxName" class="checkBoxClass"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Disabled Text Field:</td>
+					<td>
+                        <input type="text" value="This is disabled" disabled />
+                    </td>
+                    <td><input type="checkbox"/> LHS CheckBox</td>
+                </tr>
+                <tr>
+					<td>ReadOnly Text Field:</td>
+					<td>
+                        <input type="text" value="This is read only" readonly />
+                    </td>
+					<td>Language:</td>
+					<td><input type="text" value="English" /></td>
+				</tr>
+				<tr>
+					<td>Język polski:</td>
+                    <td>
+                        <input type="text"
+                               value="Pchnąć w tę łódź jeża lub ośm skrzyń fig"
+                               readonly />
+                    </td>
+                    <td>Language:</td>
+                    <td>
+                        <select>
+                            <option>English</option>
+                            <option>Polski</option>
+                            <option>Deutsch</option>
+                        </select>
+                    </td>					
+				</tr>
+                <tr>
+                    <td>Deutsch:</td>
+                    <td>
+                        <input type="text" value="Heizölrückstoßabdämpfung"/>
+                    </td>
+                    <td colspan="2">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="width: 20%">&nbsp;</td>
+                                <td style="width: 40%; text-align: center;">
+                                    Column 1
+                                </td>
+                                <td style="width: 40%; text-align: center;">
+                                    Column 2
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Drop Down List:</td>
+                    <td>
+                        <select id="dropDownListId" name="dropDownListName" class="dropDownListClass">
+                            <option>Option One</option>
+                            <option>Option Two</option>
+                            <option>Option Three</option>
+                        </select>
+                    </td>
+					<td colspan="2">
+						<table style="width: 100%;">
+							<tr>
+								<td style="width: 20%">Row 1:</td>
+								<td style="width: 40%; text-align: center;">
+									<button type="button">
+										Duplicate Button
+									</button>
+								</td>
+								<td style="width: 40%; text-align: center;">
+									<button type="button">
+										Duplicate Button
+									</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>Editable ComboBox:</td>
+					<td>
+						<input list="numbers">
+						<datalist id="numbers">
+							<option value="One"></option>
+							<option value="Two"></option>
+							<option value="Three"></option>
+						</datalist>
+					</td>
+					<td colspan="2">
+						<table style="width: 100%;">
+							<tr>
+								<td style="width: 20%">Row 2:</td>
+								<td style="width: 40%; text-align: center;">
+									<button type="button">
+										Duplicate Button
+									</button>
+								</td>
+								<td style="width: 40%; text-align: center;">
+									<button type="button">
+										Duplicate Button
+									</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+                <tr>
+                    <td><input type="checkbox"/>Right Labeled CheckBox</td>
+                    <td class="left">
+                        Left Labeled CheckBox
+                        <input type="checkbox"/>
+                    </td>
+                    <td>
+                        <button type="button">Enabled Button</button>
+                    </td>
+                    <td>
+                        <button type="button" disabled >
+                            Disabled Button
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" checked />
+                        Ticked CheckBox
+                    </td>
+                    <td class="left">
+                        <input type="checkbox" disabled />
+                        Disabled CheckBox
+                    </td>
+                    <td colspan="2" style="padding-left: 8px;">
+						<label>
+						<!--By setting margin: 0; here, we ensure that the-->
+						<!--check box has the same position as the enclosing-->
+						<!--label. This is important for the test.-->
+						<input type="checkbox" style="margin: 0;"
+							   id="checkBoxEnclosedByLabel">
+						<span>CheckBox enclosed by label</span>
+						</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" checked id="radioButton1id" name="radioGroup1" class="radioButton1class"/>
+                        RadioButton 1
+                    </td>
+                    <td class="left">
+                        <input type="radio" name="radioGroup2"/>
+                        Left Labeled RadioButton 1
+                    </td>
+                    <td>
+                        <span id="textWithId"
+							  name="textWithName"
+							  class="textWithClass">
+                            Text with id
+                        </span>
+                    </td>
+                    <td>
+                        <a id="linkId" name="linkName" class="linkClass"
+						   href="">Link with empty href</a>
+                        <a id="linkId" name="linkName" class="linkClass"
+                           href='http://heliumhq.com/'>heliumhq.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="radioGroup1"/>
+                        RadioButton 2
+                    </td>
+                    <td class="left">
+                        <input type="radio" checked name="radioGroup2"/>
+                        Left Labeled RadioButton 2
+                    </td>
+                    <td>Input type=<b>T</b>ext:</td>
+                    <td><input type="Text"/></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Select a value...</option>
+                            <option>Value 1</option>
+                        </select>
+                    </td>
+                    <td>&nbsp;Text with leading &amp;nbsp;</td>
+                    <td>
+						<input type="submit" value="Submit Button"
+							   id="submitButtonId" name="submitButtonName"
+							   class="submitButtonClass"/>
+					</td>
+                    <td><input type="button" value="Input Button"/></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Placeholder Text Field" /></td>
+                    <td><input placeholder="Placeholder Text Field without type" /></td>
+                    <td><div role="button">DIV with role=button</div></td>
+                    <td><button>Button tag without type</button></td>
+                </tr>
+                <tr>
+                    <td><span role='link'>Span with role=link</span></td>
+                    <td><img src="img/dolphin.jpg" alt="Dolphin" id="imageId" name="imageName"
+             class="imageClass"/></td>
+                    <td>
+                        <a href="#" title="Link with title">
+                            <img src="img/link_with_title.png" />
+                        </a>
+                    </td>
+                    <td>
+                        <input type="submit" title="submitButtonTitle" value="Submit Button with title"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="requiredTextField">
+                            <span style="color: #C00;">*</span> Required Text Field:
+                        </label>
+                        <input type="text" id="requiredTextField" />
+                    </td>
+                    <td>
+                        Input type=tel:
+                    </td>
+                    <td>
+                        <input type="tel" id="inputTypeTel" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>contenteditable Paragraph:</td>
+                    <td>
+                        <p contenteditable="true" id="contenteditableParagraphId" />
+                    </td>
+                    <td>TextField in iframe:</td>
+                    <td><iframe src='inttest_gui_elements_iframe.html'></iframe></td>
+                </tr>
+				<tr>
+					<td>
+						<div class="simple-text">
+							Your email's been sent!
+						</div>
+					</td>
+					<td>
+						<div class="simple-text">
+							Single'quote. Double"quote.
+						</div>
+					</td>
+					<td>
+						<div class="simple-text">
+							He said "double quotes".
+						</div>
+					</td>
+					<td>VERÖFFENTLICHEN</td>
+				</tr>
+				<tr>
+					<td>
+						<select id="combo1">
+							<option value="">Combo1</option>
+						</select>
+						<select id="combo2"></select>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<label for="scrollable1">HTML Unordered List:</label>
+		<div id="scrollable1" style="overflow: auto;">
+			<ul style="list-style-type: none; float: left; margin: 0; padding-left: 15px;">
+				<li id="listItem1Id" name="listItem1Name"
+					class="listItem1Class">ListItem 1</li>
+				<li>ListItem 2</li>
+			</ul>
+		</div>
+        <dl>
+            <dt>
+                <label for="labelledTextField">Labelled Text Field:</label>
+            </dt>
+            <dd>
+                <input type="text" id="labelledTextField" />
+            </dd>
+        </dl>
+		<p style="float: left; margin-right: 10px;">EUR/USD</p>
+		<p style="float: left;">1.3487</p>
+		<br />
+		Free text not surrounded by tags
+		<br />
+		Text field labelled by free text:
+		<br />
+        <input type="text" value="TF labelled by free text" />
+        <div class="example">
+          <h3>Checkboxes</h3>
+          <p>
+            <form>
+              <input type="checkbox"> unchecked<br/>
+              <input type="checkbox" checked> checked
+            </form>
+          </p>
+        </div>
+        <div class="example">
+          <h3>Radio buttons</h3>
+          <p>
+            <form>
+              <input type="radio" name="sex" value="male" checked> male<br/>
+              <input type="radio" name="sex" value="female"> female
+            </form>
+          </p>
+        </div>  
+	</body>
+</html>

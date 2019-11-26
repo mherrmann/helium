@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_point</title>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		function getMouseOffset(event){
+			// Taken / modified from http://stackoverflow.com/a/5932203/1839209.
+			var totalOffsetX = 0;
+			var totalOffsetY = 0;
+			var currElement = event.target;
+
+			do {
+				totalOffsetX += currElement.offsetLeft - currElement.scrollLeft;
+				totalOffsetY += currElement.offsetTop - currElement.scrollTop;
+			}
+			while(currElement = currElement.offsetParent);
+
+			return {x:event.pageX - totalOffsetX, y:event.pageY - totalOffsetY}
+		}
+		function updateResult(evt, action) {
+			var offset = getMouseOffset(evt);
+			setResult(
+				evt.target.innerHTML + ' ' + action + ' at offset (' +
+				offset.x + ', ' + offset.y + ').'
+			);
+		}
+		$(document).ready(function() {
+			$("button").click(function(evt) {
+				updateResult(evt, 'clicked');
+				$("button").off("mousemove");
+			});
+			$("button").mousemove(function(evt) {
+				updateResult(evt, 'hovered');
+			});
+			$("button").mousedown(function(evt) {
+				if (evt.which == 3) {
+					updateResult(evt, 'rightclicked');
+					$("button").off("mousemove");
+				}
+			});
+			$("button").contextmenu(function(evt) {
+				evt.preventDefault();
+				evt.stopPropagation();
+				return false;
+			});
+			$("button").dblclick(function(evt) {
+				updateResult(evt, 'doubleclicked');
+				$("button").off("mousemove");
+			});
+		});
+	</script>
+	<style type="text/css">
+		body, table, tbody, tr, td, button {
+			padding: 0;
+			margin: 0;
+		}
+		button {
+			width: 75px;
+			height: 20px;
+		}
+	</style>
+</head>
+<body>
+<table style="width: 150px; height: 50px;">
+	<tr>
+		<td><button>Button 1</button></td>
+		<td><button>Button 2</button></td>
+	</tr>
+	<tr>
+		<td><button>Button 3</button></td>
+		<td><button>Button 4</button></td>
+	</tr>
+</table>
+<p id="result"></p>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_write</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// IE doesn't support property 'autofocus', so we need to use JS to
+			// give focus to the text field.
+			$('#autofocus').focus();
+		});
+	</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>Autofocus text field:</td>
+			<td><input id="autofocus" type="text" autofocus/></td>
+		</tr>
+		<tr>
+			<td>Normal text field:</td>
+			<td><input id="normal" type="text"/></td>
+		</tr>
+	</table>
+</body>
+</html>

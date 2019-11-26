@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_wait_until</title>
+	<script type="text/javascript">
+		function createResultPara() {
+			var resultPara = document.createElement("p");
+			resultPara.innerHTML = "Success!";
+			resultPara.id = "result";
+
+			var body = document.getElementsByTagName('body')[0];
+			body.appendChild(resultPara);
+		}
+	</script>
+</head>
+<body>
+	<button onclick="setTimeout(createResultPara, 1500);">Click me!</button>
+</body>
+</html>

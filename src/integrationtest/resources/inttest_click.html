@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_click</title>
+	<script type="text/javascript" src="js/util.js"></script>
+	<style type="text/css">
+		/* Taken from twitter.com: */
+		.visuallyhidden {
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+		}
+	</style>
+</head>
+<body>
+	<!--Having this hidden span here lets us test whether Helium is clever-->
+	<!--enough to give preference to buttons over spans when clicking. The-->
+	<!--example is inspired by Twitter's "Tweet" button.-->
+	<span class="visuallyhidden">Click me!</span>
+	<button onclick="setResult('Success!');">Click me!</button>
+	<p id="result"></p>
+</body>
+</html>

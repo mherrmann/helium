@@ -1,0 +1,781 @@
+LICENSE AGREEMENT FOR HELIUM
+============================
+
+IMPORTANT! BEFORE OPENING THE SOFTWARE HELIUM ("SOFTWARE" OR "HELIUM") OR USING
+HELIUM LIBRARY PLEASE READ CAREFULLY THIS LICENSE AGREEMENT ("AGREEMENT"). THIS
+AGREEMENT IS A BINDING LEGAL DOCUMENT ON THE BASIS OF WHICH THE LICENSOR ALLOWS
+THE LICENSEE TO USE THE SOFTWARE.
+
+UNLESS YOU AGREE WITH ALL OF THE PROVISIONS OF THIS AGREEMENT PLEASE DO NOT OPEN,
+INSTALL, REPRODUCE, PUBLISH OR USE THE SOFTWARE IN ANY WAY.
+
+1. The Parties to the Agreement
+
+This Agreement is concluded between:
+
+Tytus Dobrzynski conducting business activities under business name
+BugFree Software, the principal place of business: ul. Polanska 11,
+61-614 Poznan, Poland, the additional place of business:
+ul. Banderii 4/314, 01-164 Warsaw, Poland, NIP 9721154643, REGON 301751667,
+hereinafter referred to as the "Licensor" or "BugFree Software"
+
+and
+
+a user of the Software being a natural person, a legal person or
+an organizational unit with no legal personality, hereinafter referred to as
+the "Licensee",
+
+both referred to as the "Parties" and each as a "Party".
+
+2. Definitions
+
+2.1 "Software" shall mean the computer software "HELIUM" in object code form
+owned or distributed by Licensor for which Licensee is granted a Program License
+pursuant to this Agreement; and Updates.
+
+2.2 "Update" shall mean a subsequent release of the Software which is made
+available to Licensee under a Program License pursuant to this Agreement at no
+additional charge. Updates shall not include any other or future product which
+Licensor licenses separately.
+
+2.3 "Order" shall mean the order placed by Licensee for ordering Program
+Licenses and Services from Licensor.
+
+2.4 "Services" shall mean Maintenance and Support as defined in Section 10 of
+this Agreement.
+
+2.5 "Program License" shall mean the license granted Licensee under section 5.
+of this Agreement.
+
+2.6 "Purchase" shall mean the payment of the fees described in an Order and the
+subsequent receipt of a license key which allows for activation of the Software
+in accordance with instructions provided by Licensor.
+
+2.7 "Machine" shall mean an installation of the Microsoft Windows operating
+system on a computer device. If multiple copies of Windows are installed on
+a single physical computer device (as is common in virtualization / virtual
+machines) then each such copy shall count as one Machine.
+
+3. Conclusion of the Agreement
+
+Opening, installing, reproducing, publishing or using of the Software in any way
+deems conclusion of the Agreement between the Parties.
+
+4. Copyrights
+
+(a) Licensor hereby declares that he is entitled to all copyrights to the
+Software, including personal and financial rights.
+
+(b) Any person or unit infringing on the rights specified in the previous
+paragraph shall be subject to civil and criminal liability.
+
+5. License
+
+(a) Licensor hereby grants Licensee the right to open and use one copy of the
+Software on one Machine for the period of 30 days since the conclusion of this
+Agreement. The sole purpose of this use shall be an internal evaluation by
+Licensee whether the Software meets his/her needs.
+
+(b) After the lapse of the period specified in paragraph (a) above the right to
+use the Software expires.
+
+(c) Using of the Software after the lapse of the evaluation period specified in
+paragraph (a) above is allowed provided that Licensee makes a Purchase.
+
+(d) Provided that the Licensee makes a Purchase, he/she acquires the
+non-exclusive, non-transferable right to open, activate and use the Software for
+an unspecified period of time on a number of Machines that is specified on the
+Order.
+
+(e) Licensee has the right to use the Software for the purposes connected with
+his/her business or professional activities.
+
+(f) Licensee has the right to use the Software with no territorial restrictions.
+
+(g) Licensee does not have the right to re-sell the Software, whether complete
+or in part, and does not have the right to offer the Software as a part of
+his/her product.
+
+6. Back-up copy
+
+Provided that Licensee makes a Purchase, he/she has the right to make a back-up
+copy of the Software. Use of the back-up copy on an additional Machine is
+allowed on the condition that this copy is not used concurrently with the
+Software placed on another Machine.
+
+7. Updates of the Software
+
+Provided that the Licensee makes a Purchase, he/she is entitled to upgrade the
+Software without any charges for the period of 1 year since the conclusion of
+the Agreement. After the lapse of the period specified in the preceding sentence,
+the Licensee may follow the procedure described therein in order to upgrade the
+Software for the further period of 1 year.
+
+8. Limitations
+
+Licensee must not:
+
+(a) permanently or temporarily reproduce the Software, whether as a whole or in
+part, by any means or in any form;
+
+(b) translate, adjust, modify, by any means or in any form the Software;
+
+(c) publish, including lease or grant use under any legal title of the Software;
+
+(d) disassemble, decompile, or reproduce the source code of the Software or
+translate its form.
+
+9. Limitation of liability for damage and provisions concerning the warranty
+
+(a) Licensor's liability for any damage arising out of use of the Software is
+limited to the amount of the license fee paid by Licensee to Licensor. Licensor
+is not liable for the profits not gained. These limitations do not apply to
+damage caused by Licensor intentionally. Licensor is not liable in any other
+manner, in particular he is not liable under the warranty for the Software.
+
+(b) Licensor is not obliged to rectify any errors in the Software with the
+exception of any errors caused by Licensor intentionally.
+
+10. Services
+
+(a) Maintenance. If Licensee makes a Purchase and the Order includes Maintenance,
+Licensor will assist via email in resolving issues that prevent Licensee from
+runing the Software during the first year after conclusion of the Agreement.
+The Maintenance services provided by Licensor are limited to 10 man-hours per
+year. Should Licensee require more assistance, they can purchase additional
+Maintenance man-hours from Licensor, at the price set by Licensor.
+
+(b) Support. If Licensee makes a Purchase and the Order includes Support,
+Licensor will provide support via email for the Software for the period of one
+year since the conclusion of the Agreement. The Support services provided by
+Licensor are limited to 10 man-hours per year. Should Licensee require more
+assistance, they can purchase additional Support man-hours from Licensor, at
+the price set by Licensor.
+
+11. Termination of the Agreement
+
+In case Licensee infringes anyhow the provisions of this Agreement, Licensor
+may terminate the Agreement with immediate effect.
+
+12. Effect of the expiration of the right to use the Software
+
+In case the right to use the Software expires for any reason, Licensee is
+obliged to cease using the Software and delete it permanently from all computer
+devices on which it has been placed.
+
+13. Choice of law, jurisdiction
+
+(a) This Agreement shall be governed by the laws of the Republic of Poland.
+
+(b) Any disputes arising out of or in connection with this Agreement shall be
+adjudicated by the competent court in the territory of the Republic of Poland.
+Unless Licensee is a consumer all disputes arising out of or in connection with
+this Agreement shall be adjudicated by the court competent for the seat of
+Licensor.
+
+14. Language of the Agreement
+
+(a) This Agreement has been drafted in two language versions: Polish and English.
+In case of any discrepancies English version shall be binding subject to
+paragraph (b) below.
+
+(b) In case Licensee is a consumer who is a citizen of the Republic of Poland
+Polish version shall be binding.
+
+15. Severability
+
+Invalidity or ineffectiveness of any of the terms or conditions specified in the
+Agreement does not affect the validity or effectiveness of other terms and
+conditions or the whole Agreement. In case invalidity or ineffectiveness is
+ declared the Parties shall replace the invalid or ineffective term or condition
+ with a new term or condition of aim corresponding to the aim of this Agreement.
+
+16. Marketing
+
+Licensee agrees to be publicly referred to as a customer of Licensor and that
+Licensor may refer to Licensee by name, trademark and may briefly describe
+Licensee's business in Licensor's marketing materials, in particular on
+Licensor's website or in any documents. Licensee hereby allows Licensor to use
+Licensee's name and trademark solely for the purpose of his marketing materials.
+
+17. Usage statistics
+
+Licensor reserves the right to gather usage statistics (including run times,
+lists of commands executed, exceptions encountered) of the Software and its
+libraries purely for his own purposes. Licensee hereby agrees to share this
+information with Licensor and accepts that the usage statistics are uploaded
+automatically from the Software to Licensor.
+
+18. Other license agreements
+
+Licensee agrees to observe provisions of all other third party license
+agreements which are provided with the Software.
+
+
+For exceptions or modifications to this Agreement, please contact Licensor at:
+
+Address: BugFree Software, Banderii 4/314, 01-164, Warsaw, Poland
+E-mail: info@heliumhq.com
+
+
+
+Polish Version:
+
+
+UMOWA LICENCYJNA
+===================
+
+Przed uruchomieniem programu HELIUM ("Program" albo "HELIUM") lub użyciem
+biblioteki HELIUM należy zapoznać się z niniejszą umową licencyjną ("Umowa").
+Umowa jest prawnie wiążącym aktem, na podstawie którego Licencjodawca uprawnia
+Licencjobiorcę do korzystania z Programu.
+W przypadku braku akceptacji dla wszystkich postanowień Umowy należy zrezygnować
+z uruchomienia, instalacji, zwielokrotniania, rozpowszechniania lub używania
+Programu w jakikolwiek inny sposób.
+
+1. Strony Umowy
+
+Umowa jest zawierana pomiędzy:
+
+Tytus Dobrzynski, prowadzącym działalność gospodarczą pod firmą BugFree Software,
+adres miejsca głównego wykonywania działalności: ul. Polańska 11, 61-614 Poznań,
+Polska, adres dodatkowego miejsca wykonywania działalności: ul. Banderii 4
+lok. 314, 01-164 Warszawa, Polska, NIP 9721154643, REGON 301751667, zwanym w
+Umowie "Licencjodawcą" lub "BugFree Software"
+
+oraz
+
+użytkownikiem Programu, będącym osobą fizyczną, osobą prawną albo jednostką
+organizacyjną nieposiadającą osobowości prawnej, zwanym w Umowie "Licencjobiorcą",
+
+zwanymi łącznie "Stronami", a każdy z osobna "Stroną".
+
+2. Definicje
+
+2.1 "Program" - komputerowy program "HELIUM" w formie kodu binarnego, będącego
+w posiadaniu lub dystrybuowanego przez Licencjodawcę, na który Licencjobiorca
+otrzymuje Licencję na użytkowanie oraz otrzymywanie Aktualizacji na warunkach
+opisanych w poniższej Umowie Licencyjnej.
+
+2.2 "Aktualizacja" - każda nowa wersja Programu, udostępniona przez
+Licencjodawcę dla Licencjobiorcy w ramach Licencji na warunkach opisanych
+w poniższej Umowie Licencyjnej. Aktualizacje nie zawierają innego oprogramowania
+niż Program zdefiniowany w punkcie 2.1.
+
+2.3 "Zamówienie" - zamówienie złożone do Licencjodawcy przez Licencjobiorcę na
+Licencje oraz Usługi.
+
+2.4 "Usługi" - oznaczają Konserwację Oprogramowania oraz Wsparcie Techniczne
+opisane w sekcji 10 poniższej Umowy Licencyjnej.
+
+2.5 "Licencja" - licencja na użytkowanie Programu udzielona Licencjodawcy na
+warunkach określonych w sekcji 5 ponizszej Umowy Licencyjnej.
+
+2.6 "Zakup" - oznacza wniesienie przez Licencjobiorcę opłaty, zgodnie z
+Zamówieniem oraz otrzymanie klucza licencyjnego pozwalającego na aktywację
+Programu zgodnie z instrukcjami dostarczonymi przez Licencjodawcę.
+
+2.8 "Urządzenie" - pojedyncza instalacja Programu w systemie operacyjnym
+Microsoft Windows na komputerze. Jeśli kilka kopii systemu operacyjnego
+Windows są zainstalowane na jednym fizycznym komputerze (maszyny wirtualne itp.)
+to każda taka kopia jest liczona jako oddzielne Urządzenie.
+
+3. Zawarcie Umowy
+
+Uruchomienie, zainstalowanie, zwielokrotnienie dowolną techniką,
+rozpowszechnienie lub użycie Programu w jakikolwiek inny sposób prowadzi do
+zawarcia Umowy pomiędzy Stronami.
+
+4. Prawa autorskie
+
+(a) Licencjodawca niniejszym oświadcza, że przysługują mu wszelkie prawa
+autorskie do Programu, zarówno osobiste jak i majątkowe.
+
+(b) Podmiot naruszający prawa, o których mowa w ust. 1 podlega odpowiedzialności
+cywilnej i karnej.
+
+5. Licencja
+
+(a) Licencjodawca niniejszym udziela Licencjobiorcy prawa do uruchomienia
+i użytkowania jednej kopii Programu na jednym stanowisku komputerowym (na jednym
+Urządzeniu) przez okres 30 dni od dnia zawarcia Umowy. Celem udzielenia Licencji
+jest stworzenie możliwości sprawdzenia przydatności Programu przez
+Licencjobiorcę.
+
+(b) Po upływie terminu, o którym mowa w ust. (a), prawo do użytkowania Programu
+w bieżącej wersji wygasa.
+
+(c) Dalsze użytkowanie Programu, po upływie okresu określonego w ust. (a),
+dozwolone jest tylko po dokonaniu Zakupu i wniesieniu przez Licencjobiorcę
+opłaty licencyjnej na rzecz Licencjodawcy i uzyskaniu przez Licencjobiorcę kodu
+odblokowującego od Licencjodawcy, a następnie wprowadzeniu kodu odblokowującego
+do Programu i jego aktywacji zgodnie z instrukcjami przedstawionymi przez
+Licencjodawcę.
+
+(d) Po wniesieniu opłaty licencyjnej na rzecz Licencjodawcy (dokonaniu Zakupu)
+i uzyskaniu kodu odblokowującego Licencjobiorca ma niewyłączne, niezbywalne
+prawo do uruchomienia, aktywacji i użytkowania kopii Programu przez czas
+nieoznaczony na liczbie Urządzeń określonych w Zamówieniu.
+
+(e) Licencjobiorca ma prawo użytkować Program w celach związanych z
+działalnością gospodarczą lub zawodową Licencjobiorcy.
+
+(f) Licencjobiorca ma prawo użytkować Program bez jakichkolwiek ograniczeń
+terytorialnych.
+
+(g) Licencjobiorca nie ma prawa odsprzedawać Programu, w całości lub w części,
+ani oferować go jako części swojego produktu.
+
+6. Kopia zapasowa
+
+Licencjobiorca po wniesieniu opłaty licencyjnej i uzyskaniu kodu odblokowującego
+od Licencjodawcy ma prawo do sporządzenia jednej kopii zapasowej Programu.
+Użytkowanie kopii zapasowej na dodatkowym Urządzeniu jest dozwolone, o ile kopia
+ta nie będzie używana równocześnie z Programem znajdującym się na innym
+Urządzeniu.
+
+7. Aktualizacja Programu
+
+Licencjobiorca, po wniesieniu opłaty licencyjnej i uzyskaniu kodu
+odblokowującego od Licencjodawcy, jest uprawniony do bezpłatnej aktualizacji
+Programu do nowszych wersji przez okres 1 roku od dnia zawarcia Umowy. Po
+upływie okresu, o którym mowa w zdaniu poprzednim Licencjobiorca może ponowić
+procedurę tam opisaną w celu uzyskania aktualizacji Programu do nowszych wersji
+przez kolejny okres 1 roku.
+
+8. Ograniczenia
+
+Licencjobiorca nie jest uprawniony do:
+
+(a) trwałego lub czasowego zwielokrotnienia Programu w całości lub w części
+jakimikolwiek środkami i w jakiejkolwiek formie;
+
+(b) tłumaczenia, przystosowywania, zmiany układu lub jakichkolwiek innych zmian
+w Programie;
+
+(c) rozpowszechniania, w tym użyczenia lub najmu, Programu;
+
+(d) deasemblacji, dekompilacji lub jakiegokolwiek innego zwielokrotniania kodu
+Programu lub tłumaczenia jego formy.
+
+9. Ograniczenia odpowiedzialności za szkodę oraz postanowienia dotyczące
+gwarancji i rękojmi
+
+(a) Licencjodawca odpowiada za szkody wynikłe z użytkowania Programu, za
+wyjątkiem utraconych korzyści, do wysokości wniesionej przez Licencjobiorcę
+opłaty licencyjnej na rzecz Licencjodawcy. Ograniczenie to nie dotyczy szkód
+wyrządzonych Licencjobiorcy umyślnie. Licencjodawca nie ponosi odpowiedzialności
+w jakimkolwiek innym zakresie, w tym odpowiedzialności za wady z tytułu rękojmi.
+
+(b) Licencjodawca nie jest obowiązany do usuwania usterek Programu, za wyjątkiem
+usterek spowodowanych przez niego umyślnie.
+
+10. Usługi
+
+(a) Konserwacja Oprogramowania. Jeśli Licencjobiorca dokonał Zakupu i Zamówienie
+zawierało Usługę Konserwacji Oprogramowania (ang. Maintenance), Licencjodawca,
+w razie potrzeby ze strony Licencjobiorcy, będzie pomagać (drogą elektroniczną -
+e-mailową) w rozwiązaniu wszelkich problemów uniemożliwiających Licencjobiorcy
+uruchomienie Programu w trakcie 1 roku od dokonania Zakupu. Usługi Konserwacyjne
+świadczone przez Licencjodawcę są ograniczone do 10 roboczogodzin na rok. Po
+wykorzystaniu tego czasu Licencjobiorca może, za dodatkową opłatą, ustaloną
+przez Licencjodawcę, zakupić dodatkowe Usługi.
+
+(b) Wsparcie Techniczne. Jeśli Licencjobiorca dokonał Zakupu i Zamówienie
+zawierało Usługę Wsparcia Technicznego (ang. Support), Licencjodawca, w razie
+potrzeby ze strony Licencjobiorcy, będzie udzielać wsparcia technicznego (drogą
+elektroniczną - e-mailową) w trakcie 1 roku od dokonania Zakupu. Usługi Wsparcia
+Technicznego świadczone przez Licencjodawcę są ograniczone do 10 roboczogodzin
+na rok. Po wykorzystaniu tego czasu Licencjobiorca może, za dodatkową opłatą,
+ustaloną przez Licencjodawcę, zakupić dodatkowe Usługi.
+
+11. Rozwiązanie Umowy
+
+W przypadku naruszenia przez Licencjobiorcę postanowień Umowy Licencjodawca może
+ją wypowiedzieć ze skutkiem natychmiastowym.
+
+12. Skutki wygaśnięcia uprawnienia do użytkowania Programu
+
+W przypadku wygaśnięcia uprawnienia do użytkowania Programu z jakiejkolwiek
+przyczyny, Licencjobiorca obowiązany jest zaprzestać użytkowania Programu i
+usunąć go ze stanowisk komputerowych, na których został umieszczony.
+
+13. Wybór prawa właściwego, miejsca rozstrzygania sporów
+
+(a) Umowa podlega prawu Rzeczypospolitej Polskiej.
+
+(b) Wszelkie spory wynikłe z Umowy będą rozstrzygane przez właściwy sąd
+powszechny na terytorium Rzeczypospolitej Polskiej. Jeżeli Licencjobiorca nie
+jest konsumentem, ewentualne spory między Stronami będą rozstrzygane przez sąd
+właściwy dla siedziby Licencjodawcy.
+
+14. Język Umowy
+
+(a) Umowa została sporządzona w dwóch wersjach językowych: w języku polskim oraz
+języku angielskim. W przypadku rozbieżności wiążąca jest wersja sporządzona w
+języku angielskim, z zastrzeżeniem ust. 2.
+(b) W przypadku gdy Licencjobiorca jest konsumentem będącym obywatelem
+Rzeczypospolitej Polskiej wiążąca jest wersja sporządzona w języku polskim.
+
+15. Klauzula salwatoryjna
+
+Nieważność lub bezskuteczność któregokolwiek z postanowień Umowy pozostaje bez
+wpływu na ważność lub skuteczność pozostałych postanowień i całej Umowy. W
+przypadku stwierdzenia nieważności lub bezskuteczności, Strony zastąpią nieważne
+lub bezskuteczne postanowienie postanowieniem, które w najbardziej zbliżony
+sposób odpowiada celowi Umowy.
+
+16. Marketing
+
+Licencjobiorca wyraża zgodę na publiczne wskazywanie go jako kontrahenta
+Licencjodawcy. Licencjobiorca wyraża zgodę na wykorzystywanie jego nazwy, znaku
+towarowego oraz krótkiego opisu działalności w materiałach promocyjnych
+Licencjodawcy, w szczególności na jego stronie internetowej oraz wszelkich
+dokumentach. Licencjobiorca upoważnia Licencjodawcę do używania nazwy
+Licencjobiorcy oraz jego znaku towarowego wyłączenia w celu wykorzystania we
+własnych materiałach promocyjnych.
+
+17. Statystki użytkowania
+
+Licencjodawca zastrzega sobie prawo do gromadzenia anonimowych statystyk
+użytkowania Programu lub jego bibliotek do własnych celów (w tym czasu
+użytkowania, listy komend, listy wyjątków). Licencjobiorca niniejszym wyraża
+zgodę na udostępnienie informacji w powyższym zakresie Licencjodawcy oraz
+przyjmuje do wiadomości, że statystki użytkowania będą automatycznie
+udostępniane Licencjodawcy za pomocą Programu.
+
+18. Pozostałe umowy licencyjne
+
+Licencjobiorca wyraża zgodę na przestrzeganie postanowień wszelkich innych umów
+licencyjnych udostępnionych wraz z Programem.
+
+
+LICENSES OF THIRD-PARTY LIBRARIES
+=================================
+
+Helium is based on several free and open source software libraries and
+could not have been developed without them. Here we describle the licensing
+terms under which we are using them.
+
+Selenium Python Bindings & InternetExplorerDriver
+=================================================
+URL: http://www.seleniumhq.org/
+Version: ${selenium.version} / ${iedriver.version}
+License: Apache License, Version 2.0
+
+ Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other
+      modifications represent, as a whole, an original work of authorship.
+      For the purposes of this License, Derivative Works shall not include
+      works that remain separable from, or merely link (or bind by name) to
+      the interfaces of, the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright
+      owner or by an individual or Legal Entity authorized to submit on
+      behalf of the copyright owner. For the purposes of this definition,
+      "submitted" means any form of electronic, verbal, or written
+      communication sent to the Licensor or its representatives, including
+      but not limited to communication on electronic mailing lists, source
+      code control systems, and issue tracking systems that are managed by,
+      or on behalf of, the Licensor for the purpose of discussing and
+      improving the Work, but excluding communication that is conspicuously
+      marked or otherwise designated in writing by the copyright owner as
+      "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this
+      License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+ChromeDriver
+============
+URL: https://code.google.com/p/chromedriver/
+Version: ${chromedriver.version}
+License: New BSD License
+
+Copyright 2014 The Chromium Authors. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+ * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above
+   copyright notice, this list of conditions and the following disclaimer
+   in the documentation and/or other materials provided with the
+   distribution.
+ * Neither the name of Google Inc. nor the names of its contributors may
+   be used to endorse or promote products derived from this software 
+   without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+decorator
+=========
+URL: http://pypi.python.org/pypi/decorator
+Version: ${decorator.version}
+
+Copyright (c) 2005-2012, Michele Simionato All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+ * Redistributions in bytecode form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+python-pkcs1
+============
+URL: https://github.com/bdauvergne/python-pkcs1
+Version: ${pkcs1.version}
+
+Copyright (c) 2011-2014 Benjamin Dauvergne
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+ordereddict
+===========
+URL: https://pypi.python.org/pypi/ordereddict
+Version: ${ordereddict.version}
+
+Copyright (c) 2009 Raymond Hettinger
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation files
+(the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.

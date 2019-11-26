@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_alert</title>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript">
+		function promptAndSetResult() {
+			var promptResult = prompt('Please enter a value', '');
+			if (promptResult == null || typeof promptResult == 'undefined') {
+				promptResult = '';
+			}
+			setResult('Value entered: ' + promptResult);
+		}
+	</script>
+</head>
+<body>
+	<a href="#" onclick="alert('Hello World!'); setResult('Alert displayed');">
+		Display alert
+	</a>
+	<br/>
+	<a href="#"
+	   onclick="setResult(confirm('Proceed?') ? 'Accepted' : 'Dismissed');">
+		Ask for confirmation
+	</a>
+	<br/>
+	<a href="#" onclick="promptAndSetResult();">Prompt for value</a>
+	<p id="result"></p>
+</body>
+</html>

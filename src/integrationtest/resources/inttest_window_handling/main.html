@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inttest_window_handling - Main</title>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// IE doesn't support property 'autofocus', so we need to use JS to
+			// give focus to the text field.
+			$('#mainTextField').focus();
+		});
+	</script>
+</head>
+<body>
+	Text field: <input type="text" autofocus id="mainTextField">
+	<br/>
+	<a href="popup.html" target="_blank">Open popup</a>
+</body>
+</html>
