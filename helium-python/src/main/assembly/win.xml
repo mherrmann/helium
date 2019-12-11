@@ -8,16 +8,6 @@
 		<format>zip</format>
 	</formats>
 	<baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
-	<files>
-		<file>
-			<source>
-				${parentBasedir}/target/webdrivers/silent-chromedriver.exe
-			</source>
-			<outputDirectory>
-				heliumlib/helium/data/win/webdrivers
-			</outputDirectory>
-		</file>
-	</files>
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.outputDirectory}</directory>
@@ -40,13 +30,6 @@
 			</outputDirectory>
 			<fileMode>0755</fileMode>
 			<directoryMode>0755</directoryMode>
-		</fileSet>
-		<fileSet>
-		  <directory>${project.build.directory}/site/docs/latex/</directory>
-		  <includes>
-			<include>HeliumAPIDocumentation.pdf</include>
-	      </includes>
-		  <outputDirectory>docs</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

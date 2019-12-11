@@ -20,7 +20,7 @@ class HoverIT(BrowserAT):
 	def test_hover_one(self):
 		hover('Dropdown 1')
 		result = self.read_result_from_browser()
-		self.assertEquals(
+		self.assertEqual(
 			'Dropdown 1', result,
 			"Got unexpected result %r. Maybe the mouse cursor was over the "
 			"browser window and interfered with the test?" % result
@@ -36,7 +36,7 @@ class HoverIT(BrowserAT):
 		hover('Dropdown 2')
 		hover('Item C')
 		result = self.read_result_from_browser()
-		self.assertEquals(
+		self.assertEqual(
 			'Dropdown 2 - Item C', result,
 			"Got unexpected result %r. Maybe the mouse cursor was over the "
 			"browser window and interfered with the test?" % result

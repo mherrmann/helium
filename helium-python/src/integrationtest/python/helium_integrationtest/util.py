@@ -46,7 +46,7 @@ class InSubProcess(object):
 		sys.stdout.write('Sub process started.\n')
 		sys.stdout.flush()
 		# Wait until parent process is finished:
-		raw_input('')
+		input('')
 	def __exit__(self, *args):
 		self.sub_process.stdin.write('\n')
 		self.sub_process.stdin.flush()

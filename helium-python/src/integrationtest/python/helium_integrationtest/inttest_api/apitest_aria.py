@@ -23,4 +23,4 @@ class AriaIT(BrowserAT):
 	def test_aria_textbox_exists(self):
 		self.assertTrue(TextField("Textbox").exists())
 	def test_aria_textbox_value(self):
-		self.assertEquals("Textbox value", TextField("Textbox").value)
+		self.assertEqual("Textbox value", TextField("Textbox").value)

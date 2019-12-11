@@ -14,9 +14,9 @@ class StartGoToIT(TestCase):
 		go_to(self.url)
 		self.assertUrlEquals(self.url, self.driver.current_url)
 	def assertUrlEquals(self, expected, actual):
-		expected = unicode(path.normpath(expected.lower().replace('\\', '/')))
-		actual = unicode(path.normpath(actual.lower().replace('\\', '/')))
-		self.assertEquals(expected, actual)
+		expected = str(path.normpath(expected.lower().replace('\\', '/')))
+		actual = str(path.normpath(actual.lower().replace('\\', '/')))
+		self.assertEqual(expected, actual)
 	def test_start_with_url(self):
 		self.driver = start_browser(self.url)
 		self.assertUrlEquals(self.url, self.driver.current_url)

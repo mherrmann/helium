@@ -26,6 +26,6 @@ class TablesIT(BrowserAT):
 		    ['email1@domain.com', 'email2@domain.com', 'email3@domain.com']
 		)
 	def test_text_below_to_left_of(self):
-		self.assertEquals(
+		self.assertEqual(
 			'Abdul', Text(below='Name', to_left_of='email2@domain.com').value
 		)

@@ -11,7 +11,7 @@ class ImplicitWaitIT(BrowserAT):
 		start_time = time()
 		click("Now click me!")
 		end_time = time()
-		self.assertEquals('Success!', self.read_result_from_browser())
+		self.assertEqual('Success!', self.read_result_from_browser())
 		self.assertGreaterEqual(end_time - start_time, 3.0)
 	def test_click_text_no_implicit_wait(self):
 		with TemporaryAttrValue(Config, 'implicit_wait_secs', 0):

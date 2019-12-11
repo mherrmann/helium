@@ -8,7 +8,7 @@
 	<artifactId>helium-python</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<selenium.version>3.0.1</selenium.version>
+		<selenium.version>3.141.0</selenium.version>
 		<inttestIncludes>inttest_.*</inttestIncludes>
 		<apitestIncludes>apitest_.*</apitestIncludes>
 		<systestIncludes>systest_.*</systestIncludes>
@@ -299,8 +299,6 @@
 								<argument>build.py</argument>
 								<argument>initialize</argument>
 								<argument>${selenium.version}</argument>
-								<argument>${pkcs1.version}</argument>
-								<argument>${decorator.version}</argument>
 								<argument>${psutil.version}</argument>
 							</arguments>
 							<environmentVariables>
@@ -384,51 +382,7 @@
 								<argument>generate_sources</argument>
 								<argument>${project.version}</argument>
 								<argument>${selenium.version}</argument>
-								<argument>${pkcs1.version}</argument>
-								<argument>${decorator.version}</argument>
 								<argument>${psutil.version}</argument>
-							</arguments>
-							<environmentVariables>
-								<PYTHONPATH>
-									${buildPythonpath}
-								</PYTHONPATH>
-							</environmentVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>process-sources</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>python</executable>
-							<workingDirectory>${basedir}</workingDirectory>
-							<arguments>
-								<argument>build.py</argument>
-								<argument>process_sources</argument>
-							</arguments>
-							<environmentVariables>
-								<PYTHONPATH>
-									${buildPythonpath}
-								</PYTHONPATH>
-							</environmentVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-resources</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>python</executable>
-							<workingDirectory>${basedir}</workingDirectory>
-							<arguments>
-								<argument>build.py</argument>
-								<argument>generate_resources</argument>
-								<argument>${project.version}</argument>
-								<argument>${buildType}</argument>
 							</arguments>
 							<environmentVariables>
 								<PYTHONPATH>
@@ -529,29 +483,7 @@
 								<argument>generate_sources</argument>
 								<argument>${project.version}</argument>
 								<argument>${selenium.version}</argument>
-								<argument>${pkcs1.version}</argument>
-								<argument>${decorator.version}</argument>
 								<argument>${psutil.version}</argument>
-							</arguments>
-							<environmentVariables>
-								<PYTHONPATH>
-									${buildPythonpath}
-								</PYTHONPATH>
-							</environmentVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>process-sources-for-site</id>
-						<phase>pre-site</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>python</executable>
-							<workingDirectory>${basedir}</workingDirectory>
-							<arguments>
-								<argument>build.py</argument>
-								<argument>process_sources</argument>
 							</arguments>
 							<environmentVariables>
 								<PYTHONPATH>
@@ -573,81 +505,12 @@
 							</workingDirectory>
 							<arguments>
 								<argument>html</argument>
-								<!--Ensure Sphinx fails if it can't find a-->
-								<!--module, eg. because of an incorrect-->
-								<!--PYTHONPATH.-->
-								<argument>-W</argument>
 							</arguments>
 							<environmentVariables>
 								<PYTHONPATH>
 									${heliumPythonMainPythonpath}
 								</PYTHONPATH>
 							</environmentVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-api-docs-latex</id>
-						<phase>site</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>make</executable>
-							<workingDirectory>
-								${basedir}/src/site/docs
-							</workingDirectory>
-							<arguments>
-								<argument>latex</argument>
-								<argument>-D</argument>
-								<argument>release=${project.version}</argument>
-								<!--Ensure Sphinx fails if it can't find a-->
-								<!--module, eg. because of an incorrect-->
-								<!--PYTHONPATH.-->
-								<argument>-W</argument>
-							</arguments>
-							<environmentVariables>
-								<PYTHONPATH>
-									${heliumPythonMainPythonpath}
-								</PYTHONPATH>
-							</environmentVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-api-docs-pdf-first</id>
-						<phase>site</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>pdflatex</executable>
-							<workingDirectory>
-								${project.build.directory}/site/docs/latex
-							</workingDirectory>
-							<arguments>
-								<argument>-quiet</argument>
-								<argument>
-									${project.build.directory}/site/docs/latex/HeliumAPIDocumentation.tex
-								</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-api-docs-pdf-second</id>
-						<phase>site</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>pdflatex</executable>
-							<workingDirectory>
-								${project.build.directory}/site/docs/latex
-							</workingDirectory>
-							<arguments>
-								<argument>-quiet</argument>
-								<argument>
-									${project.build.directory}/site/docs/latex/HeliumAPIDocumentation.tex
-								</argument>
-							</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -668,20 +531,7 @@
 							<directory>
 								${basedir}/src/main/resources/base
 							</directory>
-							<includes>
-								<include>license.txt</include>
-							</includes>
 							<excludes>
-								<exclude>setup.py</exclude>
-							</excludes>
-							<filtering>true</filtering>
-						</resource>
-						<resource>
-							<directory>
-								${basedir}/src/main/resources/base
-							</directory>
-							<excludes>
-								<exclude>license.txt</exclude>
 								<exclude>setup.py</exclude>
 								<exclude>**/*.pyc</exclude>
 							</excludes>
@@ -718,27 +568,7 @@
 									<filtering>false</filtering>
 									<targetPath>heliumlib/helium/data</targetPath>
 								</resource>
-								<resource>
-									<directory>
-										${parentBasedir}/src/systemtest/resources
-									</directory>
-									<includes>
-										<include>
-											Helium_unreachable_server.ini
-										</include>
-										<include>
-											Helium_future_build.ini
-										</include>
-									</includes>
-									<filtering>true</filtering>
-									<targetPath>heliumlib/helium/data</targetPath>
-								</resource>
 							</resources>
-							<filters>
-								<filter>
-									${parentBasedir}/src/systemtest/filters/filter-systemtest.properties
-								</filter>
-							</filters>
 						</configuration>
 					</execution>
 					<execution>

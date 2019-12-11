@@ -59,6 +59,12 @@ abstract class APICommandImpl implements Runnable {
 				// As above, don't access .window_handles in IE if an alert is
 				// present:
 				if (!(driver.isIE() && new AlertImpl(driver).exists())) {
+					if (driver.isFirefox())
+						// Unlike Chrome, Firefox does not wait for new windows
+						// to open. Give it a little time to do so:
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) {}
 					Set<String> newWindowHandles = new HashSet<String>(
 							driver.unwrap().getWindowHandles()
 					);

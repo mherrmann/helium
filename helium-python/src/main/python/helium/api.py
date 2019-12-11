@@ -1,6 +1,4 @@
-"""EXPORT
-Helium Copyright (c) 2012-2014 BugFree Software. All Rights Reserved.
-
+"""
 Helium's API is contained in module ``helium.api``. It is a simple Python API
 that makes specifying web automation cases as simple as describing them to
 someone looking over their shoulder at a screen.
@@ -11,14 +9,11 @@ Helium functions in your Python scripts you can import them from the
 
 	from helium.api import *
 """
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 from copy import copy
 from helium.api_impl.application_context import get_application_context
-from helium.util.collections_ import OrderedDict
-from helium.util.encoding import repr_in_stdout_encoding
 from helium.util.html import get_easily_readable_snippet
-from helium.util.inspect_ import repr_call, repr_args
-from logging import getLogger
+from helium.util.inspect_ import repr_args
 from selenium.webdriver.common.keys import Keys
 
 import helium.api_impl
@@ -45,8 +40,8 @@ __all__ = [
 	'SPACE', 'SUBTRACT', 'TAB', 'UP'
 ]
 
-def start_firefox(url=None):
-	"""EXPORT
+def start_firefox(url=None, headless=False):
+	"""
 	:param url: URL to open.
 	:type url: str
 
@@ -62,11 +57,10 @@ def start_firefox(url=None):
 
 		kill_browser()
 	"""
-	getLogger(__name__).info(repr_call(start_firefox, url))
-	return _get_api_impl().start_firefox_impl(url)
+	return _get_api_impl().start_firefox_impl(url, headless)
 
 def start_chrome(url=None, headless=False):
-	"""EXPORT
+	"""
 	:param url: URL to open.
 	:type url: str
 	:param headless: Whether to start Chrome in headless mode.
@@ -87,11 +81,10 @@ def start_chrome(url=None, headless=False):
 
 		kill_browser()
 	"""
-	getLogger(__name__).info(repr_call(start_chrome, url, headless))
 	return _get_api_impl().start_chrome_impl(url, headless)
 
 def start_ie(url=None):
-	"""EXPORT
+	"""
 	:param url: URL to open.
 	:type url: str
 
@@ -108,11 +101,10 @@ def start_ie(url=None):
 
 		kill_browser()
 	"""
-	getLogger(__name__).info(repr_call(start_ie, url))
 	return _get_api_impl().start_ie_impl(url)
 
 def go_to(url):
-	"""EXPORT
+	"""
 	:param url: URL to open.
 	:type url: str
 
@@ -120,18 +112,17 @@ def go_to(url):
 
 		go_to("google.com")
 	"""
-	getLogger(__name__).info(repr_call(go_to, url))
 	_get_api_impl().go_to_impl(url)
 
 def set_driver(driver):
-	"""EXPORT
+	"""
 	Sets the Selenium WebDriver used to execute Helium commands. See also
 	:py:func:`get_driver`.
 	"""
 	_get_api_impl().set_driver_impl(driver)
 
 def get_driver():
-	"""EXPORT
+	"""
 	Returns the Selenium WebDriver currently used by Helium to execute all
 	commands. Each Helium command such as ``click("Login")`` is translated to a
 	sequence of Selenium commands that are issued to this driver.
@@ -139,7 +130,7 @@ def get_driver():
 	return _get_api_impl().get_driver_impl()
 
 def write(text, into=None):
-	"""EXPORT
+	"""
 	:param text: The text to be written.
 	:type text: one of str, unicode
 	:param into: The element to write into.
@@ -154,11 +145,10 @@ def write(text, into=None):
 		write("user12345", into="Username:")
 		write("Michael", into=Alert("Please enter your name"))
 	"""
-	getLogger(__name__).info(repr_call(write, text, into=into))
 	_get_api_impl().write_impl(text, into)
 
 def press(key):
-	"""EXPORT
+	"""
 	:param \key: Key or combination of keys to be pressed.
 
 	Presses the given key or key combination. To press a normal letter key such
@@ -183,7 +173,6 @@ def press(key):
 
 		press(CONTROL + 'a')
 	"""
-	getLogger(__name__).info(repr_call(press, key))
 	_get_api_impl().press_impl(key)
 
 NULL         = Keys.NULL
@@ -251,7 +240,7 @@ META         = Keys.META
 COMMAND      = Keys.COMMAND
 
 def click(element):
-	"""EXPORT
+	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
 :py:class:`selenium.webdriver.remote.webelement.WebElement` or :py:class:`Point`
@@ -263,11 +252,10 @@ def click(element):
 		click(Point(200, 300))
 		click(ComboBox("File type").top_left + (50, 0))
 	"""
-	getLogger(__name__).info(repr_call(click, element))
 	_get_api_impl().click_impl(element)
 
 def doubleclick(element):
-	"""EXPORT
+	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
 :py:class:`selenium.webdriver.remote.webelement.WebElement` or :py:class:`Point`
@@ -279,11 +267,10 @@ def doubleclick(element):
 		doubleclick(Point(200, 300))
 		doubleclick(TextField("Username").top_left - (0, 20))
 	"""
-	getLogger(__name__).info(repr_call(doubleclick, element))
 	_get_api_impl().doubleclick_impl(element)
 
 def drag(element, to):
-	"""EXPORT
+	"""
 	:param element: The element or point to drag.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
 :py:class:`selenium.webdriver.remote.webelement.WebElement` or :py:class:`Point`
@@ -303,19 +290,16 @@ def drag(element, to):
 	If you wish to drag a file from the hard disk onto the browser window (eg.
 	to initiate a file upload), use function :py:func:`drag_file`.
 	"""
-	getLogger(__name__).info(repr_call(drag, element, to))
 	_get_api_impl().drag_impl(element, to)
 
 def press_mouse_on(element):
-	getLogger(__name__).info(repr_call(press_mouse_on, element))
 	_get_api_impl().press_mouse_on(element)
 
 def release_mouse_over(element):
-	getLogger(__name__).info(repr_call(release_mouse_over, element))
 	_get_api_impl().release_mouse_over(element)
 
 def find_all(predicate):
-	"""EXPORT
+	"""
 	Lets you find all occurrences of the given GUI element predicate. For
 	instance, the following statement returns a list of all buttons with label
 	"Open"::
@@ -339,39 +323,34 @@ def find_all(predicate):
 		buttons = find_all(Button("Open"))
 		leftmost_button = sorted(buttons, key=lambda button: button.x)[0]
 	"""
-	getLogger(__name__).info(repr_call(find_all, predicate))
 	return _get_api_impl().find_all_impl(predicate)
 
 def scroll_down(num_pixels=100):
-	"""EXPORT
+	"""
 	Scrolls down the page the given number of pixels.
 	"""
-	getLogger(__name__).info(repr_call(scroll_down, num_pixels))
 	_get_api_impl().scroll_down_impl(num_pixels)
 
 def scroll_up(num_pixels=100):
-	"""EXPORT
+	"""
 	Scrolls the the page up the given number of pixels.
 	"""
-	getLogger(__name__).info(repr_call(scroll_up, num_pixels))
 	_get_api_impl().scroll_up_impl(num_pixels)
 
 def scroll_right(num_pixels=100):
-	"""EXPORT
+	"""
 	Scrolls the page to the right the given number of pixels.
 	"""
-	getLogger(__name__).info(repr_call(scroll_right, num_pixels))
 	_get_api_impl().scroll_right_impl(num_pixels)
 
 def scroll_left(num_pixels=100):
-	"""EXPORT
+	"""
 	Scrolls the page to the left the given number of pixels.
 	"""
-	getLogger(__name__).info(repr_call(scroll_left, num_pixels))
 	_get_api_impl().scroll_left_impl(num_pixels)
 
 def hover(element):
-	"""EXPORT
+	"""
 	:param element: The element or point to hover.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
 :py:class:`selenium.webdriver.remote.webelement.WebElement` or :py:class:`Point`
@@ -384,11 +363,10 @@ def hover(element):
 		hover(Point(200, 300))
 		hover(ComboBox("File type").top_left + (50, 0))
 	"""
-	getLogger(__name__).info(repr_call(hover, element))
 	_get_api_impl().hover_impl(element)
 
 def rightclick(element):
-	"""EXPORT
+	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
 :py:class:`selenium.webdriver.remote.webelement.WebElement` or :py:class:`Point`
@@ -399,11 +377,10 @@ def rightclick(element):
 		rightclick(Point(200, 300))
 		rightclick(Image("captcha"))
 	"""
-	getLogger(__name__).info(repr_call(rightclick))
 	_get_api_impl().rightclick_impl(element)
 
 def select(combo_box, value):
-	"""EXPORT
+	"""
 	:param combo_box: The combo box whose value should be changed.
 	:type combo_box: str, unicode or :py:class:`ComboBox`
 	:param value: The visible value of the combo box to be selected.
@@ -413,11 +390,10 @@ def select(combo_box, value):
 		select("Language", "English")
 		select(ComboBox("Language"), "English")
 	"""
-	getLogger(__name__).info(repr_call(select, combo_box, value))
 	_get_api_impl().select_impl(combo_box, value)
 
 def drag_file(file_path, to):
-	"""EXPORT
+	"""
 	Simulates the dragging of a file from the computer over the browser window
 	and dropping it over the given element. This allows, for example, to attach
 	files to emails in Gmail::
@@ -427,11 +403,10 @@ def drag_file(file_path, to):
 		write("Email subject", into="Subject")
 		drag_file(r"C:\\Documents\\notes.txt", to="Drop files here")
 	"""
-	getLogger(__name__).info(repr_call(drag_file, file_path, to))
 	_get_api_impl().drag_file_impl(file_path, to)
 
 def attach_file(file_path, to=None):
-	"""EXPORT
+	"""
 	:param file_path: The path of the file to be attached.
 	:param to: The file input element to which the file should be attached.
 
@@ -443,19 +418,17 @@ def attach_file(file_path, to=None):
 	parameter, then Helium attaches the file to the first file input element it
 	finds on the page.
 	"""
-	getLogger(__name__).info(repr_call(attach_file, file_path, to=to))
 	_get_api_impl().attach_file_impl(file_path, to=to)
 
 def refresh():
-	"""EXPORT
+	"""
 	Refreshes the current page. If an alert dialog is open, then Helium first
 	closes it.
 	"""
-	getLogger(__name__).info(repr_call(refresh))
 	_get_api_impl().refresh_impl()
 
 def wait_until(condition_fn, timeout_secs=10, interval_secs=0.5):
-	"""EXPORT
+	"""
 	:param condition_fn: A function taking no arguments that represents the \
 	condition to be waited for.
 	:param timeout_secs: The timeout, in seconds, after which the condition is \
@@ -479,23 +452,17 @@ def wait_until(condition_fn, timeout_secs=10, interval_secs=0.5):
 	``interval_secs`` specifies the number of seconds Helium waits between
 	evaluating the condition function.
 	"""
-	getLogger(__name__).info(
-		repr_call(
-			wait_until, condition_fn, timeout_secs=timeout_secs,
-			interval_secs=interval_secs
-		)
-	)
 	_get_api_impl().wait_until_impl(condition_fn, timeout_secs, interval_secs)
 
 class Config(object):
-	"""EXPORT
+	"""
 	This class contains Helium's run-time configuration. To modify Helium's
 	behaviour, simply assign to the properties of this class. For instance::
 
 		Config.implicit_wait_secs = 0
 	"""
 	implicit_wait_secs = 10
-	"""EXPORT
+	"""
 	``implicit_wait_secs`` is Helium's analogue to Selenium's
 	``.implicitly_wait(secs)``. Suppose you have a script that executes the
 	following command::
@@ -527,7 +494,7 @@ class GUIElement(object):
 		self._kwargs = OrderedDict()
 		self._impl_cached = None
 	def exists(self):
-		"""EXPORT
+		"""
 		Evaluates to true if this GUI element exists.
 		"""
 		return self._impl.exists()
@@ -555,9 +522,8 @@ class GUIElement(object):
 		if kwargs is None:
 			kwargs = {}
 		return '%s(%s)' % (
-			self.__class__.__name__, repr_args(
-				self.__init__, args, kwargs, repr_in_stdout_encoding
-			)
+			self.__class__.__name__,
+			repr_args(self.__init__, args, kwargs, repr)
 		)
 	def _is_bound(self):
 		return self._impl_cached is not None and self._impl_cached._is_bound()
@@ -573,31 +539,31 @@ class HTMLElement(GUIElement):
 		self._kwargs['to_left_of'] = to_left_of
 	@property
 	def width(self):
-		"""EXPORT
+		"""
 		The width of this HTML element, in pixels.
 		"""
 		return self._impl.width
 	@property
 	def height(self):
-		"""EXPORT
+		"""
 		The height of this HTML element, in pixels.
 		"""
 		return self._impl.height
 	@property
 	def x(self):
-		"""EXPORT
+		"""
 		The x-coordinate on the page of the top-left point of this HTML element.
 		"""
 		return self._impl.x
 	@property
 	def y(self):
-		"""EXPORT
+		"""
 		The y-coordinate on the page of the top-left point of this HTML element.
 		"""
 		return self._impl.y
 	@property
 	def top_left(self):
-		"""EXPORT
+		"""
 		The top left corner of this element, as a :py:class:`helium.api.Point`.
 		This point has exactly the coordinates given by this element's `.x` and
 		`.y` properties. `top_left` is for instance useful for clicking at an
@@ -608,7 +574,7 @@ class HTMLElement(GUIElement):
 		return self._impl.top_left
 	@property
 	def web_element(self):
-		"""EXPORT
+		"""
 		The Selenium WebElement corresponding to this element.
 		"""
 		return self._impl.web_element
@@ -620,7 +586,7 @@ class HTMLElement(GUIElement):
 			return super(HTMLElement, self).__repr__()
 
 class S(HTMLElement):
-	"""EXPORT
+	"""
 	:param selector: The selector used to identify the HTML element(s).
 
 	A jQuery-style selector for identifying HTML elements by ID, name, CSS
@@ -661,7 +627,7 @@ class S(HTMLElement):
 		self._args.append(selector)
 
 class Text(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify any text or label on a web page. This is most useful for
 	checking whether a particular text exists::
 
@@ -689,13 +655,13 @@ class Text(HTMLElement):
 		self._args.append(text)
 	@property
 	def value(self):
-		"""EXPORT
+		"""
 		Returns the current value of this Text object.
 		"""
 		return self._impl.value
 
 class Link(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a link on a web page. A typical usage of ``Link`` is::
 
 		click(Link("Sign in"))
@@ -723,13 +689,13 @@ class Link(HTMLElement):
 		self._args.append(text)
 	@property
 	def href(self):
-		"""EXPORT
+		"""
 		Returns the URL of the page the link goes to.
 		"""
 		return self._impl.href
 
 class ListItem(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a list item (HTML ``<li>`` element) on a web page. This is
 	often useful for interacting with elements of a navigation bar::
 
@@ -758,7 +724,7 @@ class ListItem(HTMLElement):
 		self._args.append(text)
 
 class Button(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a button on a web page. A typical usage of ``Button`` is::
 
 		click(Button("Log In"))
@@ -785,13 +751,13 @@ class Button(HTMLElement):
 		)
 		self._args.append(text)
 	def is_enabled(self):
-		"""EXPORT
+		"""
 		Returns true if this UI element can currently be interacted with.
 		"""
 		return self._impl.is_enabled()
 
 class Image(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify an image (HTML ``<img>`` element) on a web page.
 	Typically, this is done via the image's alt text. For instance::
 
@@ -820,7 +786,7 @@ class Image(HTMLElement):
 		self._args.append(alt)
 
 class TextField(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a text field on a web page. This is most typically done to
 	read the value of a text field. For example::
 
@@ -846,12 +812,12 @@ class TextField(HTMLElement):
 		self._args.append(label)
 	@property
 	def value(self):
-		"""EXPORT
+		"""
 		Returns the current value of this text field. '' if there is no value.
 		"""
 		return self._impl.value
 	def is_enabled(self):
-		"""EXPORT
+		"""
 		Returns true if this UI element can currently be interacted with.
 
 		The difference between a text field being 'enabled' and 'editable' is
@@ -860,7 +826,7 @@ class TextField(HTMLElement):
 		"""
 		return self._impl.is_enabled()
 	def is_editable(self):
-		"""EXPORT
+		"""
 		Returns true if the value of this UI element can be modified.
 
 		The difference between a text field being 'enabled' and 'editable' is
@@ -870,7 +836,7 @@ class TextField(HTMLElement):
 		return self._impl.is_editable()
 
 class ComboBox(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a combo box on a web page. This can for instance be used
 	to determine the current value of a combo box::
 
@@ -899,27 +865,27 @@ class ComboBox(HTMLElement):
 		)
 		self._args.append(label)
 	def is_editable(self):
-		"""EXPORT
+		"""
 		Returns whether this combo box allows entering an arbitrary text in
 		addition to selecting predefined values from a drop-down list.
 		"""
 		return self._impl.is_editable()
 	@property
 	def value(self):
-		"""EXPORT
+		"""
 		Returns the currently selected combo box value.
 		"""
 		return self._impl.value
 	@property
 	def options(self):
-		"""EXPORT
+		"""
 		Returns a list of all possible options available to choose from in the
 		ComboBox.
 		"""
 		return self._impl.options
 
 class CheckBox(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a check box on a web page. To tick a currently unselected
 	check box, use::
 
@@ -948,18 +914,18 @@ class CheckBox(HTMLElement):
 		)
 		self._args.append(label)
 	def is_enabled(self):
-		"""EXPORT
+		"""
 		Returns True if this GUI element can currently be interacted with.
 		"""
 		return self._impl.is_enabled()
 	def is_checked(self):
-		"""EXPORT
+		"""
 		Returns True if this GUI element is checked (selected).
 		"""
 		return self._impl.is_checked()
 
 class RadioButton(HTMLElement):
-	"""EXPORT
+	"""
 	Lets you identify a radio button on a web page. To select a currently
 	unselected radio button, use::
 
@@ -988,13 +954,13 @@ class RadioButton(HTMLElement):
 		)
 		self._args.append(label)
 	def is_selected(self):
-		"""EXPORT
+		"""
 		Returns true if this radio button is selected.
 		"""
 		return self._impl.is_selected()
 
 class Window(GUIElement):
-	"""EXPORT
+	"""
 	Lets you identify individual windows of the currently open browser session.
 	"""
 	def __init__(self, title=None):
@@ -1002,13 +968,13 @@ class Window(GUIElement):
 		self._args.append(title)
 	@property
 	def title(self):
-		"""EXPORT
+		"""
 		Returns the title of this Window.
 		"""
 		return self._impl.title
 	@property
 	def handle(self):
-		"""EXPORT
+		"""
 		Returns the Selenium driver window handle assigned to this window. Note
 		that this window handle is simply an abstract identifier and bears no
 		relationship to the corresponding operating system handle (HWND on
@@ -1022,7 +988,7 @@ class Window(GUIElement):
 			return super(Window, self).__repr__()
 
 class Alert(GUIElement):
-	"""EXPORT
+	"""
 	Lets you identify and interact with JavaScript alert boxes.
 	"""
 	def __init__(self, search_text=None):
@@ -1030,12 +996,12 @@ class Alert(GUIElement):
 		self._args.append(search_text)
 	@property
 	def text(self):
-		"""EXPORT
+		"""
 		The text displayed in the alert box.
 		"""
 		return self._impl.text
 	def accept(self):
-		"""EXPORT
+		"""
 		Accepts this alert. This typically corresponds to clicking the "OK"
 		button inside the alert. The typical way to use this method is::
 
@@ -1045,7 +1011,7 @@ class Alert(GUIElement):
 		"""
 		self._impl.accept()
 	def dismiss(self):
-		"""EXPORT
+		"""
 		Dismisses this alert. This typically corresponds to clicking the
 		"Cancel" or "Close" button of the alert. The typical way to use this
 		method is::
@@ -1062,7 +1028,7 @@ class Alert(GUIElement):
 			return super(Alert, self).__repr__()
 
 class Point(namedtuple('Point', ['x', 'y'])):
-	"""EXPORT
+	"""
 	A clickable point. To create a ``Point`` at an offset of an existing point,
 	use ``+`` and ``-``::
 
@@ -1080,13 +1046,13 @@ class Point(namedtuple('Point', ['x', 'y'])):
 		pass
 	@property
 	def x(self):
-		"""EXPORT
+		"""
 		The x coordinate of the point.
 		"""
 		return self[0]
 	@property
 	def y(self):
-		"""EXPORT
+		"""
 		The y coordinate of the point.
 		"""
 		return self[1]
@@ -1109,7 +1075,7 @@ class Point(namedtuple('Point', ['x', 'y'])):
 		return Point(x - self.x, y - self.y)
 
 def switch_to(window):
-	"""EXPORT
+	"""
 	:param window: The title (string) of a browser window or a \
 :py:class:`Window` object
 
@@ -1127,11 +1093,10 @@ def switch_to(window):
 
 		switch_to(find_all(Window())[0])
 	"""
-	getLogger(__name__).info(repr_call(switch_to, window))
 	_get_api_impl().switch_to_impl(window)
 
 def kill_browser():
-	"""EXPORT
+	"""
 	Closes the current browser with all associated windows and potentially open
 	dialogs. Dialogs opened as a response to the browser closing (eg. "Are you
 	sure you want to leave this page?") are also ignored and closed.
@@ -1144,11 +1109,10 @@ def kill_browser():
 		# Close Chrome:
 		kill_browser()
 	"""
-	getLogger(__name__).info(repr_call(kill_browser))
 	_get_api_impl().kill_browser_impl()
 
 def highlight(element):
-	"""EXPORT
+	"""
 	:param element: The element to highlight.
 
 	Highlights the given element on the webpage by drawing a red rectangle
@@ -1157,7 +1121,6 @@ def highlight(element):
 		highlight("Helium")
 		highlight(Button("Sign in"))
 	"""
-	getLogger(__name__).info(repr_call(highlight, element))
 	_get_api_impl().highlight_impl(element)
 
 def _get_api_impl():

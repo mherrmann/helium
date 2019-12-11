@@ -45,7 +45,7 @@ class AlertAT(object):
 	def test_alert_text_not_exists(self):
 		self.assertFalse(Alert('Wrong text').exists())
 	def test_alert_text(self):
-		self.assertEquals(self.get_expected_alert_text(), Alert().text)
+		self.assertEqual(self.get_expected_alert_text(), Alert().text)
 	def test_alert_accept(self):
 		Alert().accept()
 		self._expect_result(self.get_expected_alert_accepted_result())
@@ -61,14 +61,14 @@ class AlertAT(object):
 		with self.assertRaises(UnexpectedAlertPresentException) as cm:
 			click("OK")
 		msg = self._get_unhandled_alert_exception_msg(cm.exception)
-		self.assertEquals(
+		self.assertEqual(
 			self.UNEXPECTED_ALERT_PRESENT_EXCEPTION_MSG, msg
 		)
 	def test_press_with_open_alert_raises_exception(self):
 		with self.assertRaises(UnexpectedAlertPresentException) as cm:
 			press(ENTER)
 		msg = self._get_unhandled_alert_exception_msg(cm.exception)
-		self.assertEquals(
+		self.assertEqual(
 			self.UNEXPECTED_ALERT_PRESENT_EXCEPTION_MSG, msg
 		)
 	"""
@@ -84,7 +84,7 @@ class AlertAT(object):
 			if actual_result == expected_result:
 				return
 			sleep(0.2)
-		self.assertEquals(expected_result, actual_result)
+		self.assertEqual(expected_result, actual_result)
 	def _get_unhandled_alert_exception_msg(self, e):
 		if selenium.__version__ == '2.43.0':
 			# Selenium 2.43.0 has a regression where accessing the .msg field
@@ -127,21 +127,21 @@ class PromptIT(AlertAT, BrowserAT):
 		with self.assertRaises(UnexpectedAlertPresentException) as cm:
 			write("3", into="Please enter a value")
 		msg = self._get_unhandled_alert_exception_msg(cm.exception)
-		self.assertEquals(
+		self.assertEqual(
 			self.UNEXPECTED_ALERT_PRESENT_EXCEPTION_MSG, msg
 		)
 	def test_write_into_text_field_raises_exception(self):
 		with self.assertRaises(UnexpectedAlertPresentException) as cm:
 			write("4", into=TextField("Please enter a value"))
 		msg = self._get_unhandled_alert_exception_msg(cm.exception)
-		self.assertEquals(
+		self.assertEqual(
 			self.UNEXPECTED_ALERT_PRESENT_EXCEPTION_MSG, msg
 		)
 	def test_write_into_non_existent_label_raises_exception(self):
 		with self.assertRaises(UnexpectedAlertPresentException) as cm:
 			write("5", into="Please enter a value")
 		msg = self._get_unhandled_alert_exception_msg(cm.exception)
-		self.assertEquals(
+		self.assertEqual(
 			self.UNEXPECTED_ALERT_PRESENT_EXCEPTION_MSG, msg
 		)
 	def test_write_into_alert(self):

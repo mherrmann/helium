@@ -15,6 +15,6 @@ class IframeIT(BrowserAT):
 		self.test_test_text_in_iframe_exists()
 	def test_access_attributes_across_iframes(self):
 		text = Text("This text is inside an iframe.")
-		self.assertEquals("This text is inside an iframe.", text.value)
+		self.assertEqual("This text is inside an iframe.", text.value)
 		get_driver().switch_to.default_content()
-		self.assertEquals("This text is inside an iframe.", text.value)
+		self.assertEqual("This text is inside an iframe.", text.value)

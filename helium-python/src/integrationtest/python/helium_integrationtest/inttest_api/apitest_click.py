@@ -7,7 +7,7 @@ class ClickIT(BrowserAT):
 		return 'inttest_click.html'
 	def test_click(self):
 		click("Click me!")
-		self.assertEquals('Success!', self.read_result_from_browser())
+		self.assertEqual('Success!', self.read_result_from_browser())
 	def test_click_non_existent_element(self):
 		with TemporaryAttrValue(Config, 'implicit_wait_secs', 1):
 			with self.assertRaises(LookupError):

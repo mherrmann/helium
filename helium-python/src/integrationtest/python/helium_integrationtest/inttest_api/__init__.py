@@ -48,7 +48,7 @@ class BrowserAT(TestCase):
 			sleep(0.2)
 		return ''
 	def assertFindsEltWithId(self, predicate, id_):
-		self.assertEquals(id_, predicate.web_element.get_attribute('id'))
+		self.assertEqual(id_, predicate.web_element.get_attribute('id'))
 	@classmethod
 	def tearDownClass(cls):
 		if cls.started_browser:
@@ -69,7 +69,7 @@ def tearDownModule():
 def start_browser(url=None):
 	browser_name = test_browser_name()
 	kwargs = {}
-	if browser_name == 'chrome':
+	if browser_name in ('chrome', 'firefox'):
 		kwargs['headless'] = True
 	return _TEST_BROWSERS[browser_name](url, **kwargs)
 

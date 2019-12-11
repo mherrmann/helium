@@ -13,7 +13,7 @@ class TemporaryAttrValue(object):
 
 def isbound(method_or_fn):
 	try:
-		return method_or_fn.im_self is not None
+		return method_or_fn.__self__ is not None
 	except AttributeError: # Python 3
 		try:
 			return method_or_fn.__self__ is not None

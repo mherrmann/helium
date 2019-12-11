@@ -102,9 +102,10 @@ public class HeliumAPIMethodDoc implements HeliumAPIDocElement {
 			writer.writeParamDescriptionsPrefix();
 		for (Param param : params) {
 			ParamTag paramTag = getParamTag(param.getName());
-			writer.writeParamDescription(
-				paramTag, param.isOptional(), param.getTypes()
-			);
+			if (paramTag != null)
+				writer.writeParamDescription(
+					paramTag, param.isOptional(), param.getTypes()
+				);
 		}
 		if (! params.isEmpty())
 			writer.writeParamDescriptionsPostfix();

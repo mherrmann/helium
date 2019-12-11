@@ -4,8 +4,6 @@ import com.heliumhq.environment.ResourceLocator;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Logger;
 
 import static com.heliumhq.util.System.*;
 
@@ -30,9 +28,6 @@ public class DevelopmentAPIConfig extends APIConfig {
 
 	@Override
 	protected void initializeLogging() {
-		Logger heliumLogger = Logger.getLogger("com.heliumhq");
-		heliumLogger.addHandler(new ConsoleHandler());
-		heliumLogger.setUseParentHandlers(false);
 		suppressSeleniumLoggers();
 	}
 

@@ -3,8 +3,8 @@ from setuptools import setup
 setup(
 	name = 'helium',
 	version = '${project.version}',
-	author = 'BugFree Software',
-	author_email = 'contact@heliumhq.com',
+	author = 'Michael Herrmann',
+	author_email = 'michael+removethisifyouarehuman@herrmann.io',
 	description = 'Simple web automation based on Selenium.',
 	keywords = 'selenium web automation',
 	url = 'http://heliumhq.com',
@@ -12,8 +12,7 @@ setup(
 	packages = ${packages},
 	package_dir = {'helium': 'heliumlib/helium'},
 	install_requires = [
-		'selenium==${selenium.version}', 'pkcs1>=${pkcs1.version}',
-		'decorator>=${decorator.version}', 'psutil>=${psutil.version}'
+		'selenium==${selenium.version}', 'psutil>=${psutil.version}'
 	],
 	package_data = ${package_data},
 	zip_safe = False

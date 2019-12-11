@@ -14,8 +14,6 @@ import static com.heliumhq.api_impl.application_context.ApplicationContext.
 		getApplicationContext;
 
 /**
- * Helium Copyright (c) 2012-2016 BugFree Software. All Rights Reserved.
- * <p>
  * Helium is a library that makes web automation as simple as giving
  * instructions to a colleague, looking over his/her shoulder at a screen.
  * <p>
@@ -30,14 +28,22 @@ public class API {
 	public static WebDriver startFirefox() {
 		return getAPIImpl().startFirefoxImpl();
 	}
+	public static WebDriver startFirefox(boolean headless) {
+		return getAPIImpl().startFirefoxImpl(headless);
+	}
+	public static WebDriver startFirefox(String url) {
+		return getAPIImpl().startFirefoxImpl(url);
+	}
 
 	/**
-	 * Starts an instance of Firefox, optionally opening the specified URL. For
-	 * instance:
+	 * Starts an instance of Firefox. You can optionally open a URL and/or start
+	 * Firefox in headless mode. For instance:
 	 *
 	 * {@code
 	 * startFirefox();
-	 * startFirefox("google.com");}
+	 * startFirefox("google.com");
+	 * startFirefox(true);
+	 * startFirefox("google.com", true);}
 	 *
 	 * Helium does not automatically close the browser when Java shuts down. To
 	 * terminate the browser at the end of your script, use the following
@@ -50,8 +56,8 @@ public class API {
 	 * @return a Selenium {@link org.openqa.selenium.WebDriver} object
 	 * representing the newly opened browser.
 	 */
-	public static WebDriver startFirefox(String url) {
-		return getAPIImpl().startFirefoxImpl(url);
+	public static WebDriver startFirefox(String url, boolean headless) {
+		return getAPIImpl().startFirefoxImpl(url, headless);
 	}
 
 	public static WebDriver startChrome() {

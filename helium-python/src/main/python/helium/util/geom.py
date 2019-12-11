@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 from collections import namedtuple
 from math import sqrt
 
@@ -126,7 +126,7 @@ class Rectangle(object):
 			   self.right == other.right and self.bottom == other.bottom
 	def __ne__(self, other):
 		return not self.__eq__(other)
-	def __nonzero__(self):
+	def __bool__(self):
 		return bool(self.width > 0 and self.height > 0)
 	def __repr__(self):
 		return type(self).__name__ + '(left=%d, top=%d, width=%d, height=%d)' \
@@ -161,18 +161,18 @@ class Point(namedtuple('Point', ['x', 'y'])):
 		dx, dy = self
 		return Point(x - dx, y - dy)
 	def __mul__(self, scalar):
-		if isinstance(scalar, (int, long, float)):
+		if isinstance(scalar, (int, float)):
 			return Point(self.x * scalar, self.y * scalar)
 		else:
 			raise ValueError("Invalid argument")
 	def __rmul__(self, scalar):
 		return self.__mul__(scalar)
 	def __div__(self, scalar):
-		if isinstance(scalar, (int, long, float)):
+		if isinstance(scalar, (int, float)):
 			return Point(self.x / scalar, self.y / scalar)
 		else:
 			raise ValueError("Invalid argument")
-	def __nonzero__(self):
+	def __bool__(self):
 		return bool(self.x) or bool(self.y)
 
 class Direction(object):

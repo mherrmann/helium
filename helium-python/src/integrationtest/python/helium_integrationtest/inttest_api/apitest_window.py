@@ -14,7 +14,7 @@ class WindowIT(BrowserAT):
 	def test_handle(self):
 		self.assertTrue(Window('inttest_window').handle)
 	def test_title(self):
-		self.assertEquals('inttest_window', Window('inttest_window').title)
+		self.assertEqual('inttest_window', Window('inttest_window').title)
 
 class MultipleWindowIT(WindowIT):
 	"""

@@ -42,9 +42,9 @@ class ScrollIT(BrowserAT):
 			'return window.pageXOffset || document.documentElement.scrollLeft '
 			'|| document.body.scrollLeft'
 		)
-		self.assertEquals(x, scroll_position_x)
+		self.assertEqual(x, scroll_position_x)
 		scroll_position_y = self.driver.execute_script(
 			'return window.pageYOffset || document.documentElement.scrollTop '
 			'|| document.body.scrollTop'
 		)
-		self.assertEquals(y, scroll_position_y)
+		self.assertEqual(y, scroll_position_y)

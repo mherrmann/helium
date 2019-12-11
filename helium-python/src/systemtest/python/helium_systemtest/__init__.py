@@ -5,8 +5,7 @@ from unittest import TestCase
 
 import os
 
-def run_commands_in_python(commands, python_binary="python"
-):
+def run_commands_in_python(commands, python_binary="python"):
 	return run_python_with_helium_library(
 		['-c', ';'.join(commands)], python_binary=python_binary
 	)

@@ -8,29 +8,7 @@
 		<format>zip</format>
 	</formats>
 	<baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
-	<files>
-		<file>
-			<source>${basedir}/src/main/resources/base/license.txt</source>
-			<outputDirectory>.</outputDirectory>
-			<filtered>true</filtered>
-		</file>
-	</files>
 	<fileSets>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/base</directory>
-			<excludes>
-				<exclude>license.txt</exclude>
-			</excludes>
-			<outputDirectory>.</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/macosx</directory>
-			<includes>
-				<include>**/*.sh</include>
-			</includes>
-			<outputDirectory>.</outputDirectory>
-			<fileMode>0755</fileMode>
-		</fileSet>
 		<fileSet>
 			<directory>${parentBasedir}/src/main/resources/macosx</directory>
 			<includes>
@@ -39,25 +17,10 @@
 			<outputDirectory>.</outputDirectory>
 			<fileMode>0755</fileMode>
 		</fileSet>
-		<fileSet>
-			<directory>${project.build.directory}/dist-linux</directory>
-			<outputDirectory>.</outputDirectory>
-			<includes>
-				<include>**/*.sh</include>
-			</includes>
-			<fileMode>0755</fileMode>
-		</fileSet>
         <fileSet>
             <directory>${project.build.directory}/dist-base</directory>
             <outputDirectory>.</outputDirectory>
         </fileSet>
-        <fileSet>
-			<directory>${project.build.directory}/dist-linux</directory>
-			<outputDirectory>.</outputDirectory>
-			<excludes>
-				<exclude>**/*.sh</exclude>
-			</excludes>
-		</fileSet>
 	</fileSets>
 	<dependencySets>
 		<dependencySet>

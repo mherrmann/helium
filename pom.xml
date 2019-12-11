@@ -17,18 +17,14 @@
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<buildType>local</buildType>
 		<exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
-		<selenium.version>3.0.0</selenium.version>
+		<selenium.version>3.141.59</selenium.version>
 		<iedriver.version>2.53.1.0</iedriver.version>
 		<chromedriver.version>2.34.522940</chromedriver.version>
-		<decorator.version>3.4.0</decorator.version>
-		<pkcs1.version>0.9.6</pkcs1.version>
 		<psutil.version>0.6.1</psutil.version>
-		<ordereddict.version>1.1</ordereddict.version>
 		<heliumPythonHome>${basedir}/../helium-python</heliumPythonHome>
-		<heliumPythonMainPythonpath>${heliumPythonHome}/src/main/python${path.separator}${heliumPythonHome}/src/main/resources/base/heliumlib${path.separator}${env.PYTHONPATH}</heliumPythonMainPythonpath>
+		<heliumPythonMainPythonpath>${heliumPythonHome}/src/main/python</heliumPythonMainPythonpath>
 		<heliumPythonUnittestPythonpath>${heliumPythonHome}/src/unittest/python${path.separator}${heliumPythonMainPythonpath}</heliumPythonUnittestPythonpath>
 		<heliumPythonInttestPythonpath>${heliumPythonHome}/src/integrationtest/python${path.separator}${heliumPythonUnittestPythonpath}</heliumPythonInttestPythonpath>
 		<heliumPythonApitestPythonpath>
@@ -38,7 +34,6 @@
 			${heliumPythonHome}${path.separator}${heliumPythonHome}/src/systemtest/python${path.separator}${heliumPythonInttestPythonpath}
 		</heliumPythonSystestPythonpath>
 		<buildPythonpath>${basedir}${path.separator}${heliumPythonHome}${path.separator}${heliumPythonMainPythonpath}</buildPythonpath>
-		<vcHome>${env.LOCALAPPDATA}\Programs\Common\Microsoft\Visual C++ for Python\9.0</vcHome>
 		<parentBasedir>${basedir}</parentBasedir>
 		<webDriverBuildDirectory>${parentBasedir}/target/webdrivers</webDriverBuildDirectory>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
@@ -62,41 +57,6 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${exec-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>compile-silent-chromedriver</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>${vcHome}\VC\bin\cl</executable>
-							<workingDirectory>
-								${parentBasedir}
-							</workingDirectory>
-							<environmentVariables>
-								<INCLUDE>
-									${vcHome}\VC\Include;${vcHome}\WinSDK\Include
-								</INCLUDE>
-								<LIB>
-									${vcHome}\VC\Lib;${vcHome}\WinSDK\Lib
-								</LIB>
-							</environmentVariables>
-							<arguments>
-								<argument>src\main\cpp\silent-chromedriver.cpp</argument>
-								<argument>/Fo${webDriverBuildDirectory}\</argument>
-								<argument>/EHsc</argument>
-								<argument>/link</argument>
-								<argument>/out:${webDriverBuildDirectory}\silent-chromedriver.exe</argument>
-							</arguments>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

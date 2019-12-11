@@ -7,24 +7,24 @@ class WindowHandlingIT(BrowserAT):
 		return 'inttest_window_handling/main.html'
 	def test_write_writes_in_active_window(self):
 		write("Main window")
-		self.assertEquals("Main window", self._get_value('mainTextField'))
+		self.assertEqual("Main window", self._get_value('mainTextField'))
 		self._open_popup()
 		write("Popup")
-		self.assertEquals("Popup", self._get_value('popupTextField'))
+		self.assertEqual("Popup", self._get_value('popupTextField'))
 	def test_write_searches_in_active_window(self):
 		write("Main window", into="Text field")
-		self.assertEquals("Main window", self._get_value('mainTextField'))
+		self.assertEqual("Main window", self._get_value('mainTextField'))
 		self._open_popup()
 		write("Popup", into="Text field")
-		self.assertEquals("Popup", self._get_value('popupTextField'))
+		self.assertEqual("Popup", self._get_value('popupTextField'))
 	def test_switch_to_search_text_field(self):
 		write("Main window", into="Text field")
-		self.assertEquals("Main window", TextField("Text field").value)
+		self.assertEqual("Main window", TextField("Text field").value)
 		self._open_popup()
 		write("Popup", into="Text field")
-		self.assertEquals("Popup", TextField("Text field").value)
+		self.assertEqual("Popup", TextField("Text field").value)
 		switch_to("inttest_window_handling - Main")
-		self.assertEquals("Main window", TextField("Text field").value)
+		self.assertEqual("Main window", TextField("Text field").value)
 	def test_handles_closed_window_gracefully(self):
 		self._open_popup()
 		get_driver().close()

@@ -4,19 +4,19 @@ from unittest import TestCase
 
 class FrameIteratorTest(TestCase):
 	def test_only_main_frame(self):
-		self.assertEquals([[]], list(FrameIterator(StubWebDriver())))
+		self.assertEqual([[]], list(FrameIterator(StubWebDriver())))
 	def test_one_frame(self):
 		driver = StubWebDriver(Frame())
-		self.assertEquals([[], [0]], list(FrameIterator(driver)))
+		self.assertEqual([[], [0]], list(FrameIterator(driver)))
 	def test_two_frames(self):
 		driver = StubWebDriver(Frame(), Frame())
-		self.assertEquals([[], [0], [1]], list(FrameIterator(driver)))
+		self.assertEqual([[], [0], [1]], list(FrameIterator(driver)))
 	def test_nested_frame(self):
 		driver = StubWebDriver(Frame(Frame()))
-		self.assertEquals([[], [0], [0, 0]], list(FrameIterator(driver)))
+		self.assertEqual([[], [0], [0, 0]], list(FrameIterator(driver)))
 	def test_complex(self):
 		driver = StubWebDriver(Frame(Frame()), Frame())
-		self.assertEquals([[], [0], [0, 0], [1]], list(FrameIterator(driver)))
+		self.assertEqual([[], [0], [0, 0], [1]], list(FrameIterator(driver)))
 	def test_disappearing_frame(self):
 		child_frame = Frame()
 		first_frame = Frame(child_frame)

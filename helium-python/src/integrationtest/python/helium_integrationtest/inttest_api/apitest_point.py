@@ -31,7 +31,7 @@ class PointIT(BrowserAT):
 		self.assert_around(expected_y, y, delta_y)
 	def assert_around(self, expected, actual, delta, msg=None):
 		self.assertIn(
-			actual, range(expected - delta, expected + delta + 1), msg
+			actual, list(range(expected - delta, expected + delta + 1)), msg
 		)
 	def test_click_top_left(self):
 		click(Button("Button 1").top_left)
@@ -108,7 +108,7 @@ class PointIT(BrowserAT):
 		)
 		expected_prefix, expected_suffix = expected.split(expected_offset)
 		actual_prefix, actual_suffix = actual.split(actual_offset)
-		self.assertEquals(expected_prefix, actual_prefix)
-		self.assertEquals(expected_suffix, actual_suffix)
+		self.assertEqual(expected_prefix, actual_prefix)
+		self.assertEqual(expected_suffix, actual_suffix)
 	def _extract_offset(self, result_in_browser):
 		return search(r"(\([^,]+, [^\)]+\))", result_in_browser).group(1)

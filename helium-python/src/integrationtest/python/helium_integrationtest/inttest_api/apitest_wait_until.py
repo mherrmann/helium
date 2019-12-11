@@ -14,13 +14,13 @@ class WaitUntilIT(BrowserAT):
 		start_time = time()
 		wait_until(Text("Success!").exists)
 		end_time = time()
-		self.assertGreaterEqual(end_time - start_time, 0.9)
+		self.assertGreaterEqual(end_time - start_time, 0.8)
 	def test_wait_until_presence_of_element_located(self):
 		click("Click me!")
 		start_time = time()
 		wait_until(presence_of_element_located((By.ID, "result")))
 		end_time = time()
-		self.assertGreaterEqual(end_time - start_time, 0.9)
+		self.assertGreaterEqual(end_time - start_time, 0.8)
 	def test_wait_until_lambda_expires(self):
 		with self.assertRaises(TimeoutException):
 			wait_until(lambda: False, timeout_secs=1)

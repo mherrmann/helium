@@ -1,9 +1,8 @@
-from decorator import decorator
 from helium.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
 	NoSuchFrameException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
-from urllib2 import URLError
+from urllib.error import URLError
 import sys
 
 class Wrapper(object):
@@ -29,13 +28,12 @@ class WebDriverWrapper(Wrapper):
 	def get_distance_to_last_manipulated(self, web_element):
 		if not self.last_manipulated_element:
 			return 0
-		if hasattr(self.last_manipulated_element, 'location'):
-			try:
+		try:
+			if hasattr(self.last_manipulated_element, 'location'):
 				last_location = self.last_manipulated_element.location
-			except StaleElementReferenceException:
-				return 0
-			else:
 				return last_location.distance_to(web_element.location)
+		except StaleElementReferenceException:
+			return 0
 		else:
 			# No .location. This happens when last_manipulated_element is an
 			# Alert or a Window.
@@ -57,18 +55,19 @@ class WebDriverWrapper(Wrapper):
 	def is_ie(self):
 		return self.browser_name == 'internet explorer'
 
-@decorator
-def _translate_url_errors_caused_by_server_shutdown(f, *args, **kwargs):
-	try:
-		return f(*args, **kwargs)
-	except URLError as url_error:
-		if _is_caused_by_server_shutdown(url_error):
-			raise StaleElementReferenceException(
-				'The Selenium server this element belonged to is no longer '
-				'available.'
-			)
-		else:
-			raise
+def _translate_url_errors_caused_by_server_shutdown(f):
+	def f_decorated(*args, **kwargs):
+		try:
+			return f(*args, **kwargs)
+		except URLError as url_error:
+			if _is_caused_by_server_shutdown(url_error):
+				raise StaleElementReferenceException(
+					'The Selenium server this element belonged to is no longer '
+					'available.'
+				)
+			else:
+				raise
+	return f_decorated
 
 def _is_caused_by_server_shutdown(url_error):
 	try:
@@ -77,20 +76,21 @@ def _is_caused_by_server_shutdown(url_error):
 	except (IndexError, TypeError):
 		return False
 
-@decorator
-def handle_element_being_in_other_frame(f, self, *args, **kwargs):
-	if not self.frame_index:
-		return f(self, *args, **kwargs)
-	try:
-		return f(self, *args, **kwargs)
-	except StaleElementReferenceException as original_exc:
-		try:
-			frame_iterator = FrameIterator(self.target.parent)
-			frame_iterator.switch_to_frame(self.frame_index)
-		except NoSuchFrameException:
-			raise original_exc
-		else:
+def handle_element_being_in_other_frame(f):
+	def f_decorated(self, *args, **kwargs):
+		if not self.frame_index:
 			return f(self, *args, **kwargs)
+		try:
+			return f(self, *args, **kwargs)
+		except StaleElementReferenceException as original_exc:
+			try:
+				frame_iterator = FrameIterator(self.target.parent)
+				frame_iterator.switch_to_frame(self.frame_index)
+			except NoSuchFrameException:
+				raise original_exc
+			else:
+				return f(self, *args, **kwargs)
+	return f_decorated
 
 class WebElementWrapper(object):
 	def __init__(self, target, frame_index=None):
@@ -113,7 +113,7 @@ class WebElementWrapper(object):
 	def is_displayed(self):
 		try:
 			return self.target.is_displayed() and self.location.intersects(
-				Rectangle(0, 0, sys.maxint, sys.maxint)
+				Rectangle(0, 0, sys.maxsize, sys.maxsize)
 			)
 		except StaleElementReferenceException:
 			return False
@@ -147,7 +147,7 @@ class FrameIterator(object):
 		self.start_frame = start_frame
 	def __iter__(self):
 		yield []
-		for new_frame in xrange(sys.maxint):
+		for new_frame in range(sys.maxsize):
 			try:
 				self.driver.switch_to.frame(new_frame)
 			except WebDriverException:

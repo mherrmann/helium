@@ -6,4 +6,4 @@ class DoubleclickIT(BrowserAT):
 		return 'inttest_doubleclick.html'
 	def test_double_click(self):
 		doubleclick('Doubleclick here.')
-		self.assertEquals('Success!', self.read_result_from_browser())
+		self.assertEqual('Success!', self.read_result_from_browser())

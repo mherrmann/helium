@@ -5,7 +5,7 @@ import psutil
 class KillServiceAtExitAT:
 	def test_kill_service_at_exit(self):
 		self.start_browser_in_sub_process()
-		self.assertEquals([], self.get_new_running_services())
+		self.assertEqual([], self.get_new_running_services())
 	def start_browser_in_sub_process(self):
 		raise NotImplementedError()
 	def get_new_running_services(self):

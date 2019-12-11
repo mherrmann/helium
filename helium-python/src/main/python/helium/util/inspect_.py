@@ -35,6 +35,3 @@ def repr_args(f, args=None, kwargs=None, repr_fn=repr):
 		if kwarg not in arg_names:
 			result.append(kwarg + '=' + repr_fn(kwargs[kwarg]))
 	return ', '.join(result)
-
-def repr_call(f, *args, **kwargs):
-	return '%s(%s)' % (f.__name__, repr_args(f, args, kwargs))

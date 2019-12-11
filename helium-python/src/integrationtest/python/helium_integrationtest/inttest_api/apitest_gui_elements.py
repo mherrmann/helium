@@ -36,7 +36,7 @@ class GUIElementsIT(BrowserAT):
 	def test_disabled_button(self):
 		self.assertFalse(Button("Disabled Button").is_enabled())
 	def test_button_no_text(self):
-		self.assertEquals(2, len(find_all(Button(to_right_of='Row 1'))))
+		self.assertEqual(2, len(find_all(Button(to_right_of='Row 1'))))
 	def test_div_button_exists(self):
 		self.assertTrue(Button("DIV with role=button").exists())
 	def test_button_tag_button_exists(self):
@@ -62,7 +62,7 @@ class GUIElementsIT(BrowserAT):
 	def test_text_field_is_enabled_false(self):
 		self.assertFalse(TextField("Disabled Text Field").is_enabled())
 	def test_text_field_value(self):
-		self.assertEquals("Lorem ipsum", TextField("Example Text Field").value)
+		self.assertEqual("Lorem ipsum", TextField("Example Text Field").value)
 	def test_text_field_with_placeholder_exists(self):
 		self.assertIs(True, TextField("Placeholder Text Field").exists())
 	def test_text_field_no_type_specified_with_placeholder_exists(self):
@@ -70,28 +70,28 @@ class GUIElementsIT(BrowserAT):
 			True, TextField("Placeholder Text Field without type").exists()
 		)
 	def test_empty_text_field_value(self):
-		self.assertEquals('', TextField("Empty Text Field").value)
+		self.assertEqual('', TextField("Empty Text Field").value)
 	def test_read_readonly_text_field(self):
-		self.assertEquals(
+		self.assertEqual(
 			'This is read only', TextField("ReadOnly Text Field").value
 		)
 	def test_read_disabled_text_field(self):
-		self.assertEquals(
+		self.assertEqual(
 			'This is disabled', TextField("Disabled Text Field").value
 		)
 	def test_read_german_text_field(self):
-		self.assertEquals(
-			u'Heizölrückstoßabdämpfung', TextField("Deutsch").value
+		self.assertEqual(
+			'Heizölrückstoßabdämpfung', TextField("Deutsch").value
 		)
 	def test_text_field_input_type_upper_case_text(self):
 		self.assertTrue(TextField('Input type=Text').exists())
 	def test_write_into_labelled_text_field(self):
 		write('Some text', into='Labelled Text Field')
-		self.assertEquals('Some text', TextField('Labelled Text Field').value)
+		self.assertEqual('Some text', TextField('Labelled Text Field').value)
 	def test_required_text_field_marked_with_asterisk_exists(self):
 		self.assertIs(True, TextField("Required Text Field").exists())
 	def test_text_field_labelled_by_free_text(self):
-		self.assertEquals(
+		self.assertEqual(
 			"TF labelled by free text",
 			TextField("Text field labelled by free text").value
 		)
@@ -130,23 +130,23 @@ class GUIElementsIT(BrowserAT):
 			options, ['Option One', 'Option Two', 'Option Three']
 		)
 	def test_reads_value_of_combo_box(self):
-		self.assertEquals('Option One', ComboBox("Drop Down List").value)
+		self.assertEqual('Option One', ComboBox("Drop Down List").value)
 	def test_select_value_from_combo_box(self):
-		self.assertEquals('Option One', ComboBox("Drop Down List").value)
+		self.assertEqual('Option One', ComboBox("Drop Down List").value)
 		select("Drop Down List", "Option Two")
-		self.assertEquals('Option Two', ComboBox("Drop Down List").value)
+		self.assertEqual('Option Two', ComboBox("Drop Down List").value)
 		select(ComboBox("Drop Down List"), "Option Three")
-		self.assertEquals('Option Three', ComboBox("Drop Down List").value)
+		self.assertEqual('Option Three', ComboBox("Drop Down List").value)
 	def test_combo_box_identified_by_value(self):
 		combo_box = ComboBox("Select a value...")
 		self.assertTrue(combo_box.exists())
-		self.assertEquals("Select a value...", combo_box.value)
+		self.assertEqual("Select a value...", combo_box.value)
 		self.assertFalse(combo_box.is_editable())
-		self.assertEquals(
+		self.assertEqual(
 			["Select a value...", "Value 1"], combo_box.options
 		)
 	def test_combo_box_preceded_by_combo_with_name_as_label(self):
-		self.assertEquals(
+		self.assertEqual(
 			"combo1", ComboBox("Combo1").web_element.get_attribute("id")
 		)
 
@@ -246,7 +246,7 @@ class GUIElementsIT(BrowserAT):
 	def test_text_with_single_and_double_quotes(self):
 		self.assertTrue(Text("Single'quote. Double\"quote.").exists())
 	def test_text_uppercase_umlaut(self):
-		self.assertTrue(Text(u'VERÖFFENTLICHEN').exists())
+		self.assertTrue(Text('VERÖFFENTLICHEN').exists())
 
 	# Link tests:
 	def test_link_exists(self):
@@ -254,11 +254,11 @@ class GUIElementsIT(BrowserAT):
 	def test_link_with_title_exists(self):
 		self.assertTrue(Link('Link with title').exists())
 	def test_link_no_text(self):
-		self.assertEquals(4, len(find_all(Link())))
+		self.assertEqual(4, len(find_all(Link())))
 	def test_span_with_role_link_exists_as_link(self):
 		self.assertTrue(Link("Span with role=link").exists())
 	def test_link_href(self):
-		self.assertEqual(Link("heliumhq.com").href, u"http://heliumhq.com/")
+		self.assertEqual(Link("heliumhq.com").href, "http://heliumhq.com/")
 	def test_link_empty_href(self):
 		self.assertEqual(Link("Link with empty href").href, "")
 
@@ -266,7 +266,7 @@ class GUIElementsIT(BrowserAT):
 	def test_list_item_no_text(self):
 		all_list_items = find_all(ListItem(below="HTML Unordered List"))
 		texts = set(list_item.web_element.text for list_item in all_list_items)
-		self.assertEquals({'ListItem 1', 'ListItem 2'}, texts)
+		self.assertEqual({'ListItem 1', 'ListItem 2'}, texts)
 
 	# Image tests:
 	def test_image_not_exists(self):

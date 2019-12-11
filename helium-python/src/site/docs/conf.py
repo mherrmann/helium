@@ -46,8 +46,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Helium'
-copyright = unicode(date.today().year) + u', BugFree Software'
+project = 'Helium'
+copyright = str(date.today().year) + ', Michael Herrmann'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -196,7 +196,6 @@ latex_elements = {
 \pagestyle{fancy}
 \fancyhead[L]{\textbf{Helium Python API Documentation}}
 \fancyhead[R]{
-\includegraphics[width=2cm]{bugfree.png}
 }
 ''',
 'classoptions': ',oneside',
@@ -210,8 +209,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'HeliumAPIDocumentation.tex', u'Helium Python API Documentation',
-   u'BugFree Software', 'manual'),
+  ('index', 'HeliumAPIDocumentation.tex', 'Helium Python API Documentation',
+   'Michael Herrmann', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -238,7 +237,7 @@ latex_domain_indices = False
 
 #latex_use_modindex = False
 
-latex_additional_files = ['bugfree.png']
+latex_additional_files = []
 
 
 # -- Options for manual page output --------------------------------------------
@@ -246,8 +245,8 @@ latex_additional_files = ['bugfree.png']
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'helium', u'Helium Python API Documentation',
-     [u'BugFree Software'], 1)
+    ('index', 'helium', 'Helium Python API Documentation',
+     ['Michael Herrmann'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -260,8 +259,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Helium', u'Helium Documentation',
-   u'BugFree Software', 'Helium', 'One line description of project.',
+  ('index', 'Helium', 'Helium Documentation',
+   'Michael Herrmann', 'Helium', 'One line description of project.',
    'Miscellaneous'),
 ]
 

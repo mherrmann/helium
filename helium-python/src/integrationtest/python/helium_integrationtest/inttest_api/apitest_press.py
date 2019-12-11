@@ -7,13 +7,13 @@ class PressIT(BrowserAT):
 		return 'inttest_write.html'
 	def test_press_single_character(self):
 		press('a')
-		self.assertEquals('a', TextField('Autofocus text field').value)
+		self.assertEqual('a', TextField('Autofocus text field').value)
 	def test_press_upper_case_character(self):
 		press('A')
-		self.assertEquals('A', TextField('Autofocus text field').value)
+		self.assertEqual('A', TextField('Autofocus text field').value)
 	def test_press_shift_plus_lower_case_character(self):
 		press(SHIFT + 'a')
-		self.assertEquals('A', TextField('Autofocus text field').value)
+		self.assertEqual('A', TextField('Autofocus text field').value)
 	@skip
 	def test_copy_paste(self):
 		# it is not possible to copy paste on OSX
@@ -24,6 +24,6 @@ class PressIT(BrowserAT):
 		press(CONTROL + 'c')
 		press(TAB)
 		press(CONTROL + 'v')
-		self.assertEquals(
+		self.assertEqual(
 			'One Two Three', TextField("Normal text field").value
 		)

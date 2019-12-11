@@ -2,10 +2,10 @@
 from helium.api import click, Text
 from helium_integrationtest.environment import get_integrationtest_resource
 from helium_integrationtest.inttest_api import test_browser_name, BrowserAT
-from BaseHTTPServer import HTTPServer
+from http.server import HTTPServer
 from locale import getdefaultlocale
 from os.path import abspath
-from SimpleHTTPServer import SimpleHTTPRequestHandler
+from http.server import SimpleHTTPRequestHandler
 from threading import Thread
 from unittest.case import skipIf
 import ssl
@@ -28,7 +28,7 @@ class IESSLIT(BrowserAT):
 		def_locale = getdefaultlocale()[0]
 		if def_locale.startswith("pl"):
 			click(
-				u'Kontynuuj przeglądanie tej witryny sieci Web (niezalecane).'
+				'Kontynuuj przeglądanie tej witryny sieci Web (niezalecane).'
 			)
 		else:
 			click("Continue to this website (not recommended).")

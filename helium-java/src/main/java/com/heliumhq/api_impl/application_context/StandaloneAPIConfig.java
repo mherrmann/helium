@@ -1,54 +1,26 @@
 package com.heliumhq.api_impl.application_context;
 
-import com.heliumhq.config_file.HeliumConfigFile;
 import com.heliumhq.environment.ResourceLocator;
 import com.heliumhq.util.FileUtil;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.*;
 
-import static com.heliumhq.config_file.HeliumConfigFile.CONFIG_FILE_NAME;
 import static com.heliumhq.util.Date.createDate;
 import static java.util.logging.Level.WARNING;
 
 public class StandaloneAPIConfig extends APIConfig {
 
-	private final static Logger LOG =
-			Logger.getLogger(StandaloneAPIConfig.class.getName());
-
-	private boolean isFirstRun;
-	private UUID uuid;
-	private HeliumConfigFile heliumConfigFile;
 	private ResourceLocator resourceLocator;
 
 	@Override
 	protected void initializeLogging() {
 		suppressApacheHttpLogsOnStderr();
 		suppressSeleniumLoggers();
-		Logger heliumLogger = Logger.getLogger("com.heliumhq");
-		Handler handler;
-		String heliumLogFile = getResourceLocator().locate(
-			"runtime", "helium.log"
-		);
-		try {
-			handler = new FileHandler(heliumLogFile);
-		} catch (IOException e) {
-			handler = new ConsoleHandler();
-			handler.setLevel(WARNING);
-		}
-		handler.setFormatter(new SimpleFormatter());
-		heliumLogger.addHandler(handler);
-		heliumLogger.setLevel(Level.INFO);
-		// java.util.logging by default installs a ConsoleHandler for the root
-		// logger. Prevent our log entries from being passed on to it:
-		heliumLogger.setUseParentHandlers(false);
-		heliumLogger.info("Helium logging initialized.");
 	}
 
 	/**
@@ -71,89 +43,6 @@ public class StandaloneAPIConfig extends APIConfig {
 	 */
 	private void suppressApacheHttpLogsOnStderr() {
 		Logger.getLogger("org.apache.http.impl").setLevel(Level.WARNING);
-	}
-
-	private GregorianCalendar getBuildDate(String checksum) {
-		// We're actually not interested in a checksum. It is merely a means of
-		// encoding the build date in a non-obvious form, to prevent the user
-		// from tampering while trying to work around licensing restrictions.
-		int year1 = Integer.parseInt(String.valueOf(checksum.charAt(13)));
-		int year2 = Integer.parseInt(String.valueOf(checksum.charAt(3)));
-		int year3 = Integer.parseInt(String.valueOf(checksum.charAt(18)));
-		int year4 = Integer.parseInt(String.valueOf(checksum.charAt(29)));
-		int month1 = Integer.parseInt(String.valueOf(checksum.charAt(11)));
-		int month2 = Integer.parseInt(String.valueOf(checksum.charAt(2)));
-		int day1 = Integer.parseInt(String.valueOf(checksum.charAt(17)));
-		int day2 = Integer.parseInt(String.valueOf(checksum.charAt(31)));
-		int year = year1 * 1000 + year2 * 100 + year3 * 10 + year4;
-		int month = month1 * 10 + month2;
-		int day = day1 * 10 + day2;
-		return createDate(year, month, day);
-	}
-
-	private boolean isFirstRun() {
-		setUUIDAndIsFirstRun();
-		return isFirstRun;
-	}
-
-	public UUID getUUID() {
-		setUUIDAndIsFirstRun();
-		return uuid;
-	}
-
-	private void setUUIDAndIsFirstRun() {
-		if (uuid == null) {
-			File uuidFile = new File(
-				getResourceLocator().locate("runtime", "uuid")
-			);
-			isFirstRun = ! uuidFile.exists();
-			if (uuidFile.exists())
-				try {
-					uuid = readUUIDFromFile(uuidFile);
-				} catch (IOException e) {
-					LOG.log(WARNING, "Could not read UUID file " + uuidFile, e);
-					uuid = UUID.randomUUID();
-				}
-			else {
-				uuid = UUID.randomUUID();
-				try {
-					writeUUIDToFile(uuid, uuidFile);
-				} catch (IOException e) {
-					LOG.log(WARNING, "Error writing UUID file " + uuidFile, e);
-				}
-			}
-		}
-	}
-
-	private UUID readUUIDFromFile(File uuidFile) throws IOException {
-		char[] uuidBuffer = new char[36];
-		new FileReader(uuidFile).read(uuidBuffer);
-		return UUID.fromString(String.valueOf(uuidBuffer));
-	}
-
-	private void writeUUIDToFile(UUID uuid, File uuidFile) throws IOException {
-		FileWriter uuidFileWriter = null;
-		try {
-			uuidFileWriter = new FileWriter(uuidFile);
-			uuidFileWriter.write(uuid.toString());
-			uuidFileWriter.flush();
-		} finally {
-			if (uuidFileWriter != null)
-				uuidFileWriter.close();
-		}
-	}
-
-	public HeliumConfigFile getHeliumConfigFile() {
-		if (heliumConfigFile == null)
-			try {
-				String configFilePath =
-					getResourceLocator().locate("runtime", CONFIG_FILE_NAME);
-				LOG.info("Reading Helium config from " + configFilePath);
-				heliumConfigFile = new HeliumConfigFile(configFilePath);
-			} catch(IOException e) {
-				throw new StartupError("Failed to configure Helium.");
-			}
-		return heliumConfigFile;
 	}
 
 	@Override

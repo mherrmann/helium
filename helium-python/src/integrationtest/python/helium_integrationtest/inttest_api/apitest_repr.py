@@ -8,59 +8,59 @@ class UnboundReprIT(BrowserAT):
 	def get_page(self):
 		return 'inttest_gui_elements.html'
 	def test_unbound_s_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"S('.cssClass')", repr(S('.cssClass'))
 		)
 	def test_unbound_s_repr_below(self):
-		self.assertEquals(
+		self.assertEqual(
 			"S('.cssClass', below='Home')", repr(S('.cssClass', below='Home'))
 		)
 	def test_unbound_text_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Text('Hello World!')", repr(Text('Hello World!'))
 		)
 	def test_unbound_link_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Link('Download')", repr(Link('Download'))
 		)
 	def test_unbound_list_item_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"ListItem('Home')", repr(ListItem('Home'))
 		)
 	def test_unbound_button_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Button('Home')", repr(Button('Home'))
 		)
 	def test_unbound_image_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Image('Logo')", repr(Image('Logo'))
 		)
 	def test_unbound_text_field_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"TextField('File name')", repr(TextField('File name'))
 		)
 	def test_unbound_combo_box_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"ComboBox('Language')", repr(ComboBox('Language'))
 		)
 	def test_unbound_check_box_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"CheckBox('True?')", repr(CheckBox('True?'))
 		)
 	def test_unbound_radio_button_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"RadioButton('Option A')", repr(RadioButton('Option A'))
 		)
 	def test_unbound_window_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Window('Main')", repr(Window('Main'))
 		)
 	def test_unbound_alert_repr(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Alert()", repr(Alert())
 		)
 	def test_unbound_alert_repr_with_search_text(self):
-		self.assertEquals(
+		self.assertEqual(
 			"Alert('Hello World')", repr(Alert('Hello World'))
 		)
 
@@ -76,10 +76,10 @@ class BoundReprIT(BrowserAT):
 		)
 	def test_bound_s_repr_long_content(self):
 		body = self._bind(S("body"))
-		self.assertEquals("<body>...</body>", repr(body))
+		self.assertEqual("<body>...</body>", repr(body))
 	def test_bound_button_repr(self):
 		bound_button = self._bind(Button('Enabled Button'))
-		self.assertEquals(
+		self.assertEqual(
 			'<button type="button">Enabled Button</button>', repr(bound_button)
 		)
 	def test_bound_link_repr_nested_tag(self):
@@ -88,7 +88,7 @@ class BoundReprIT(BrowserAT):
 			'<a href="#" title="Link with title">...</a>', repr(link)
 		)
 	def test_bound_repr_duplicate_button(self):
-		self.assertEquals(
+		self.assertEqual(
 			'[<button type="button">Duplicate Button</button>,'
 			' <button type="button">Duplicate Button</button>,'
 			' <button type="button">Duplicate Button</button>,'
@@ -97,12 +97,12 @@ class BoundReprIT(BrowserAT):
 		)
 	def test_bound_window_repr(self):
 		bound_window = self._bind(Window())
-		self.assertEquals(
+		self.assertEqual(
 			"Window('Test page for browser system tests')", repr(bound_window)
 		)
 	def test_bound_window_repr_with_search_text(self):
 		bound_window = self._bind(Window('Test page for'))
-		self.assertEquals(
+		self.assertEqual(
 			"Window('Test page for browser system tests')", repr(bound_window)
 		)
 	def _bind(self, predicate):
@@ -122,8 +122,8 @@ class BoundReprIT(BrowserAT):
 		attributes_re = '[a-zA-Z]+="[^"]+"'
 		attributes_exp = re.findall(attributes_re, start_tag_exp)
 		attributes_act = re.findall(attributes_re, start_tag_act)
-		self.assertEquals(set(attributes_exp), set(attributes_act))
-		self.assertEquals(remainder_exp, remainder_act)
+		self.assertEqual(set(attributes_exp), set(attributes_act))
+		self.assertEqual(remainder_exp, remainder_act)
 
 class BoundAlertReprIT(BrowserAT):
 	def get_page(self):
@@ -135,12 +135,12 @@ class BoundAlertReprIT(BrowserAT):
 		alert = Alert()
 		# Bind alert:
 		alert.text
-		self.assertEquals("Alert('Hello World!')", repr(alert))
+		self.assertEqual("Alert('Hello World!')", repr(alert))
 	def test_bound_alert_repr_with_partial_search_text(self):
 		alert = Alert('Hello')
 		# Bind alert:
 		alert.text
-		self.assertEquals("Alert('Hello World!')", repr(alert))
+		self.assertEqual("Alert('Hello World!')", repr(alert))
 	def tearDown(self):
 		Alert().accept()
 		super(BoundAlertReprIT, self).tearDown()

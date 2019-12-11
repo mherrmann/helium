@@ -3,3 +3,4 @@ target/
 .metadata/
 .idea/
 .DS_Store
+venv/

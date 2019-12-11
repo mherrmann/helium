@@ -74,4 +74,4 @@ class NoDriverIT(TestCase):
 	def _check_requires_driver(self, function):
 		with self.assertRaises(RuntimeError) as cm:
 			function()
-		self.assertEquals(APIImpl.DRIVER_REQUIRED_MESSAGE, cm.exception.message)
+		self.assertEqual(APIImpl.DRIVER_REQUIRED_MESSAGE, cm.exception.args[0])

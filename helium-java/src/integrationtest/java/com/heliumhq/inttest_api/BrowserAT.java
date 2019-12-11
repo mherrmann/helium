@@ -37,7 +37,7 @@ public abstract class BrowserAT {
 			return startIE(url);
 		} else {
 			assert testBrowserName.equals("firefox");
-			return startFirefox(url);
+			return startFirefox(url, true);
 		}
 	}
 

@@ -9,7 +9,7 @@ class TextImplIT(BrowserAT):
 		xpath = TextImpl(WebDriverWrapper(self.driver))._get_search_text_xpath()
 		text_elements = self.driver.find_elements_by_xpath(xpath)
 		texts = [w.get_attribute('innerHTML') for w in text_elements]
-		self.assertEquals(
+		self.assertEqual(
 			["A paragraph", "A paragraph inside a div",
 			 "Another paragraph inside the div"],
 			sorted(texts)

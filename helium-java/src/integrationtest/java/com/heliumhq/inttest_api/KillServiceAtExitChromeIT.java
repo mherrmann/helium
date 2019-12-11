@@ -12,16 +12,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assume.assumeThat;
 
-/**
- * This test fails when run from PyCharm. The reason for this is that
- * silent-chromedriver.exe assigns its subprocess chromedriver.exe to a Job
- * Object via AssignProcessToJobObject in silent-chromedriver.cpp. This fails
- * with error code 5 (access denied) when we run from PyCharm. On the command
- * line (`mvn verify`) however, it works. It seems to be common that
- * AssignProcessToJobObject fails depending on the process' environment. See:
- *     http://stackoverflow.com/questions/89588/assignprocesstojobobject-fails-
- *     with-access-denied-error-when-running-under-the
- */
 @Ignore("Fails on recent versions of Chrome")
 public class KillServiceAtExitChromeIT extends KillServiceAtExitAT {
 
@@ -34,7 +24,7 @@ public class KillServiceAtExitChromeIT extends KillServiceAtExitAT {
 
 	protected List<String> getServiceProcessNames() {
 		if (isWindows())
-			return asList("silent-chromedriver.exe", "chromedriver.exe");
+			return asList("chromedriver.exe");
 		return asList("chromedriver");
 	}
 

@@ -26,7 +26,7 @@ public class WaitUntilIT extends BrowserAT {
 		long startTime = System.currentTimeMillis();
 		waitUntil(Text("Success!").exists);
 		long endTime = System.currentTimeMillis();
-		assertThat(endTime - startTime, is(greaterThan(900L)));
+		assertThat(endTime - startTime, is(greaterThan(800L)));
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class WaitUntilIT extends BrowserAT {
 		long startTime = System.currentTimeMillis();
 		waitUntil(presenceOfElementLocated(By.id("result")));
 		long endTime = System.currentTimeMillis();
-		assertThat(endTime - startTime, is(greaterThan(900L)));
+		assertThat(endTime - startTime, is(greaterThan(800L)));
 	}
 
 	@Test(expected = TimeoutException.class)

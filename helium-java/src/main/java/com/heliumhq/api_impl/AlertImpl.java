@@ -6,12 +6,8 @@ import org.openqa.selenium.WebDriverException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class AlertImpl extends GUIElementImpl<org.openqa.selenium.Alert> {
-
-	private final static Logger LOGGER =
-			Logger.getLogger(AlertImpl.class.getName());
 
 	private final String searchText;
 
@@ -55,10 +51,6 @@ public class AlertImpl extends GUIElementImpl<org.openqa.selenium.Alert> {
 			if (msg != null && msg.matches(
 					"a\\.document\\.getElementsByTagName\\([^\\)]*\\)\\[0\\] " +
 					"is undefined")) {
-				LOGGER.warning(String.format(
-					"Got %s when trying to accept alert. Trying again after " +
-					"0.25s.", e.toString())
-				);
 				try {
 					Thread.sleep(250);
 				} catch (InterruptedException e2) {}

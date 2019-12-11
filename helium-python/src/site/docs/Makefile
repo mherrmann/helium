@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../target/docs
+BUILDDIR      = ../../../target/docs
 
 ifeq ($(shell $(SPHINXBUILD) 2> /dev/null; echo $$?), 127)
 define MSG

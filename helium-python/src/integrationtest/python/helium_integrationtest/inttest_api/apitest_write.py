@@ -6,12 +6,12 @@ class WriteIT(BrowserAT):
 		return 'inttest_write.html'
 	def test_write(self):
 		write("Hello World!")
-		self.assertEquals(
+		self.assertEqual(
 			"Hello World!", TextField('Autofocus text field').value
 		)
 	def test_write_into(self):
 		write("Hi there!", into='Normal text field')
-		self.assertEquals("Hi there!", TextField('Normal text field').value)
+		self.assertEqual("Hi there!", TextField('Normal text field').value)
 	def test_write_into_text_field_to_right_of(self):
 		write("Hi there!", into=(TextField(to_right_of='Normal text field')))
-		self.assertEquals("Hi there!", TextField('Normal text field').value)
+		self.assertEqual("Hi there!", TextField('Normal text field').value)

@@ -10,7 +10,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
 import org.openqa.selenium.interactions.Actions;
@@ -48,22 +51,47 @@ public class APIImpl {
 		return startFirefoxImpl(null);
 	}
 	public WebDriver startFirefoxImpl(String url) {
-		DesiredCapabilities desiredCapabilities =
-				new DesiredCapabilities(DesiredCapabilities.firefox());
-		desiredCapabilities.setCapability(
-				CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR,
-				UnexpectedAlertBehaviour.IGNORE
-		);
-		FirefoxDriver firefox;
-		try {
-			firefox = new FirefoxDriver(desiredCapabilities);
-		} catch (WebDriverException e) {
-			throw new WebDriverException(
-				"Could not start Firefox. Please note that Firefox versions " +
-				"greater than 47.0.1 are currently not supported."
-			);
-		}
+		return startFirefoxImpl(url, false);
+	}
+	public WebDriver startFirefoxImpl(boolean headless) {
+		return startFirefoxImpl(null, headless);
+	}
+	public WebDriver startFirefoxImpl (String url, boolean headless) {
+		FirefoxDriver firefox = startFirefoxDriver(headless);
 		return start(firefox, url);
+	}
+	private FirefoxDriver startFirefoxDriver(boolean headless) {
+		GeckoDriverService service = getGeckoDriverService();
+		Runtime.getRuntime().addShutdownHook(
+			new DriverServiceDestroyer(service)
+		);
+		FirefoxOptions options = new FirefoxOptions();
+		if (headless) {
+			FirefoxBinary binary = new FirefoxBinary();
+			binary.addCommandLineOptions("--headless");
+			options.setBinary(binary);
+		}
+		return new FirefoxDriver(service, options);
+	}
+	private GeckoDriverService getGeckoDriverService() {
+		File driver = locateWebDriver("geckodriver");
+		if (driver.exists()) {
+			ensureDriverIsExecutable(driver);
+			return new GeckoDriverService.Builder()
+				.usingDriverExecutable(driver)
+				.withLogFile(new File(isWindows() ? "nul" : "/dev/null"))
+				.build();
+		} else
+			return GeckoDriverService.createDefaultService();
+	}
+
+	private void ensureDriverIsExecutable(File driver) {
+		if (! driver.canExecute())
+			if (! driver.setExecutable(true))
+				throw new HeliumError(String.format(
+					"The driver located at %s is not executable.",
+					driver.getAbsolutePath()
+				));
 	}
 
 	public WebDriver startChromeImpl() {
@@ -91,37 +119,17 @@ public class APIImpl {
 
 	private ChromeOptions getChromeOptions(boolean headless) {
 		ChromeOptions result = new ChromeOptions();
-		// ChromeDriver uses the flag --ignore-certificate-errors, which as of
-		// Chrome 36 has been added to the "bad flags" list. This results in the
-		// following warning being shown in later versions of the browser:
-		//    You are using an unsupported command-line flag:
-		//     --ignore-certificate-errors. Stability and security will suffer.
-		// Adding the command-line flag --test-type suppresses this warning
-		// while supposedly not affecting the browser in any other noticeable
-		// way. (Source: http://stackoverflow.com/a/23816922/751938)
-		result.addArguments("--test-type");
-		// Disable alert / warning "Disable Developer Extensions":
-		result.addArguments("--disable-extensions");
 		if (headless)
 			result.addArguments("--headless");
 		return result;
 	}
 
 	private ChromeDriverService getChromeDriverService() {
-		File driver = new File(getChromeDriverPath());
+		File driver = locateWebDriver("chromedriver");
 		if (driver.exists()) {
-			if (! driver.canExecute())
-				if (! driver.setExecutable(true))
-					throw new HeliumError(String.format(
-						"The Chrome driver located at %s is not executable.",
-						driver.getAbsolutePath()
-					));
-			ChromeDriverService.Builder serviceBuilder;
-			if (isWindows()) {
-				serviceBuilder = new SilentChromeDriverServiceBuilder(driver);
-				driver = new File(locateWebDriver("silent-chromedriver.exe"));
-			} else
-				serviceBuilder = new ChromeDriverService.Builder();
+			ensureDriverIsExecutable(driver);
+			ChromeDriverService.Builder serviceBuilder =
+				new ChromeDriverService.Builder();
 			return serviceBuilder
 				// Prevent verbose messages 'ChromeDriver started' on stderr:
 				.withSilent(true)
@@ -132,52 +140,17 @@ public class APIImpl {
 			return ChromeDriverService.createDefaultService();
 	}
 
-	private String getChromeDriverPath() {
-		String driverName;
+	private File locateWebDriver(String driverName) {
 		if (isWindows())
-			driverName = "chromedriver.exe";
-		else if (isLinux())
-			driverName = "chromedriver" + (is64bit() ? "_x64" : "");
-		else {
-			assert isOSX();
-			driverName = "chromedriver";
-		}
-		return locateWebDriver(driverName);
-	}
-
-	private String locateWebDriver(String driverName) {
-		return resourceLocator.locate("webdrivers", driverName);
-	}
-
-	private class SilentChromeDriverServiceBuilder
-		extends ChromeDriverService.Builder {
-
-		private final File originalDriverExecutable;
-
-		private SilentChromeDriverServiceBuilder(File origDriverExecutable) {
-			this.originalDriverExecutable = origDriverExecutable;
-		}
-
-		@Override
-		protected ImmutableList<String> createArgs() {
-			ImmutableList.Builder<String> argsBuilder = ImmutableList.builder();
-			for (String superArg : super.createArgs())
-				argsBuilder.add(superArg);
-			argsBuilder.add(String.format(
-				"--chromedriver-path=%s",
-				originalDriverExecutable.getAbsolutePath()
-			));
-			return argsBuilder.build();
-		}
-
+			driverName += ".exe";
+		return new File(resourceLocator.locate("webdrivers", driverName));
 	}
 
 	public WebDriver startIEImpl() {
 		return startIEImpl(null);
 	}
 	public WebDriver startIEImpl(String url) {
-		String driverPath = locateWebDriver("IEDriverServer.exe");
-		File driverExe = new File(driverPath);
+		File driverExe = locateWebDriver("IEDriverServer.exe");
 		InternetExplorerDriverService.Builder serviceBuilder =
 				new InternetExplorerDriverService.Builder()
 				.usingAnyFreePort().
@@ -238,15 +211,10 @@ public class APIImpl {
 		(new APICommandImpl(driver) {
 			@Override
 			public void run() {
-				AlertHandling alertHandling = new AlertHandling(driver);
-				if (alertHandling.shouldAttemptActionAsIfNoAlertPresent())
-					try {
-						driver.switchTo().activeElement().sendKeys(text);
-						return;
-					} catch (UnhandledAlertException e) {
-						alertHandling.handleUnhandledAlertException(e);
-					}
-				writeImpl(text, new AlertImpl(driver));
+				if (new AlertImpl(driver).exists())
+					writeImpl(text, new AlertImpl(driver));
+				else
+					driver.switchTo().activeElement().sendKeys(text);
 			}
 		}).mightSpawnWindow().execute();
 	}
@@ -932,15 +900,10 @@ public class APIImpl {
 
 	public void refreshImpl() {
 		final WebDriverWrapper driver = requireDriver();
-		AlertHandling alertHandling = new AlertHandling(driver);
-		if (alertHandling.shouldAttemptActionAsIfNoAlertPresent())
-			try {
-				refreshNoAlert();
-				return;
-			} catch (UnhandledAlertException e) {
-				alertHandling.handleUnhandledAlertException(e);
-			}
-		refreshWithAlert();
+		if (new AlertImpl(driver).exists())
+			refreshWithAlert();
+		else
+			refreshNoAlert();
 	}
 	private void refreshNoAlert() {
 		requireDriver().unwrap().navigate().refresh();

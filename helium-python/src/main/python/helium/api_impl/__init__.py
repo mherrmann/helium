@@ -1,66 +1,73 @@
 from copy import copy
-from decorator import decorator
 from errno import ESRCH as NO_SUCH_PROCESS, EACCES as ACCESS_DENIED
 from helium.api_impl.match_type import PREFIX_IGNORE_CASE
 from helium.selenium_wrappers import WebElementWrapper, WebDriverWrapper, \
 	FrameIterator, FramesChangedWhileIterating
 from helium.util.dictionary import inverse
 from helium.util.os_ import make_executable
-from helium.util.system import is_windows, is_linux, is_osx, is_64_bit
+from helium.util.system import is_windows
 from helium.util.xpath import lower, predicate, predicate_or
 from inspect import getargspec, ismethod, isfunction
-from logging import getLogger
 from os import access, X_OK
 from os.path import exists
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver import Chrome, Ie, DesiredCapabilities, \
 	ChromeOptions
-from selenium_2_53_6.webdriver.firefox.webdriver import WebDriver as Firefox
+from selenium.webdriver import Firefox
 from time import sleep, time
 
 import atexit
 import re
 
-@decorator
-def might_spawn_window(f, self, *args, **kwargs):
-	driver = self.require_driver()
-	if driver.is_ie() and AlertImpl(driver).exists():
-		# Accessing .window_handles in IE when an alert is present raises an
-		# UnexpectedAlertPresentException. When DesiredCapability
-		# 'unexpectedAlertBehaviour' is not 'ignore' (the default is 'dismiss'),
-		# this leads to the alert being closed. Since we don't want to
-		# unintentionally close alert dialogs, we therefore do not access
-		# .window_handles in IE when an alert is present.
-		return f(self, *args, **kwargs)
-	window_handles_before = driver.window_handles[:]
-	result = f(self, *args, **kwargs)
-	# As above, don't access .window_handles in IE if an alert is present:
-	if not (driver.is_ie() and AlertImpl(driver).exists()):
-		new_window_handles = [
-			h for h in driver.window_handles if h not in window_handles_before
-		]
-		if new_window_handles:
-			driver.switch_to.window(new_window_handles[0])
-	return result
+def might_spawn_window(f):
+	def f_decorated(self, *args, **kwargs):
+		driver = self.require_driver()
+		if driver.is_ie() and AlertImpl(driver).exists():
+			# Accessing .window_handles in IE when an alert is present raises an
+			# UnexpectedAlertPresentException. When DesiredCapability
+			# 'unexpectedAlertBehaviour' is not 'ignore' (the default is
+			# 'dismiss'), this leads to the alert being closed. Since we don't
+			# want to unintentionally close alert dialogs, we therefore do not
+			# access .window_handles in IE when an alert is present.
+			return f(self, *args, **kwargs)
+		window_handles_before = driver.window_handles[:]
+		result = f(self, *args, **kwargs)
+		# As above, don't access .window_handles in IE if an alert is present:
+		if not (driver.is_ie() and AlertImpl(driver).exists()):
+			if driver.is_firefox():
+				# Unlike Chrome, Firefox does not wait for new windows to open.
+				# Give it a little time to do so:
+				sleep(.2)
+			new_window_handles = [
+				h for h in driver.window_handles
+				if h not in window_handles_before
+			]
+			if new_window_handles:
+				driver.switch_to.window(new_window_handles[0])
+		return result
+	return f_decorated
 
-@decorator
-def handle_unexpected_alert(f, *args, **kwargs):
-	try:
-		return f(*args, **kwargs)
-	except UnexpectedAlertPresentException:
-		raise UnexpectedAlertPresentException(
-			"This command is not supported when an alert is present. To accept "
-			"the alert (this usually corresponds to clicking 'OK') use "
-			"`Alert().accept()`. To dismiss the alert (ie. 'cancel' it), use "
-			"`Alert().dismiss()`. If the alert contains a text field, you can "
-			"use write(...) to set its value. Eg.: `write('hi there!')`."
-		)
+def handle_unexpected_alert(f):
+	def f_decorated(*args, **kwargs):
+		try:
+			return f(*args, **kwargs)
+		except UnexpectedAlertPresentException:
+			raise UnexpectedAlertPresentException(
+				"This command is not supported when an alert is present. To "
+				"accept the alert (this usually corresponds to clicking 'OK') "
+				"use `Alert().accept()`. To dismiss the alert (ie. 'cancel' "
+				"it), use `Alert().dismiss()`. If the alert contains a text "
+				"field, you can use write(...) to set its value. "
+				"Eg.: `write('hi there!')`."
+			)
+	return f_decorated
 
 class APIImpl(object):
 	DRIVER_REQUIRED_MESSAGE = \
@@ -73,23 +80,29 @@ class APIImpl(object):
 	def __init__(self, resource_locator):
 		self.resource_locator = resource_locator
 		self.driver = None
-	def start_firefox_impl(self, url=None):
-		capabilities = {
-			"browserName": "firefox",
-			"version": "",
-			"platform": "ANY",
-			"javascriptEnabled": True,
-			"marionette": False,
-			"unexpectedAlertBehaviour": "ignore"
+	def start_firefox_impl(self, url=None, headless=False):
+		driver = self._locate_web_driver('geckodriver')
+		kwargs = {
+			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
-		try:
-			firefox = Firefox(capabilities=capabilities)
-		except WebDriverException:
-			raise WebDriverException(
-				'Could not start Firefox. Please note that Firefox versions '
-				'greater than 47.0.1 are currently not supported.'
-			)
+		if exists(driver):
+			self._ensure_driver_is_executable(driver)
+			kwargs['executable_path'] = driver
+		if headless:
+			options = Options()
+			options.headless = True
+			kwargs['options'] = options
+		firefox = Firefox(**kwargs)
+		atexit.register(self._kill_service, firefox.service)
 		return self._start(firefox, url)
+	def _ensure_driver_is_executable(self, driver_path):
+		if not access(driver_path, X_OK):
+			try:
+				make_executable(driver_path)
+			except:
+				raise RuntimeError(
+					"The driver located at %s is not executable." % driver_path
+				) from None
 	def start_chrome_impl(self, url=None, headless=False):
 		chrome_driver = self._start_chrome_driver(headless)
 		return self._start(chrome_driver, url)
@@ -101,17 +114,8 @@ class APIImpl(object):
 		return result
 	def _get_chrome_options(self, headless):
 		result = ChromeOptions()
-		# ChromeDriver uses the flag --ignore-certificate-errors, which as of
-		# Chrome 36 has been added to the "bad flags" list. This results in the
-		# following warning being shown in later versions of the browser:
-		#    You are using an unsupported command-line flag:
-		#     --ignore-certificate-errors. Stability and security will suffer.
-		# Adding the command-line flag --test-type suppresses this warning while
-		# supposedly not affecting the browser in any other noticeable way.
-		# (Source: http://stackoverflow.com/a/23816922/751938)
-		result.add_argument('--test-type')
-		# Disable alert / warning "Disable Developer Extensions":
-		result.add_argument('--disable-extensions')
+		# Prevent Chrome's debug logs from appearing in our console window:
+		result.add_experimental_option('excludeSwitches', ['enable-logging'])
 		if headless:
 			result.add_argument('--headless')
 		return result
@@ -119,31 +123,14 @@ class APIImpl(object):
 		result = {
 			'chrome_options': chrome_options
 		}
-		driver = self._get_chrome_driver_path()
+		driver = self._locate_web_driver('chromedriver')
 		if exists(driver):
-			if not access(driver, X_OK):
-				try:
-					make_executable(driver)
-				except:
-					raise RuntimeError(
-						"The Chrome driver located at %s is not executable." %
-						driver
-					)
-			if is_windows():
-				result['service_args'] = ['--chromedriver-path=%s' % driver]
-				driver = self._locate_web_driver('silent-chromedriver.exe')
+			self._ensure_driver_is_executable(driver)
 			result['executable_path'] = driver
 		return result
-	def _get_chrome_driver_path(self):
-		if is_windows():
-			driver_name = "chromedriver.exe"
-		elif is_linux():
-			driver_name = "chromedriver" + ("_x64" if is_64_bit() else "")
-		else:
-			assert is_osx()
-			driver_name = "chromedriver"
-		return self._locate_web_driver(driver_name)
 	def _locate_web_driver(self, driver_name):
+		if is_windows():
+			driver_name += '.exe'
 		return self.resource_locator.locate("webdrivers", driver_name)
 	def _kill_service(self, service):
 		if service and hasattr(service, 'process') and service.process:
@@ -153,22 +140,14 @@ class APIImpl(object):
 				if e.errno not in (NO_SUCH_PROCESS, ACCESS_DENIED):
 					raise
 	def start_ie_impl(self, url=None):
-		ie_driver_path = self._locate_web_driver("IEDriverServer.exe")
+		ie_driver_path = self._locate_web_driver("IEDriverServer")
 		capabilities = DesiredCapabilities.INTERNETEXPLORER.copy()
 		capabilities["ignoreZoomSetting"] = True
 		kwargs = {
 			'capabilities': capabilities
 		}
 		if exists(ie_driver_path):
-			getLogger(__name__).info(
-				"Using IE driver located at %s.", ie_driver_path
-			)
 			kwargs['executable_path'] = ie_driver_path
-		else:
-			getLogger(__name__).warn(
-				"Could not find IE driver at expected location %s.",
-				ie_driver_path
-			)
 		try:
 			ie_browser = Ie(**kwargs)
 		except WebDriverException as e:
@@ -211,7 +190,7 @@ class APIImpl(object):
 		)
 	def _write_no_alert(self, text, into=None):
 		if into:
-			if isinstance(into, basestring):
+			if isinstance(into, str):
 				into = TextFieldImpl(self.require_driver(), into)
 			def _write(elt):
 				if hasattr(elt, 'clear') and callable(elt.clear):
@@ -229,37 +208,9 @@ class APIImpl(object):
 			)
 		into._write(text)
 	def _handle_alerts(self, no_alert, with_alert, *args, **kwargs):
-		# Selenium's check whether an alert is present takes 2(!) seconds in
-		# Firefox - see
-		# https://code.google.com/p/selenium/issues/detail?id=2438.
-		# We do not want to incur this overhead so if we're in Firefox, we try
-		# our luck with the normal implementation ('no_alert') and trust the
-		# UnexpectedAlertPresentException to tell us when an alert is present.
-		# The reason we don't do it like this for all browsers is that by
-		# default, occurring exceptions dismiss open alert dialogs in Selenium
-		# (Desired-Capability 'unexpectedAlertBehaviour'). So, if we just
-		# 'tried' no_alert and an alert were in fact present, then this alert
-		# would unintentionally be closed. To prevent this from happening in
-		# Firefox, we require unexpectedAlertBehaviour = 'ignore', but with the
-		# present implementation this requirement is at least confined to
-		# Firefox.
 		driver = self.require_driver()
-		if driver.is_firefox() or not AlertImpl(driver).exists():
-			try:
-				return no_alert(*args, **kwargs)
-			except UnexpectedAlertPresentException:
-				if driver.is_firefox() and not AlertImpl(driver).exists():
-					raise RuntimeError(
-						"An alert dialog was open but was closed by an "
-						"expected exception. This normally happens when you "
-						"called set_driver(...) with a Firefox driver you "
-						"instantiated yourself without first setting "
-						"selenium.webdriver.common.desired_capabilities."
-						"DesiredCapabilities."
-						"FIREFOX['unexpectedAlertBehaviour'] to 'ignore'. If "
-						"this is not the case, please file a bug report at "
-						"http://heliumhq.com."
-					)
+		if not AlertImpl(driver).exists():
+			return no_alert(*args, **kwargs)
 		return with_alert(*args, **kwargs)
 	@might_spawn_window
 	@handle_unexpected_alert
@@ -325,7 +276,7 @@ class APIImpl(object):
 	def _unwrap_clickable_element(self, elt):
 		from helium.api import HTMLElement, Point
 		offset = None
-		if isinstance(elt, basestring):
+		if isinstance(elt, str):
 			elt = ClickableText(self.require_driver(), elt)
 		elif isinstance(elt, HTMLElement):
 			elt = elt._impl
@@ -375,7 +326,7 @@ class APIImpl(object):
 	@handle_unexpected_alert
 	def select_impl(self, combo_box, value):
 		from helium.api import ComboBox
-		if isinstance(combo_box, basestring):
+		if isinstance(combo_box, str):
 			combo_box = ComboBoxImpl(self.require_driver(), combo_box)
 		elif isinstance(combo_box, ComboBox):
 			combo_box = combo_box._impl
@@ -414,7 +365,7 @@ class APIImpl(object):
 		driver = self.require_driver()
 		if to is None:
 			to = FileInput(driver)
-		elif isinstance(to, basestring):
+		elif isinstance(to, str):
 			to = FileInput(driver, to)
 		elif isinstance(to, Point):
 			to, _ = self._point_to_element_and_offset(to)
@@ -430,7 +381,7 @@ class APIImpl(object):
 		self._refresh_no_alert()
 	def wait_until_impl(self, condition_fn, timeout_secs=10, interval_secs=0.5):
 		if ismethod(condition_fn):
-			is_bound = condition_fn.im_self is not None
+			is_bound = condition_fn.__self__ is not None
 			args_spec = getargspec(condition_fn).args
 			unfilled_args = len(args_spec) - (1 if is_bound else 0)
 		else:
@@ -449,7 +400,7 @@ class APIImpl(object):
 	def switch_to_impl(self, window):
 		driver = self.require_driver()
 		from helium.api import Window
-		if isinstance(window, basestring):
+		if isinstance(window, str):
 			window = WindowImpl(driver, window)
 		elif isinstance(window, Window):
 			window = window._impl
@@ -461,7 +412,7 @@ class APIImpl(object):
 	def highlight_impl(self, element):
 		driver = self.require_driver()
 		from helium.api import HTMLElement, Text
-		if isinstance(element, basestring):
+		if isinstance(element, str):
 			element = Text(element)
 		if isinstance(element, HTMLElement):
 			element = element._impl
@@ -653,7 +604,7 @@ class DragAndDropFile(object):
 			"	types: types" \
 			"};" \
 			"arguments[2].dispatchEvent(event);"
-		if isinstance(to, basestring):
+		if isinstance(to, str):
 			script = script.replace('arguments[2]', to)
 			args = self.file_input_element, event_name,
 		else:
@@ -758,11 +709,7 @@ class GUIElementImpl(object):
 			msg = exception.msg
 			if 'Element is not clickable at point' in msg \
 				and 'Other element would receive the click' in msg:
-				getLogger(__name__).info(
-					"Ignoring exception %r while trying to click element. "
-					"It could be that the element has moved.", msg,
-					exc_info=True
-				)
+				# This can happen when the element has moved.
 				return True
 		return False
 
@@ -778,7 +725,7 @@ class HTMLElementImpl(GUIElementImpl):
 		self.to_left_of = self._unwrap_element(to_left_of)
 		self.matches = PREFIX_IGNORE_CASE()
 	def _unwrap_element(self, element):
-		if isinstance(element, basestring):
+		if isinstance(element, str):
 			return TextImpl(self._driver, element)
 		from helium.api import HTMLElement
 		if isinstance(element, HTMLElement):
@@ -829,25 +776,25 @@ class HTMLElementImpl(GUIElementImpl):
 	def _get_search_regions_in_curr_frame(self):
 		result = []
 		if self.below:
-			result.append(map(
-				lambda elt: elt.location.is_above,
-				self.below.find_all_in_curr_frame()
-			))
+			result.append([
+				elt.location.is_above
+				for elt in self.below.find_all_in_curr_frame()
+			])
 		if self.to_right_of:
-			result.append(map(
-				lambda elt: elt.location.is_to_left_of,
-				self.to_right_of.find_all_in_curr_frame()
-			))
+			result.append([
+				elt.location.is_to_left_of
+				for elt in self.to_right_of.find_all_in_curr_frame()
+			])
 		if self.above:
-			result.append(map(
-				lambda elt: elt.location.is_below,
-				self.above.find_all_in_curr_frame()
-			))
+			result.append([
+				elt.location.is_below
+				for elt in self.above.find_all_in_curr_frame()
+			])
 		if self.to_left_of:
-			result.append(map(
-				lambda elt: elt.location.is_to_right_of,
-				self.to_left_of.find_all_in_curr_frame()
-			))
+			result.append([
+				elt.location.is_to_right_of
+				for elt in self.to_left_of.find_all_in_curr_frame()
+			])
 		return result
 	def _should_yield(self, occurrence, search_regions):
 		return occurrence.is_displayed() and \
@@ -875,7 +822,7 @@ class SImpl(HTMLElementImpl):
 		super(SImpl, self).__init__(driver, **kwargs)
 		self.selector = selector
 	def find_all_in_curr_frame(self):
-		wrap = lambda web_elements: map(WebElementWrapper, web_elements)
+		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
 			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
 		if self.selector.startswith('//'):
@@ -885,11 +832,10 @@ class SImpl(HTMLElementImpl):
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		x_path = self.get_xpath()
-		getLogger(__name__).debug(
-			"Looking for HTML element using xpath: %s.", x_path
-		)
 		return self._sort_search_result(
-			map(WebElementWrapper, self._driver.find_elements_by_xpath(x_path))
+			list(map(
+				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+			))
 		)
 	def _sort_search_result(self, search_result):
 		keys_to_result_items = []
@@ -903,7 +849,7 @@ class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 		sort_key = lambda tpl: tpl[0]
 		keys_to_result_items.sort(key=sort_key)
 		result_item = lambda tpl: tpl[1]
-		return map(result_item, keys_to_result_items)
+		return list(map(result_item, keys_to_result_items))
 	def get_xpath(self):
 		raise NotImplementedError()
 	def get_sort_index(self, web_element):
@@ -1030,9 +976,9 @@ class LabelledElement(HTMLElementImpl):
 	def _find_elts(self, xpath=None):
 		if xpath is None:
 			xpath = self.get_xpath()
-		return map(
+		return list(map(
 			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
-		)
+		))
 	def _find_elts_by_free_text(self):
 		elt_types = [
 			xpath.strip().lstrip('/') for xpath in self.get_xpath().split('|')
@@ -1060,7 +1006,7 @@ class LabelledElement(HTMLElementImpl):
 		labels_to_elts = self._get_related_elts(all_elts, labels)
 		labels_to_elts = self._ensure_at_most_one_label_per_elt(labels_to_elts)
 		self._retain_closest(labels_to_elts)
-		for elts_for_label in labels_to_elts.values():
+		for elts_for_label in list(labels_to_elts.values()):
 			assert len(elts_for_label) <= 1
 			if elts_for_label:
 				yield next(iter(elts_for_label))
@@ -1096,7 +1042,7 @@ class LabelledElement(HTMLElementImpl):
 		self._retain_closest(elts_to_labels)
 		return inverse(elts_to_labels)
 	def _retain_closest(self, pivots_to_elts):
-		for pivot, elts in pivots_to_elts.items():
+		for pivot, elts in list(pivots_to_elts.items()):
 			if elts:
 				# Would like to use a set literal {...} here, but this is not
 				# supported in Python 2.6. Thus we need to use set([...]).
@@ -1333,8 +1279,8 @@ class AlertImpl(GUIElementImpl):
 		super(AlertImpl, self).__init__(driver)
 		self.search_text = search_text
 	def find_all_occurrences(self):
-		result = self._driver.switch_to.alert
 		try:
+			result = self._driver.switch_to.alert
 			text = result.text
 			if self.search_text is None or text.startswith(self.search_text):
 				yield result
@@ -1355,10 +1301,6 @@ class AlertImpl(GUIElementImpl):
 					r"a\.document\.getElementsByTagName\([^\)]*\)\[0\] is "
 					r"undefined", msg
 			):
-				getLogger(__name__).warn(
-					"Got %r when trying to accept alert. Trying again after "
-					"0.25s.", e
-				)
 				sleep(0.25)
 				first_occurrence.accept()
 			else:

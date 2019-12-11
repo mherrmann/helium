@@ -8,34 +8,7 @@
 		<format>zip</format>
 	</formats>
 	<baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
-	<files>
-		<file>
-			<source>
-				${parentBasedir}/target/webdrivers/silent-chromedriver.exe
-			</source>
-			<outputDirectory>webdrivers</outputDirectory>
-		</file>
-		<file>
-			<source>${basedir}/src/main/resources/base/license.txt</source>
-			<outputDirectory>.</outputDirectory>
-			<filtered>true</filtered>
-		</file>
-	</files>
 	<fileSets>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/base</directory>
-			<excludes>
-				<exclude>license.txt</exclude>
-			</excludes>
-			<outputDirectory>.</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/win</directory>
-			<includes>
-				<include>**</include>
-			</includes>
-			<outputDirectory>.</outputDirectory>
-		</fileSet>
 		<fileSet>
 			<directory>${parentBasedir}/src/main/resources/win</directory>
 			<includes>
@@ -43,14 +16,6 @@
 			</includes>
 			<outputDirectory>.</outputDirectory>
 			<fileMode>0755</fileMode>
-		</fileSet>
-        <fileSet>
-            <directory>${project.build.directory}/dist-base</directory>
-            <outputDirectory>.</outputDirectory>
-        </fileSet>
-		<fileSet>
-			<directory>${project.build.directory}/dist-win</directory>
-			<outputDirectory>.</outputDirectory>
 		</fileSet>
 	</fileSets>
 	<dependencySets>

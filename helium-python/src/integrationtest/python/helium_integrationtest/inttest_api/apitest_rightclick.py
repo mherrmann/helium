@@ -7,13 +7,13 @@ class RightclickIT(BrowserAT):
 		return 'inttest_rightclick.html'
 	def test_simple_rightclick(self):
 		rightclick("Perform a normal rightclick here.")
-		self.assertEquals(
+		self.assertEqual(
 			"Normal rightclick performed.", self.read_result_from_browser()
 		)
 	def test_rightclick_select_normal_item(self):
 		rightclick("Rightclick here for context menu.")
 		click("Normal item")
-		self.assertEquals(
+		self.assertEqual(
 			"Normal item selected.", self.read_result_from_browser()
 		)
 	@skip("This test is too unstable.")
@@ -21,6 +21,6 @@ class RightclickIT(BrowserAT):
 		rightclick("Rightclick here for context menu.")
 		hover("Item with sub items")
 		click("Sub item 1")
-		self.assertEquals(
+		self.assertEqual(
 			"Sub item 1 selected.", self.read_result_from_browser()
 		)
