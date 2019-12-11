@@ -547,53 +547,6 @@
 							<goal>copy-resources</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>copy-systest-config</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.testOutputDirectory}
-							</outputDirectory>
-							<resources>
-								<resource>
-									<directory>
-										${parentBasedir}/src/systemtest/resources
-									</directory>
-									<includes>
-										<include>license.key</include>
-									</includes>
-									<filtering>false</filtering>
-									<targetPath>heliumlib/helium/data</targetPath>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-license-key</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${user.home}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>
-										${parentBasedir}/src/systemtest/resources
-									</directory>
-									<includes>
-										<include>license.key</include>
-									</includes>
-									<filtering>false</filtering>
-									<targetPath>.helium</targetPath>
-								</resource>
-							</resources>
-							<overwrite>true</overwrite>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>
