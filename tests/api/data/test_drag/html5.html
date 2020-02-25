@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../js/util.js"></script>
+	<script type="text/javascript">
+		function allowDrop(ev) {
+			ev.preventDefault();
+		}
+		function drag(ev) {
+			ev.dataTransfer.setData("Text", ev.target.id);
+		}
+		function drop(ev) {
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData("Text");
+			ev.target.appendChild(document.getElementById(data));
+			if (ev.target.id == 'target') {
+				setResult('Success!');
+			}
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="../default.css">
+	<link rel="stylesheet" type="text/css" href="test_drag.css">
+</head>
+<body>
+	<div class="dropTarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+		<p id="draggable" draggable="true" ondragstart="drag(event)">
+			Drag me.
+		</p>
+	</div>
+	<div id="target"
+		 class="dropTarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+	</div>
+	<p id="result"></p>
+</body>
+</html>

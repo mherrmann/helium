@@ -1,6 +1,7 @@
-*.log
-target/
-.metadata/
 .idea/
 .DS_Store
 venv/
+*.py[cod]
+.eggs/
+*.egg-info/
+dist/

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test_auto_wait</title>
+	<script type="text/javascript">
+		function createSecondButton() {
+			var secondButton = document.createElement("button");
+			secondButton.innerHTML = "Now click me!";
+			secondButton.onclick = createResultPara;
+			appendToBody(secondButton);
+		}
+		function createResultPara() {
+			var resultPara = document.createElement("p");
+			resultPara.innerHTML = "Success!";
+			resultPara.id = "result";
+			appendToBody(resultPara);
+		}
+		function appendToBody(element) {
+			var body = document.getElementsByTagName('body')[0];
+			body.appendChild(element);
+		}
+	</script>
+</head>
+<body>
+	<button onclick="setTimeout(createSecondButton, 5000);">Click me!</button>
+</body>
+</html>

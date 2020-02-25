@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="../js/util.js"></script>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#draggable').draggable();
+			$('.dropTarget').droppable({
+				drop: function(ev, ui){
+					if (ev.target.id == 'target') {
+						setResult('Success!');
+					}
+				}
+			});
+		});
+	</script>
+	<link rel="stylesheet" type="text/css" href="../default.css">
+	<link rel="stylesheet" type="text/css" href="test_drag.css">
+</head>
+<body>
+	<div class="dropTarget">
+		<p id="draggable">Drag me.</p>
+	</div>
+	<div id="target" class="dropTarget"></div>
+	<p id="result"></p>
+</body>
+</html>
