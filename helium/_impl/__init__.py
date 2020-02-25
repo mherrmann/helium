@@ -4,11 +4,11 @@ from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
 from helium._impl.util.dictionary import inverse
 from helium._impl.util.os_ import make_executable
-from helium._impl.util.system import is_windows
+from helium._impl.util.system import is_windows, get_canonical_os_name
 from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
 from os import access, X_OK
-from os.path import exists
+from os.path import exists, join, dirname
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
@@ -74,8 +74,7 @@ class APIImpl:
 		" * start_chrome()\n" \
 		" * start_firefox()\n" \
 		" * set_driver(...)"
-	def __init__(self, resource_locator):
-		self.resource_locator = resource_locator
+	def __init__(self):
 		self.driver = None
 	def start_firefox_impl(self, url=None, headless=False):
 		driver = self._locate_web_driver('geckodriver')
@@ -128,7 +127,10 @@ class APIImpl:
 	def _locate_web_driver(self, driver_name):
 		if is_windows():
 			driver_name += '.exe'
-		return self.resource_locator.locate(driver_name)
+		return join(
+			dirname(__file__), 'webdrivers', get_canonical_os_name(),
+			driver_name
+		)
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None
