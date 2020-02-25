@@ -12,8 +12,8 @@ Helium functions in your Python scripts you can import them from the
 from collections import namedtuple, OrderedDict
 from copy import copy
 from helium._impl.application_context import get_application_context
-from helium.util.html import get_easily_readable_snippet
-from helium.util.inspect_ import repr_args
+from helium._impl.util.html import get_easily_readable_snippet
+from helium._impl.util.inspect_ import repr_args
 from selenium.webdriver.common.keys import Keys
 
 import helium._impl

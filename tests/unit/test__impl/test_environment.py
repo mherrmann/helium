@@ -1,4 +1,4 @@
-from helium.environment import ResourceLocator
+from helium._impl.environment import ResourceLocator
 from os.path import dirname, exists, basename
 from unittest import TestCase
 

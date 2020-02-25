@@ -1,11 +1,11 @@
 from copy import copy
 from helium._impl.match_type import PREFIX_IGNORE_CASE
-from helium.selenium_wrappers import WebElementWrapper, WebDriverWrapper, \
-	FrameIterator, FramesChangedWhileIterating
-from helium.util.dictionary import inverse
-from helium.util.os_ import make_executable
-from helium.util.system import is_windows
-from helium.util.xpath import lower, predicate, predicate_or
+from helium._impl.selenium_wrappers import WebElementWrapper, \
+	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
+from helium._impl.util.dictionary import inverse
+from helium._impl.util.os_ import make_executable
+from helium._impl.util.system import is_windows
+from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
 from os import access, X_OK
 from os.path import exists

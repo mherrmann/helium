@@ -1,5 +1,5 @@
 from helium import start_chrome
-from helium.util.system import is_windows
+from helium._impl.util.system import is_windows
 from tests.api import test_browser_name
 from tests.api.test_kill_service_at_exit import KillServiceAtExitAT
 from tests.api.util import InSubProcess

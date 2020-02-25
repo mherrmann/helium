@@ -1,4 +1,4 @@
-from helium.util.xpath import lower, replace_nbsp
+from helium._impl.util.xpath import lower, replace_nbsp
 
 class MatchType:
 	def xpath(self, value, text):

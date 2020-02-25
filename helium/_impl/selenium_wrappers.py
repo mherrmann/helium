@@ -1,4 +1,4 @@
-from helium.util.geom import Rectangle
+from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
 	NoSuchFrameException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains

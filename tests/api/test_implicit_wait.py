@@ -1,5 +1,5 @@
 from helium import click, Config
-from helium.util.lang import TemporaryAttrValue
+from helium._impl.util.lang import TemporaryAttrValue
 from tests.api import BrowserAT
 from time import time
 

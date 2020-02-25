@@ -1,6 +1,6 @@
 from helium import hover, Config
-from helium.util.lang import TemporaryAttrValue
-from helium.util.system import is_windows
+from helium._impl.util.lang import TemporaryAttrValue
+from helium._impl.util.system import is_windows
 from tests.api import BrowserAT
 
 class HoverTest(BrowserAT):

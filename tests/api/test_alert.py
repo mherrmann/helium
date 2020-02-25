@@ -1,7 +1,7 @@
 from helium import click, Alert, press, ENTER, write, TextField, Config, \
 	wait_until
-from helium.util.lang import TemporaryAttrValue
-from helium.util.system import is_mac
+from helium._impl.util.lang import TemporaryAttrValue
+from helium._impl.util.system import is_mac
 from tests.api import BrowserAT, test_browser_name
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from time import time, sleep
