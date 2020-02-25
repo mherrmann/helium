@@ -9,7 +9,7 @@ import sys
 def is_windows():
 	return sys.platform in ('win32', 'cygwin')
 
-def is_osx():
+def is_mac():
 	return sys.platform == 'darwin'
 
 def is_linux():
@@ -18,7 +18,7 @@ def is_linux():
 def get_canonical_os_name():
 	if is_windows():
 		return 'win'
-	elif is_osx():
+	elif is_mac():
 		return 'macosx'
 	elif is_linux():
 		return 'linux'
@@ -31,7 +31,7 @@ def is_32_bit():
 	"""
 	if is_windows():
 		return 'PROGRAMFILES(X86)' not in os.environ
-	assert is_linux() or is_osx()
+	assert is_linux() or is_mac()
 	return _uname_m() in ('i386', 'i686')
 
 def _uname_m():
@@ -40,5 +40,5 @@ def _uname_m():
 def is_64_bit():
 	if is_windows():
 		return 'PROGRAMFILES(X86)' in os.environ
-	assert is_linux() or is_osx()
+	assert is_linux() or is_mac()
 	return _uname_m() in ('x86_64', 'ia64', 'amd64')

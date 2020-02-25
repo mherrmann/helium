@@ -1,7 +1,7 @@
 from helium import click, Alert, press, ENTER, write, TextField, Config, \
 	wait_until
 from helium.util.lang import TemporaryAttrValue
-from helium.util.system import is_osx
+from helium.util.system import is_mac
 from tests.api import BrowserAT, test_browser_name
 from selenium.common.exceptions import UnexpectedAlertPresentException
 from time import time, sleep
@@ -51,7 +51,7 @@ class AlertAT():
 		Alert().accept()
 		self._expect_result(self.get_expected_alert_accepted_result())
 	@skipIf(
-		is_osx() and test_browser_name() == 'chrome',
+		is_mac() and test_browser_name() == 'chrome',
 		"Chrome driver on OSX does not support dismissing JS alerts. " +
 		"See: https://code.google.com/p/chromedriver/issues/detail?id=764"
 	)
