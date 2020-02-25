@@ -1,7 +1,5 @@
 # Helium
 
-![Helium Demo](demo.gif)
-
 Helium is a Python library for automating web browsers. For example:
 
 ```python
@@ -15,6 +13,8 @@ go_to('github.com/mherrmann/helium')
 click('Star')
 kill_browser()
 ```
+
+![Helium Demo](demo.gif)
 
 Under the hood, Helium forwards each call to
 [Selenium](https://www.selenium.dev/). The difference is that Helium's API is
