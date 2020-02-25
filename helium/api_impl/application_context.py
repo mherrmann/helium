@@ -23,6 +23,6 @@ class ApplicationContext:
 	def ResourceLocator(self):
 		if self.resource_locator is None:
 			helium_pkg_dir = dirname(helium.__file__)
-			data_dir = join(helium_pkg_dir, 'data', get_canonical_os_name())
+			data_dir = join(helium_pkg_dir, 'webdrivers', get_canonical_os_name())
 			self.resource_locator = ResourceLocator(data_dir)
 		return self.resource_locator
