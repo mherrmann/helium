@@ -11,7 +11,7 @@ Helium functions in your Python scripts you can import them from the
 """
 from collections import namedtuple, OrderedDict
 from copy import copy
-from helium._impl.application_context import get_application_context
+from helium._impl import APIImpl
 from helium._impl.util.html import get_easily_readable_snippet
 from helium._impl.util.inspect_ import repr_args
 from selenium.webdriver.common.keys import Keys
@@ -1104,4 +1104,9 @@ def highlight(element):
 	_get_api_impl().highlight_impl(element)
 
 def _get_api_impl():
-	return get_application_context().APIImpl()
+	global _API_IMPL
+	if _API_IMPL is None:
+		_API_IMPL = APIImpl()
+	return _API_IMPL
+
+_API_IMPL = None
