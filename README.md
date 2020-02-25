@@ -59,3 +59,87 @@ traditionally painful in Selenium:
    ```python
    wait_until(Button('Download').exists)
    ```
+
+## Getting started
+
+All you need to get started with Helium is Python 3 and Chrome or Firefox.
+
+If you already know Python, then the following command should get you started:
+
+```bash
+pip install helium
+```
+
+Otherwise - hi! I would recommend you create a virtual environment in the
+current directory. Any libraries you download (such as Helium) will be placed
+there. Enter the following into a command prompt:
+
+```bash
+python3 -m venv venv
+```
+
+This creates a virtual environment in the `venv` directory. To activate it:
+
+```bash
+# On Mac/Linux:
+source venv/bin/activate
+# On Windows:
+call venv\scripts\activate.bat
+```
+
+Then, install Helium using `pip`:
+
+```bash
+python -m pip install helium
+```
+
+Now enter `python` into the command prompt and (for instance) the commands at
+the top of this page (`from helium import * ...`).
+
+## Status of this project
+
+I have too little spare time to maintain this project for free. If you'd like
+my help, please go to my [web site](http://herrmann.io) to ask about my
+consulting rates. Otherwise, unless it is very easy for me, I will usually not
+respond to emails or issues on the issue tracker. I will however accept and
+merge PRs. So if there's some functionality you need in Helium for your own
+projects, do share it with others by creating a Pull Request. For instructions,
+please see below.
+
+
+## Contributing
+
+Pull Requests are very welcome. Please follow the same coding conventions as the
+rest of the code, in particular the use of tabs over spaces.
+
+Before you submit a PR, ensure that the tests still work:
+
+```bash
+python setup.py test
+```
+
+This runs the tests against Chrome. To run them against Firefox, set the
+environment variable `TEST_BROWSER` to `firefox`. Eg. on Mac/Linux:
+
+```bash
+TEST_BROWSER=firefox python setup.py test
+```
+
+On Windows:
+
+```bash
+set TEST_BROWSER=firefox
+python setup.py test
+```
+
+## History
+
+I (Michael Herrmann) originally developed Helium in 2014 for a Polish IT startup
+called BugFree software. We shut down the company at the end of 2019 and I felt
+it would be a shame if Helium simply disappeared from the face of the earth. So
+I invested some time to modernize it and bring it into a state suitable for open
+source. Helium used to be available for both Java and Python. But I because I
+now only use it from Python, I didn't have time to bring the Java implementation
+up to speed as well. Similarly for Internet Explorer: Helium used to support it,
+but since I have no need for it, I removed the (probably broken) old
+implementation.
