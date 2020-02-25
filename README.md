@@ -1,5 +1,7 @@
 # Helium
 
+![Helium Demo](demo.gif)
+
 Helium is a Python library for automating web browsers. For example:
 
 ```python
