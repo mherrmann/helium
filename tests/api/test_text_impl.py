@@ -1,4 +1,4 @@
-from helium.api_impl import TextImpl
+from helium._impl import TextImpl
 from helium.selenium_wrappers import WebDriverWrapper
 from tests.api import BrowserAT
 

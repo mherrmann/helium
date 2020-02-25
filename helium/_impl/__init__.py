@@ -1,5 +1,5 @@
 from copy import copy
-from helium.api_impl.match_type import PREFIX_IGNORE_CASE
+from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium.selenium_wrappers import WebElementWrapper, WebDriverWrapper, \
 	FrameIterator, FramesChangedWhileIterating
 from helium.util.dictionary import inverse

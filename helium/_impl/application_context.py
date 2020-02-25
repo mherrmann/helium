@@ -1,4 +1,4 @@
-from helium.api_impl import APIImpl
+from helium._impl import APIImpl
 from helium.environment import ResourceLocator
 from helium.util.system import get_canonical_os_name
 from os.path import join, dirname

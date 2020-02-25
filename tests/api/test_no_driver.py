@@ -1,5 +1,5 @@
 from helium import *
-from helium.api_impl import APIImpl
+from helium._impl import APIImpl
 from unittest import TestCase
 
 class NoDriverTest(TestCase):

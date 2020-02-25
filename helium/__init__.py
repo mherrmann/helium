@@ -11,12 +11,12 @@ Helium functions in your Python scripts you can import them from the
 """
 from collections import namedtuple, OrderedDict
 from copy import copy
-from helium.api_impl.application_context import get_application_context
+from helium._impl.application_context import get_application_context
 from helium.util.html import get_easily_readable_snippet
 from helium.util.inspect_ import repr_args
 from selenium.webdriver.common.keys import Keys
 
-import helium.api_impl
+import helium._impl
 
 __all__ = [
 	# Actions:
@@ -486,7 +486,7 @@ class GUIElement:
 	def _impl(self):
 		if self._impl_cached is None:
 			impl_class = \
-				getattr(helium.api_impl, self.__class__.__name__ + 'Impl')
+				getattr(helium._impl, self.__class__.__name__ + 'Impl')
 			self._impl_cached = impl_class(
 				self._driver, *self._args, **self._kwargs
 			)
