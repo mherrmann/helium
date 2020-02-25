@@ -14,7 +14,7 @@ setup(
 		'selenium==3.141.0'
 	],
 	package_data = {
-		'helium': ['webdrivers/**/*']
+		'helium._impl': ['webdrivers/**/*']
 	},
 	zip_safe = False,
 	classifiers=[
