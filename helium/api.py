@@ -129,7 +129,7 @@ def write(text, into=None):
 
 def press(key):
 	"""
-	:param \key: Key or combination of keys to be pressed.
+	:param key: Key or combination of keys to be pressed.
 
 	Presses the given key or key combination. To press a normal letter key such
 	as 'a' simply call `press` for it::
