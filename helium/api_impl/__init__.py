@@ -1,5 +1,4 @@
 from copy import copy
-from errno import ESRCH as NO_SUCH_PROCESS, EACCES as ACCESS_DENIED
 from helium.api_impl.match_type import PREFIX_IGNORE_CASE
 from helium.selenium_wrappers import WebElementWrapper, WebDriverWrapper, \
 	FrameIterator, FramesChangedWhileIterating
