@@ -96,16 +96,23 @@ python -m pip install helium
 Now enter `python` into the command prompt and (for instance) the commands at
 the top of this page (`from helium import * ...`).
 
+## API Documentation
+
+If you use an IDE such as PyCharm, you should get auto-completion and
+documentation for Helium's various functions. Otherwise, please look at
+[this Python file](helium/__init__.py). It lists all of Helium's public
+functions. I have not yet had time to bring this into a more readable state,
+sorry.
+
 ## Status of this project
 
 I have too little spare time to maintain this project for free. If you'd like
 my help, please go to my [web site](http://herrmann.io) to ask about my
 consulting rates. Otherwise, unless it is very easy for me, I will usually not
 respond to emails or issues on the issue tracker. I will however accept and
-merge PRs. So if there's some functionality you need in Helium for your own
-projects, do share it with others by creating a Pull Request. For instructions,
-please see below.
-
+merge PRs. So if you add some functionality to Helium that may be useful for
+others, do share it with us by creating a Pull Request. For instructions, please
+see below.
 
 ## Contributing
 
@@ -132,14 +139,18 @@ set TEST_BROWSER=firefox
 python setup.py test
 ```
 
+If you do add new functionality, you should also add tests for it. Please see
+the [`tests/`](tests) directory for what this might look like.
+
 ## History
 
-I (Michael Herrmann) originally developed Helium in 2014 for a Polish IT startup
+I (Michael Herrmann) originally developed Helium in 2013 for a Polish IT startup
 called BugFree software. We shut down the company at the end of 2019 and I felt
 it would be a shame if Helium simply disappeared from the face of the earth. So
 I invested some time to modernize it and bring it into a state suitable for open
-source. Helium used to be available for both Java and Python. But I because I
-now only use it from Python, I didn't have time to bring the Java implementation
-up to speed as well. Similarly for Internet Explorer: Helium used to support it,
-but since I have no need for it, I removed the (probably broken) old
-implementation.
+source.
+
+Helium used to be available for both Java and Python. But I because I now only
+use it from Python, I didn't have time to bring the Java implementation up to
+speed as well. Similarly for Internet Explorer: Helium used to support it, but
+since I have no need for it, I removed the (probably broken) old implementation.
