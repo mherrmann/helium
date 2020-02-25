@@ -1,5 +1,5 @@
-from helium.api import *
-from helium.api import HTMLElement
+from helium import *
+from helium import HTMLElement
 from tests.api import BrowserAT
 
 import re

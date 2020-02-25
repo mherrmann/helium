@@ -1,4 +1,4 @@
-from helium.api import attach_file, drag_file, TextField, Text
+from helium import attach_file, drag_file, TextField, Text
 from tests.api import BrowserAT
 from tests.api.util import get_data_file
 

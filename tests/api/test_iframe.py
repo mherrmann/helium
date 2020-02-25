@@ -1,4 +1,4 @@
-from helium.api import Text, get_driver
+from helium import Text, get_driver
 from tests.api import BrowserAT
 
 class IframeTest(BrowserAT):

@@ -1,10 +1,10 @@
-from helium.api import click, Point, Button, hover, rightclick, doubleclick
-from tests.api import BrowserAT, test_browser_name
+from helium import click, Point, Button, hover, rightclick, doubleclick
+from tests.api import BrowserAT
 from re import search
 
 class PointTest(BrowserAT):
 	"""
-	Tests helium.api.Point.
+	Tests helium.Point.
 
 	The tests allow for a coordinate difference between browsers of up to +/- 1
 	pixel. For instance: In Firefox, Button("Button 1").center is (39, 12), in

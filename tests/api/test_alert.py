@@ -1,4 +1,4 @@
-from helium.api import click, Alert, press, ENTER, write, TextField, Config, \
+from helium import click, Alert, press, ENTER, write, TextField, Config, \
 	wait_until
 from helium.util.lang import TemporaryAttrValue
 from helium.util.system import is_osx

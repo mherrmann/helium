@@ -1,4 +1,4 @@
-from helium.api import write, TextField
+from helium import write, TextField
 from tests.api import BrowserAT
 
 class WriteTest(BrowserAT):

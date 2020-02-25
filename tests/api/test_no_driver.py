@@ -1,4 +1,4 @@
-from helium.api import *
+from helium import *
 from helium.api_impl import APIImpl
 from unittest import TestCase
 

@@ -1,5 +1,5 @@
 from selenium.common.exceptions import StaleElementReferenceException
-from helium.api import find_all, Button, TextField, write
+from helium import find_all, Button, TextField, write
 from tests.api import BrowserAT
 
 class FindAllTest(BrowserAT):

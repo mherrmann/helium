@@ -1,4 +1,4 @@
-from helium.api import doubleclick
+from helium import doubleclick
 from tests.api import BrowserAT
 
 class DoubleclickTest(BrowserAT):

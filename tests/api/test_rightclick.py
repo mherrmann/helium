@@ -1,4 +1,4 @@
-from helium.api import click, hover, rightclick
+from helium import click, hover, rightclick
 from tests.api import BrowserAT
 
 class RightclickTest(BrowserAT):

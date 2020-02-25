@@ -157,7 +157,7 @@ class APIImpl:
 	@handle_unexpected_alert
 	def write_impl(self, text, into=None):
 		if into is not None:
-			from helium.api import GUIElement
+			from helium import GUIElement
 			if isinstance(into, GUIElement):
 				into = into._impl
 		self._handle_alerts(
@@ -249,7 +249,7 @@ class APIImpl:
 			action = lambda wew: action_without_offset(wew.unwrap())
 		self._manipulate(element, action)
 	def _unwrap_clickable_element(self, elt):
-		from helium.api import HTMLElement, Point
+		from helium import HTMLElement, Point
 		offset = None
 		if isinstance(elt, str):
 			elt = ClickableText(self.require_driver(), elt)
@@ -300,7 +300,7 @@ class APIImpl:
 	@might_spawn_window
 	@handle_unexpected_alert
 	def select_impl(self, combo_box, value):
-		from helium.api import ComboBox
+		from helium import ComboBox
 		if isinstance(combo_box, str):
 			combo_box = ComboBoxImpl(self.require_driver(), combo_box)
 		elif isinstance(combo_box, ComboBox):
@@ -336,7 +336,7 @@ class APIImpl:
 	@might_spawn_window
 	@handle_unexpected_alert
 	def attach_file_impl(self, file_path, to=None):
-		from helium.api import Point
+		from helium import Point
 		driver = self.require_driver()
 		if to is None:
 			to = FileInput(driver)
@@ -374,7 +374,7 @@ class APIImpl:
 	@handle_unexpected_alert
 	def switch_to_impl(self, window):
 		driver = self.require_driver()
-		from helium.api import Window
+		from helium import Window
 		if isinstance(window, str):
 			window = WindowImpl(driver, window)
 		elif isinstance(window, Window):
@@ -386,7 +386,7 @@ class APIImpl:
 	@handle_unexpected_alert
 	def highlight_impl(self, element):
 		driver = self.require_driver()
-		from helium.api import HTMLElement, Text
+		from helium import HTMLElement, Text
 		if isinstance(element, str):
 			element = Text(element)
 		if isinstance(element, HTMLElement):
@@ -653,7 +653,7 @@ class GUIElementImpl:
 		self.perform(lambda _: None)
 		# _perform_no_wait(...) below now sets _bound_occurrence.
 	def perform(self, action):
-		from helium.api import Config
+		from helium import Config
 		end_time = time() + Config.implicit_wait_secs
 		# Try to perform `action` at least once:
 		result = self._perform_no_wait(action)
@@ -702,7 +702,7 @@ class HTMLElementImpl(GUIElementImpl):
 	def _unwrap_element(self, element):
 		if isinstance(element, str):
 			return TextImpl(self._driver, element)
-		from helium.api import HTMLElement
+		from helium import HTMLElement
 		if isinstance(element, HTMLElement):
 			return element._impl
 		return element
@@ -720,7 +720,7 @@ class HTMLElementImpl(GUIElementImpl):
 		return self.first_occurrence.location.top
 	@property
 	def top_left(self):
-		from helium.api import Point
+		from helium import Point
 		return Point(self.x, self.y)
 	@property
 	def web_element(self):

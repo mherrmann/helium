@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from helium.api import Button, TextField, ComboBox, CheckBox, click, \
+from helium import Button, TextField, ComboBox, CheckBox, click, \
 	RadioButton, write, Text, find_all, Link, ListItem, Image, select, Config
 from tests.api import BrowserAT
 

@@ -1,4 +1,4 @@
-from helium.api import *
+from helium import *
 from tests.api import BrowserAT
 
 class TablesTest(BrowserAT):

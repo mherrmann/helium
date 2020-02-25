@@ -1,4 +1,4 @@
-from helium.api import Window, click, go_to, get_driver, wait_until
+from helium import Window, click, go_to, get_driver, wait_until
 from tests.api.util import get_data_file_url
 from tests.api import BrowserAT
 

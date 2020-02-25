@@ -1,4 +1,4 @@
-from helium.api import S
+from helium import S
 from tests.api import BrowserAT
 
 class STest(BrowserAT):

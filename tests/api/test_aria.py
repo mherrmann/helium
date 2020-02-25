@@ -1,4 +1,4 @@
-from helium.api import Button, TextField
+from helium import Button, TextField
 from tests.api import BrowserAT
 
 class AriaTest(BrowserAT):

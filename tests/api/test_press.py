@@ -1,4 +1,4 @@
-from helium.api import press, TextField, SHIFT
+from helium import press, TextField, SHIFT
 from tests.api import BrowserAT
 
 class PressTest(BrowserAT):

@@ -1,4 +1,4 @@
-from helium.api import highlight, Button, Text, Config
+from helium import highlight, Button, Text, Config
 from helium.util.lang import TemporaryAttrValue
 from tests.api import BrowserAT
 

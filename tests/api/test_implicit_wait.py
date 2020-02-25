@@ -1,4 +1,4 @@
-from helium.api import click, Config
+from helium import click, Config
 from helium.util.lang import TemporaryAttrValue
 from tests.api import BrowserAT
 from time import time

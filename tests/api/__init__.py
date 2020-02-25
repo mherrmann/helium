@@ -1,4 +1,4 @@
-from helium.api import start_chrome, start_firefox, go_to, set_driver, \
+from helium import start_chrome, start_firefox, go_to, set_driver, \
 	kill_browser
 from unittest import TestCase
 from tests.api.util import get_data_file_url

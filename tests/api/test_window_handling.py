@@ -1,4 +1,4 @@
-from helium.api import write, click, switch_to, TextField, Text, get_driver, \
+from helium import write, click, switch_to, TextField, Text, get_driver, \
 	Link, wait_until
 from tests.api import BrowserAT, test_browser_name
 from unittest import skipIf

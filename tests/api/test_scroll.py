@@ -1,4 +1,4 @@
-from helium.api import scroll_down, scroll_left, scroll_right, scroll_up
+from helium import scroll_down, scroll_left, scroll_right, scroll_up
 from tests.api import BrowserAT
 
 class ScrollTest(BrowserAT):

@@ -1,4 +1,4 @@
-from helium.api import click, wait_until, Text
+from helium import click, wait_until, Text
 from tests.api import BrowserAT
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By

@@ -1,4 +1,4 @@
-from helium.api import go_to
+from helium import go_to
 from tests.api import start_browser
 from tests.api.util import get_data_file_url
 from os import path
