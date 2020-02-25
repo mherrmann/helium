@@ -17,7 +17,7 @@ def is_linux():
 
 def get_canonical_os_name():
 	if is_windows():
-		return 'win'
+		return 'windows'
 	elif is_mac():
 		return 'mac'
 	elif is_linux():
