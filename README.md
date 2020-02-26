@@ -82,8 +82,8 @@ the top of this page (`from helium import *`, ...).
 
 ## Your first script
 
-I've compiled a [cheatsheet](doc/CheatSheet.md) that quickly teaches you most of
-what you need to know to be productive with Helium.
+I've compiled a [cheatsheet](doc/CheatSheet.md) that quickly teaches you all
+you need to know to be productive with Helium.
 
 ## API Documentation
 
