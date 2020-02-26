@@ -231,4 +231,4 @@ get_driver().save_screenshot(r'C:\screenshot.png')
 ```
 
 Note the leading `r`. This is required because the string contains a backslash
-`\\`.
+`\`.
