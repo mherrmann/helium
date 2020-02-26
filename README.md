@@ -21,7 +21,7 @@ are great for web automation. But they are too difficult to use:
  * Selenium does let you explicitly wait for certain conditions, such as an
    element to appear. However, its
    [API for doing so](https://selenium-python.readthedocs.io/waits.html#explicit-waits)
-   is way too complicated for such a simple and common task.
+   is way too complex for such a simple and common task.
  * You cannot interact with elements in nested iFrames unless you first
    instruct Selenium to "switch to" the respective iFrame. This makes working
    with iFrames in Selenium extremely (and unnecessarily) tedious.
