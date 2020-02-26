@@ -44,7 +44,7 @@ driver.execute_script("alert('Hi!');")
 
 So in other words, you don't lose anything by using Helium over Selenium alone.
 
-## Getting started
+## Installation
 
 To get started with Helium, you need Python 3 and Chrome or Firefox.
 
@@ -79,6 +79,11 @@ python -m pip install helium
 
 Now enter `python` into the command prompt and (for instance) the commands at
 the top of this page (`from helium import *`, ...).
+
+## Your first script
+
+I've compiled a [cheat sheet](Cheat Sheet.md) that quickly teaches you most of
+what you need to know to be productive with Helium.
 
 ## API Documentation
 
