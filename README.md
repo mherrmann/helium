@@ -22,8 +22,8 @@ are great for web automation. But they are too difficult to use:
    [API for doing so](https://selenium-python.readthedocs.io/waits.html#explicit-waits)
    is way too complicated for such a simple and common task.
  * You cannot interact with elements in nested iFrames unless you first
-   instruct Selenium to "switch to" the respective iFrame. This is extremely
-   tedious (and unnecessary).
+   instruct Selenium to "switch to" the respective iFrame. This makes working
+   with iFrames in Selenium extremely (and unnecessarily) tedious.
  * Similarly for popups and windows, Selenium often requires you to deal with
    arcane "window handles" to switch between windows.
 
