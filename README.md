@@ -147,10 +147,10 @@ the [`tests/`](tests) directory for what this might look like.
 ## History
 
 I (Michael Herrmann) originally developed Helium in 2013 for a Polish IT startup
-called BugFree software. We shut down the company at the end of 2019 and I felt
-it would be a shame if Helium simply disappeared from the face of the earth. So
-I invested some time to modernize it and bring it into a state suitable for open
-source.
+called [HeliumHQ](https://heliumhq.com/) / BugFree software. We shut down the
+company at the end of 2019 and I felt it would be a shame if Helium simply
+disappeared from the face of the earth. So I invested some time to modernize it
+and bring it into a state suitable for open source.
 
 Helium used to be available for both Java and Python. But I because I now only
 use it from Python, I didn't have time to bring the Java implementation up to
