@@ -1,31 +1,38 @@
-# Helium
-
-Helium is a Python library for automating web browsers. For example:
-
-```python
-from helium import *
-start_chrome('github.com') # or start_firefox()
-click('Sign in')
-write('mherrmann', into='Username')
-write('my password', into='Password')
-click('Sign in')
-go_to('github.com/mherrmann/helium')
-click('Star')
-kill_browser()
-```
+# Selenium-python, 50% easier.
 
 ![Helium Demo](demo.gif)
 
-Under the hood, Helium forwards each call to
-[Selenium](https://www.selenium.dev/). The difference is that Helium's API is
-much more high-level. In Selenium, you need to use HTML IDs, XPaths and CSS
-selectors to identify web page elements. Helium on the other hand lets you refer
-to elements by their user-visible labels. As a result, Helium scripts are 30-50%
-shorter than similar Selenium scripts. What's more, they are easier to read and
-more stable with respect to changes in the underlying web page.
+[Selenium's Python bindings](https://selenium-python.readthedocs.io/)
+are great for web automation. But they are also unnecessarily difficult to use:
+ 
+ * Selenium requires you to use HTML IDs, XPaths and CSS selectors to identify
+   web elements. These are hard to read and break easily when the web site
+   changes.
+ * You need to manually download and manage the respective WebDrivers. So if you
+   want to automate Chrome for instance, it's not enough to simply install
+   Selenium. You are also forced to download ChromeDriver and place it on your
+   `PATH`.
+ * Many Selenium scripts are unstable with respect to timing issues:
+   By default, if you try to click on an element with Selenium and that element
+   is not yet visible, your script fails. People try to fix this by adding
+   `sleep` statements to their code. But they too sometimes fail, and make the
+   code less readable.
+ * Selenium does let you explicitly wait for certain conditions, such as an
+   element to appear. However, its
+   [API for doing so](https://selenium-python.readthedocs.io/waits.html#explicit-waits)
+   is way too complicated for such a simple and common task.
+ * You cannot interact with elements in nested iFrames unless you first
+   instruct Selenium to "switch to" the respective iFrame. This is extremely
+   tedious (and unnecessary).
+ * Similarly for popups and windows, Selenium often requires you to deal with
+   arcane "window handles" to switch between windows.
 
-Because Helium is simply a wrapper around Selenium, you can freely mix the two
-libraries. For example:
+Helium wraps around Selenium to offer a more high-level API that solves all of
+the above problems. As a result, Helium scripts are typically 50% shorter,
+easier to read and more stable than corresponding Selenium scripts.
+
+At the same, because Helium is merely a _wrapper_ around Selenium, you can
+freely mix the two libraries. For example:
 
 ```python
 # A Helium function:
@@ -34,33 +41,7 @@ driver = start_chrome()
 driver.execute_script("alert('Hi!');")
 ```
 
-So in other words, you don't lose anything by using Helium over pure Selenium.
-
-In addition to its high-level API, Helium simplifies further tasks that are
-traditionally painful in Selenium:
-
- * **Web driver management:** Helium ships with its own copies of ChromeDriver
-   and geckodriver so you don't need to download and put them on your PATH.
- * **iFrames:** Unlike Selenium, Helium lets you interact with elements inside
-   nested iFrames, without having to first "switch to" the iFrame.
- * **Window management.** Helium notices when popups open or close and focuses /
-   defocuses them like a user would. You can also easily switch to a window by
-   (parts of) its title. No more having to iterate over Selenium window handles.
- * **Implicit waits.** By default, if you try click on an element with Selenium
-   and that element is not yet present on the page, your script fails. Helium by
-   default waits up to 10 seconds for the element to appear.
- * **Explicit waits.** Helium gives you a much nicer API for waiting for a
-   condition on the web page to become true. For example: To wait for an element
-   to appear in Selenium, you would write:
-   ```python
-   element = WebDriverWait(driver, 10).until(
-       EC.presence_of_element_located((By.ID, "myDynamicElement"))
-   )
-   ```
-   With Helium, you can write:
-   ```python
-   wait_until(Button('Download').exists)
-   ```
+So in other words, you don't lose anything by using Helium over Selenium alone.
 
 ## Getting started
 
@@ -72,7 +53,7 @@ If you already know Python, then the following command should get you started:
 pip install helium
 ```
 
-Otherwise - hi! I would recommend you create a virtual environment in the
+Otherwise - Hi! I would recommend you create a virtual environment in the
 current directory. Any libraries you download (such as Helium) will be placed
 there. Enter the following into a command prompt:
 
@@ -147,10 +128,11 @@ the [`tests/`](tests) directory for what this might look like.
 ## History
 
 I (Michael Herrmann) originally developed Helium in 2013 for a Polish IT startup
-called [HeliumHQ](https://heliumhq.com/) / BugFree software. We shut down the
-company at the end of 2019 and I felt it would be a shame if Helium simply
-disappeared from the face of the earth. So I invested some time to modernize it
-and bring it into a state suitable for open source.
+called BugFree software. (It could be that you have seen Helium before at
+https://heliumhq.com.) We shut down the company at the end of 2019 and I felt it
+would be a shame if Helium simply disappeared from the face of the earth. So I
+invested some time to modernize it and bring it into a state suitable for open
+source.
 
 Helium used to be available for both Java and Python. But I because I now only
 use it from Python, I didn't have time to bring the Java implementation up to
