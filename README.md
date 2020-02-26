@@ -77,7 +77,7 @@ python -m pip install helium
 ```
 
 Now enter `python` into the command prompt and (for instance) the commands at
-the top of this page (`from helium import * ...`).
+the top of this page (`from helium import *`, ...).
 
 ## API Documentation
 
