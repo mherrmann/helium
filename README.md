@@ -1,6 +1,6 @@
 # Selenium-python, 50% easier.
 
-![Helium Demo](demo.gif)
+![Helium Demo](doc/helium-demo.gif)
 
 [Selenium's Python bindings](https://selenium-python.readthedocs.io/)
 are great for web automation. But they are too difficult to use:
@@ -82,7 +82,7 @@ the top of this page (`from helium import *`, ...).
 
 ## Your first script
 
-I've compiled a [cheat sheet](Cheat Sheet.md) that quickly teaches you most of
+I've compiled a [cheatsheet](doc/CheatSheet.md) that quickly teaches you most of
 what you need to know to be productive with Helium.
 
 ## API Documentation
