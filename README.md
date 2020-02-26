@@ -45,7 +45,7 @@ So in other words, you don't lose anything by using Helium over Selenium alone.
 
 ## Getting started
 
-All you need to get started with Helium is Python 3 and Chrome or Firefox.
+To get started with Helium, all you need is Python 3 and Chrome or Firefox.
 
 If you already know Python, then the following command should get you started:
 
