@@ -135,8 +135,9 @@ follows:
   lets you write ``S("#myId")`` to identify an element with ``id="myId"``,
   or ``S(".myClass")`` to identify elements with ``class="myClass"``.
 
-As before, you can combine `S(...)` with other functions as in `click(S(...))`,
-or use it to extract data. For an example of this, see below.
+As before, you can combine `S(...)` with other functions such as
+`click(S(...))`, or use it to extract data. For an example of this, see
+below.
 
 ## Combining Helium and Selenium's APIs
 
@@ -151,7 +152,7 @@ driver = start_chrome()
 driver.execute_script("alert('Hi!');")
 ```
 
-You can get / set the Selenium WebDriver which Helium uses via
+You can also get / set the Selenium WebDriver which Helium uses via
 [`get_driver()`](https://github.com/mherrmann/helium/blob/0667ddb9be531367a0d707ad8f5fcfb75c528521/helium/__init__.py#L104)
 and
 [`set_driver(...)`](https://github.com/mherrmann/helium/blob/0667ddb9be531367a0d707ad8f5fcfb75c528521/helium/__init__.py#L97).
