@@ -25,7 +25,7 @@ are great for web automation. But they are too difficult to use:
  * You cannot interact with elements in nested iFrames unless you first
    instruct Selenium to "switch to" the respective iFrame. This makes working
    with iFrames in Selenium extremely (and unnecessarily) tedious.
- * Similarly for popups and windows, Selenium often requires you to deal with
+ * Similarly for popups and windows: Selenium often requires you to deal with
    arcane "window handles" to switch between windows.
 
 Helium wraps around Selenium to offer a more high-level API that solves all of
