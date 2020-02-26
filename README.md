@@ -5,9 +5,10 @@
 [Selenium's Python bindings](https://selenium-python.readthedocs.io/)
 are great for web automation. But they are too difficult to use:
  
- * Selenium requires you to use HTML IDs, XPaths and CSS selectors to identify
-   web elements. These are hard to read and break easily when the web site
-   changes.
+ * To identify elements on a web page, Selenium requires you to use HTML IDs
+   such as `myBtn`, XPaths such as `//button[text()="Some text"]` or CSS
+   selectors such as `p.content`. These are not only hard to read, they also
+   break easily when the web site changes.
  * You need to manually download and manage the respective WebDrivers. So if you
    want to automate Chrome for instance, it's not enough to simply install
    Selenium. You are also forced to download ChromeDriver and place it on your
