@@ -16,7 +16,7 @@ are great for web automation. But they are too difficult to use:
  * Many Selenium scripts are unstable with respect to timing issues:
    By default, if you try to click on an element with Selenium and that element
    is not yet visible, your script fails. People try to fix this by adding
-   `sleep` statements to their code. But they too sometimes fail, and make the
+   `sleep` statements to their code. But they too often fail, and make your
    code less readable.
  * Selenium does let you explicitly wait for certain conditions, such as an
    element to appear. However, its
