@@ -3,7 +3,7 @@
 ![Helium Demo](demo.gif)
 
 [Selenium's Python bindings](https://selenium-python.readthedocs.io/)
-are great for web automation. But they are also unnecessarily difficult to use:
+are great for web automation. But they are too difficult to use:
  
  * Selenium requires you to use HTML IDs, XPaths and CSS selectors to identify
    web elements. These are hard to read and break easily when the web site
