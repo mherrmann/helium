@@ -683,7 +683,7 @@ class GUIElementImpl:
 			return True
 		if isinstance(exception, WebDriverException):
 			msg = exception.msg
-			if 'Element is not clickable at point' in msg \
+			if 'is not clickable at point' in msg \
 				and 'Other element would receive the click' in msg:
 				# This can happen when the element has moved.
 				return True
