@@ -1,9 +1,10 @@
 # Selenium-python, 50% easier.
 
 Helium is a Python library for automating browsers such as Chrome and Firefox.
-It wraps around Selenium to provide an API that is much easier to use. By using
-Helium on top of Selenium, your automation scripts become 50% shorter, easier to
-read and more stable.
+It wraps around Selenium to provide an API that is much easier to use. It makes
+your automation scripts 50% shorter, easier to read _and_ more stable. At the
+same time, you don't lose anything by using Helium, because you can freely mix
+it with Selenium.
 
 ![Helium Demo](doc/helium-demo.gif)
 
