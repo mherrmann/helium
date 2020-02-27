@@ -222,7 +222,7 @@ offset of an element. See the
 [`Point` class](https://github.com/mherrmann/helium/blob/0667ddb9be531367a0d707ad8f5fcfb75c528521/helium/__init__.py#L1010)
 for how.
 
-## Taking a screenshot:
+## Taking a screenshot
 
 Use Selenium's API:
 
