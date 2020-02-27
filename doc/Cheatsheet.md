@@ -80,7 +80,7 @@ element. For example:
 
 ```python
 if Text('Accept cookies?').exists():
-	click('I accept')
+    click('I accept')
 ```
 
 I also often find `Text(...).value` useful for reading out data:
