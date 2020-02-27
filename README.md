@@ -8,7 +8,7 @@ more stable.
 
 ![Helium Demo](doc/helium-demo.gif)
 
-Selenium users will know the following pain points:
+Selenium comes with the following pain points:
  
  * To identify elements on a web page, Selenium requires you to use HTML IDs
    such as `myBtn`, XPaths such as `//button[text()="Some text"]` or CSS
