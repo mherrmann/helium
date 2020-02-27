@@ -1,7 +1,7 @@
 # Selenium-python, 50% easier.
 
 [Selenium and Python](https://selenium-python.readthedocs.io/) are great for web
-automation. But Selenium makes many things harder than they should be. Helium
+automation. But Selenium often makes things harder than they need to be. Helium
 wraps around Selenium to provide a Python library for web automation that is
 much easier to use. With Helium, your scripts become 50% shorter, easier to read
 _and_ more stable. At the same time, you can still use all Selenium functions.
