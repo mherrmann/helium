@@ -34,8 +34,8 @@ In particular, Selenium comes with the following pain points:
    arcane "window handles" to switch between windows.
 
 Helium solves all of the above problems. It gives you a high-level API that
-internally issues low-level calls to Selenium. This architecture makes it
-possible for you to freely mix Helium with Selenium. For example:
+internally translates to low-level calls to Selenium. Because it is set up in
+this way, you can freely mix Helium with Selenium. For example:
 
 ```python
 # A Helium function:
@@ -44,7 +44,7 @@ driver = start_chrome()
 driver.execute_script("alert('Hi!');")
 ```
 
-So in other words, you don't lose anything by using Helium over Selenium alone.
+In other words, you don't lose anything by using Helium over Selenium alone.
 
 ## Installation
 
