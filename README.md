@@ -2,18 +2,6 @@
 
 Helium is a Python library for automating web browsers. For example:
 
-```python
-from helium import *
-start_chrome('github.com') # or start_firefox()
-click('Sign in')
-write('mherrmann', into='Username')
-write('my password', into='Password')
-click('Sign in')
-go_to('github.com/mherrmann/helium')
-click('Star')
-kill_browser()
-```
-
 ![Helium Demo](doc/helium-demo.gif)
 
 Under the hood, Helium forwards each call to
