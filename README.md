@@ -8,7 +8,7 @@ _and_ more stable. At the same time, you can still use all Selenium functions.
 
 ![Helium Demo](doc/helium-demo.gif)
 
-Selenium comes with the following technical difficulties:
+In particular, Selenium comes with the following technical difficulties:
  
  * To identify elements on a web page, Selenium requires you to use HTML IDs
    such as `myBtn`, XPaths such as `//button[text()="Some text"]` or CSS
