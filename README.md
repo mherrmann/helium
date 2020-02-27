@@ -1,14 +1,14 @@
 # Selenium-python, 50% easier.
 
 [Selenium and Python](https://selenium-python.readthedocs.io/) are great for web
-automation. But Selenium makes many things harder than they should be. Helium is
-a Python library that wraps selenium-python in an API that is much easier to use.
-By using Helium on top of Selenium, your automation scripts become 50% shorter,
-easier to read _and_ more stable.
+automation. But Selenium makes many things harder than they should be. Helium
+wraps around Selenium to provide a Python library for web automation that is
+much easier to use. With Helium, your scripts become 50% shorter, easier to read
+_and_ more stable. At the same time, you can still use all Selenium functions.
 
 ![Helium Demo](doc/helium-demo.gif)
 
-In particular, Selenium comes with the following pain points:
+Selenium comes with the following technical difficulties:
  
  * To identify elements on a web page, Selenium requires you to use HTML IDs
    such as `myBtn`, XPaths such as `//button[text()="Some text"]` or CSS
@@ -34,8 +34,8 @@ In particular, Selenium comes with the following pain points:
    arcane "window handles" to switch between windows.
 
 Helium solves all of the above problems. It gives you a high-level API that
-internally translates to low-level calls to Selenium. Because it is set up in
-this way, you can freely mix Helium with Selenium. For example:
+internally issues low-level calls to Selenium. Because Helium is set up in this
+way, you can freely mix it with Selenium. For example:
 
 ```python
 # A Helium function:
