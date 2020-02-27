@@ -14,7 +14,7 @@ click('Star')
 kill_browser()
 ```
 
-![Helium Demo](doc/demo.gif)
+![Helium Demo](doc/helium-demo.gif)
 
 Under the hood, Helium forwards each call to
 [Selenium](https://www.selenium.dev/). The difference is that Helium's API is
