@@ -34,7 +34,7 @@ setup(
 	],
 	test_suite='tests',
 	tests_require=[
-		'psutil==0.6.1',
+		'psutil==5.6.6',
 		"pywin32 >= 227;platform_system=='Windows'"
 	]
 )
