@@ -137,7 +137,7 @@ follows:
 
 As before, you can combine `S(...)` with other functions such as
 `click(S(...))`, or use it to extract data. For an example of this, see
-below.
+[below](#finding-all-elements).
 
 ## Combining Helium and Selenium's APIs
 
