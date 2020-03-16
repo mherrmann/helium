@@ -25,7 +25,7 @@ driver.execute_script("alert('Hi!');")
 
 So in other words, you don't lose anything by using Helium over pure Selenium.
 
-In addition to its high-level API, Helium simplifies further tasks that are
+In addition to its more high-level API, Helium simplifies further tasks that are
 traditionally painful in Selenium:
 
  * **Web driver management:** Helium ships with its own copies of ChromeDriver
