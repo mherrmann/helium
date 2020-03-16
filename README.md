@@ -1,7 +1,7 @@
 # Selenium-python, 50% easier.
 
 [Selenium-python](https://selenium-python.readthedocs.io/) is great for web
-automation. Helium simplifies it. For example:
+automation. Helium makes it easier to use. For example:
 
 ![Helium Demo](doc/helium-demo.gif)
 
