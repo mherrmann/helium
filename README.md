@@ -1,16 +1,17 @@
-# Helium
+# Selenium-python, 50% easier.
 
-Helium is a Python library for automating web browsers. For example:
+[Selenium-python](https://selenium-python.readthedocs.io/) is great for web
+automation. Helium simplifies it. For example:
 
 ![Helium Demo](doc/helium-demo.gif)
 
-Under the hood, Helium forwards each call to
-[Selenium](https://www.selenium.dev/). The difference is that Helium's API is
-much more high-level. In Selenium, you need to use HTML IDs, XPaths and CSS
-selectors to identify web page elements. Helium on the other hand lets you refer
-to elements by their user-visible labels. As a result, Helium scripts are 30-50%
-shorter than similar Selenium scripts. What's more, they are easier to read and
-more stable with respect to changes in the underlying web page.
+Under the hood, Helium forwards each call to Selenium. The difference is that
+Helium's API is much more high-level. In Selenium, you need to use HTML IDs,
+XPaths and CSS selectors to identify web page elements. Helium on the other hand
+lets you refer to elements by user-visible labels. As a result, Helium scripts
+are typically 30-50% shorter than similar Selenium scripts. What's more, they
+are easier to read and more stable with respect to changes in the underlying web
+page.
 
 Because Helium is simply a wrapper around Selenium, you can freely mix the two
 libraries. For example:
