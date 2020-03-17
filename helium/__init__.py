@@ -83,6 +83,32 @@ def start_chrome(url=None, headless=False):
 	"""
 	return _get_api_impl().start_chrome_impl(url, headless)
 
+def start_chrome_proxy(url, proxy, headless=False):
+	"""
+	:param url: URL to open.
+	:type url: str
+	:param proxy: The proxy address to use in the format host:port
+	:type proxy: str
+	:param headless: Whether to start Chrome in headless mode.
+	:type headless: bool
+
+	Starts an instance of Google Chrome using a proxy that is 
+	specified by a string in the format of host:port. Can optionally
+	start Chrome in headless mode. For instance::
+
+		start_chrome("whatsmyip.com", "127.0.0.1:3000")
+		start_chrome("google.com", "127.0.0.1:3000")
+		start_chrome("google.com", "127.0.0.1:3000", headless=True)
+
+	On shutdown of the Python interpreter, helium cleans up all resources used
+	for controlling the browser (such as the ChromeDriver process), but does
+	not close the browser itself. If you want to terminate the browser at the
+	end of your script, use the following command::
+
+		kill_browser()
+	"""
+	return _get_api_impl().start_chrome_proxy_impl(url, headless, proxy)
+
 def go_to(url):
 	"""
 	:param url: URL to open.
