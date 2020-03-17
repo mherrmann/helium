@@ -102,6 +102,22 @@ class APIImpl:
 	def start_chrome_impl(self, url=None, headless=False):
 		chrome_driver = self._start_chrome_driver(headless)
 		return self._start(chrome_driver, url)
+	def start_chrome_proxy_impl(self, url=None, headless=False, proxy=None):
+		chrome_driver = self._start_chrome_driver_proxy(headless, proxy)
+		return self._start(chrome_driver, url)
+	def _start_chrome_driver_proxy(self, headless, proxy):
+		chrome_options = self._get_chrome_proxy_options(headless, proxy)
+		kwargs = self._get_chrome_driver_kwargs(chrome_options)
+		result = Chrome(**kwargs)
+		atexit.register(self._kill_service, result.service)
+		return result
+	def _get_chrome_proxy_options(self, headless, proxy):
+		result = ChromeOptions()
+		result.add_experimental_option('excludeSwitches', ['enable-logging'])
+		result.add_argument('--proxy-server=%s' % proxy)
+		if headless:
+			result.add_argument('--headless')
+		return result
 	def _start_chrome_driver(self, headless):
 		chrome_options = self._get_chrome_options(headless)
 		kwargs = self._get_chrome_driver_kwargs(chrome_options)
