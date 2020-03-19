@@ -13,12 +13,10 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver import Chrome, ChromeOptions
-from selenium.webdriver import Firefox
+from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from time import sleep, time
 
 import atexit
@@ -77,39 +75,40 @@ class APIImpl:
 	def __init__(self):
 		self.driver = None
 	def start_firefox_impl(self, url=None, headless=False):
-		driver = self._locate_web_driver('geckodriver')
-		kwargs = {
+		firefox_driver = self._start_firefox_driver(headless)
+		return self._start(firefox_driver, url)
+	def _start_firefox_driver(self, headless):
+		firefox_options = self._get_firefox_options(headless)
+		kwargs = self._get_firefox_driver_kwargs(firefox_options)
+		result = Firefox(**kwargs)
+		atexit.register(self._kill_service, result.service)
+		return result
+	def _get_firefox_options(self, headless):
+		result = FirefoxOptions()
+		if headless:
+			result.headless = True
+		return result
+	def _get_firefox_driver_kwargs(self, firefox_options):
+		result = {
+			'options': firefox_options,
 			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
+		driver = self._locate_web_driver('geckodriver')
 		if exists(driver):
 			self._ensure_driver_is_executable(driver)
-			kwargs['executable_path'] = driver
-		if headless:
-			options = Options()
-			options.headless = True
-			kwargs['options'] = options
-		firefox = Firefox(**kwargs)
-		atexit.register(self._kill_service, firefox.service)
-		return self._start(firefox, url)
-	def _ensure_driver_is_executable(self, driver_path):
-		if not access(driver_path, X_OK):
-			try:
-				make_executable(driver_path)
-			except:
-				raise RuntimeError(
-					"The driver located at %s is not executable." % driver_path
-				) from None
-	def start_chrome_impl(self, url=None, headless=False):
-		chrome_driver = self._start_chrome_driver(headless)
+			result['executable_path'] = driver
+		return result
+	def start_chrome_impl(self, url=None, headless=False, options=None):
+		chrome_driver = self._start_chrome_driver(headless, options)
 		return self._start(chrome_driver, url)
-	def _start_chrome_driver(self, headless):
-		chrome_options = self._get_chrome_options(headless)
+	def _start_chrome_driver(self, headless, options):
+		chrome_options = self._get_chrome_options(headless, options)
 		kwargs = self._get_chrome_driver_kwargs(chrome_options)
 		result = Chrome(**kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
-	def _get_chrome_options(self, headless):
-		result = ChromeOptions()
+	def _get_chrome_options(self, headless, options):
+		result = ChromeOptions() if options is None else options
 		# Prevent Chrome's debug logs from appearing in our console window:
 		result.add_experimental_option('excludeSwitches', ['enable-logging'])
 		if headless:
@@ -131,6 +130,14 @@ class APIImpl:
 			dirname(__file__), 'webdrivers', get_canonical_os_name(),
 			driver_name
 		)
+	def _ensure_driver_is_executable(self, driver_path):
+		if not access(driver_path, X_OK):
+			try:
+				make_executable(driver_path)
+			except:
+				raise RuntimeError(
+					"The driver located at %s is not executable." % driver_path
+				) from None
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None

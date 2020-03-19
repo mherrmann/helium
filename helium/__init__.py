@@ -44,35 +44,56 @@ def start_firefox(url=None, headless=False):
 	"""
 	:param url: URL to open.
 	:type url: str
+	:param headless: Whether to start Firefox in headless mode.
+	:type headless: bool
 
-	Starts an instance of Firefox, optionally opening the specified URL.
-	For instance::
+	Starts an instance of Firefox. You can optionally open a URL::
 
 		start_firefox()
 		start_firefox("google.com")
 
-	Helium does not close the browser window on shutdown of the Python
-	interpreter. If you want to close the browser at the end of your script, use
-	the following command::
+	The `headless` switch lets you prevent the browser window from appearing on
+	your screen::
+
+		start_firefox(headless=True)
+		start_firefox("google.com", headless=True)
+
+	On shutdown of the Python interpreter, Helium cleans up all resources used
+	for controlling the browser (such as the geckodriver process), but does
+	not close the browser itself. If you want to terminate the browser at the
+	end of your script, use the following command::
 
 		kill_browser()
 	"""
 	return _get_api_impl().start_firefox_impl(url, headless)
 
-def start_chrome(url=None, headless=False):
+def start_chrome(url=None, headless=False, options=None):
 	"""
 	:param url: URL to open.
 	:type url: str
 	:param headless: Whether to start Chrome in headless mode.
 	:type headless: bool
+	:param options: ChromeOptions to use for starting the browser
+	:type options: :py:class:`selenium.webdriver.ChromeOptions`
 
-	Starts an instance of Google Chrome. You can optionally open a URL and/or
-	start Chrome in headless mode. For instance::
+	Starts an instance of Google Chrome. You can optionally open a URL::
 
 		start_chrome()
 		start_chrome("google.com")
+
+	The `headless` switch lets you prevent the browser window from appearing on
+	your screen::
+
 		start_chrome(headless=True)
 		start_chrome("google.com", headless=True)
+
+	For more advanced configuration, use the `options` parameter::
+
+		from selenium.webdriver import ChromeOptions
+		options = ChromeOptions()
+		options.add_argument('--start-maximized')
+		options.add_argument('--proxy-server=1.2.3.4:5678')
+		start_chrome(options=options)
 
 	On shutdown of the Python interpreter, Helium cleans up all resources used
 	for controlling the browser (such as the ChromeDriver process), but does
@@ -81,7 +102,7 @@ def start_chrome(url=None, headless=False):
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_chrome_impl(url, headless)
+	return _get_api_impl().start_chrome_impl(url, headless, options)
 
 def go_to(url):
 	"""
