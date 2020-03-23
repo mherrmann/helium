@@ -108,7 +108,20 @@ consulting rates. Otherwise, unless it is very easy for me, I will usually not
 respond to emails or issues on the issue tracker. I will however accept and
 merge PRs. So if you add some functionality to Helium that may be useful for
 others, do share it with us by creating a Pull Request. For instructions, please
-see below.
+see [Contributing](#Contributing) below.
+
+## How you can help
+
+I find Helium extremely useful in my own projects and feel it should be more
+widely known. Here's how you can help with this:
+
+ * Star this project on GitHub.
+ * Tell your friends and colleagues about it.
+ * Share it on social media (eg. Twitter).
+ * Write a blog post about Helium.
+
+With this, I think we can eventually make Helium the de-facto standard for web
+automation in Python.
 
 ## Contributing
 
