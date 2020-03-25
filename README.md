@@ -117,7 +117,8 @@ widely known. Here's how you can help with this:
 
  * Star this project on GitHub.
  * Tell your friends and colleagues about it.
- * Share it on social media (eg. Twitter).
+ * [Share it on Twitter with one click](https://twitter.com/intent/tweet?text=I%20find%20Helium%20very%20useful%20for%20web%20automation%20with%20Python%3A%20https%3A//github.com/mherrmann/helium)
+ * Share it on other social media
  * Write a blog post about Helium.
 
 With this, I think we can eventually make Helium the de-facto standard for web
