@@ -1,4 +1,4 @@
-# Selenium-python but better: Helium
+# Selenium-python but lighter: Helium
 
 [Selenium-python](https://selenium-python.readthedocs.io/) is great for web
 automation. Helium makes it easier to use. For example:
