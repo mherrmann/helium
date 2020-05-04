@@ -74,17 +74,17 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
-	def start_firefox_impl(self, url=None, headless=False):
-		firefox_driver = self._start_firefox_driver(headless)
+	def start_firefox_impl(self, url=None, headless=False, options=None):
+		firefox_driver = self._start_firefox_driver(headless, options)
 		return self._start(firefox_driver, url)
-	def _start_firefox_driver(self, headless):
-		firefox_options = self._get_firefox_options(headless)
+	def _start_firefox_driver(self, headless, options):
+		firefox_options = self._get_firefox_options(headless, options)
 		kwargs = self._get_firefox_driver_kwargs(firefox_options)
 		result = Firefox(**kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
-	def _get_firefox_options(self, headless):
-		result = FirefoxOptions()
+	def _get_firefox_options(self, headless, options):
+		result = FirefoxOptions() if options is None else options
 		if headless:
 			result.headless = True
 		return result
