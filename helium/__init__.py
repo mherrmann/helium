@@ -40,12 +40,14 @@ __all__ = [
 	'SPACE', 'SUBTRACT', 'TAB', 'UP'
 ]
 
-def start_firefox(url=None, headless=False):
+def start_firefox(url=None, headless=False, options=None):
 	"""
 	:param url: URL to open.
 	:type url: str
 	:param headless: Whether to start Firefox in headless mode.
 	:type headless: bool
+	:param options: FirefoxOptions to use for starting the browser.
+	:type options: :py:class:`selenium.webdriver.FirefoxOptions`
 
 	Starts an instance of Firefox. You can optionally open a URL::
 
@@ -58,6 +60,14 @@ def start_firefox(url=None, headless=False):
 		start_firefox(headless=True)
 		start_firefox("google.com", headless=True)
 
+	For more advanced configuration, use the `options` parameter::
+
+		from selenium.webdriver import FirefoxOptions
+		options = FirefoxOptions()
+		options.add_argument("--width=2560")
+		options.add_argument("--height=1440")
+		start_firefox(options=options)
+
 	On shutdown of the Python interpreter, Helium cleans up all resources used
 	for controlling the browser (such as the geckodriver process), but does
 	not close the browser itself. If you want to terminate the browser at the
@@ -65,7 +75,7 @@ def start_firefox(url=None, headless=False):
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_firefox_impl(url, headless)
+	return _get_api_impl().start_firefox_impl(url, headless, options)
 
 def start_chrome(url=None, headless=False, options=None):
 	"""
