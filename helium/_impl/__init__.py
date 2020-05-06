@@ -200,62 +200,45 @@ class APIImpl:
 	def press_impl(self, key):
 		self.require_driver().switch_to.active_element.send_keys(key)
 	def click_impl(self, element):
-		self._perform_mouse_action(
-			element,
-			lambda elt: elt.click(), lambda action_chains: action_chains.click()
-		)
+		self._perform_mouse_action(element, self._click)
 	def doubleclick_impl(self, element):
-		driver = self.require_driver()
-		self._perform_mouse_action(
-			element,
-			lambda elt: driver.action().double_click(elt).perform(),
-			lambda action_chains: action_chains.double_click()
-		)
+		self._perform_mouse_action(element, self._doubleclick)
 	def hover_impl(self, element):
-		driver = self.require_driver()
-		self._perform_mouse_action(
-			element,
-			lambda elt: driver.action().move_to_element(elt).perform(),
-			 # _perform_mouse_action(...) already called move_to_element(...):
-			lambda action_chains: action_chains
-		)
+		self._perform_mouse_action(element, self._hover)
 	def rightclick_impl(self, element):
-		driver = self.require_driver()
-		self._perform_mouse_action(
-			element,
-			lambda elt: driver.action().context_click(elt).perform(),
-			lambda action_chains: action_chains.context_click()
-		)
-	def press_mouse_on(self, element):
-		driver = self.require_driver()
-		self._perform_mouse_action(
-			element,
-			lambda elt: driver.action().click_and_hold(elt).perform(),
-			lambda action_chains: action_chains.click_and_hold()
-		)
-	def release_mouse_over(self, element):
-		drvr = self.require_driver()
-		self._perform_mouse_action(
-			element,
-			lambda elt: drvr.action().move_to_element(elt).release().perform(),
-			lambda action_chains, elt: action_chains.release(elt)
-		)
+		self._perform_mouse_action(element, self._rightclick)
+	def press_mouse_on_impl(self, element):
+		self._perform_mouse_action(element, self._press_mouse_on)
+	def release_mouse_over_impl(self, element):
+		self._perform_mouse_action(element, self._release_mouse_over)
+	def _click(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).click().perform()
+	def _doubleclick(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).double_click().perform()
+	def _hover(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).perform()
+	def _rightclick(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).context_click().perform()
+	def _press_mouse_on(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).click_and_hold().perform()
+	def _release_mouse_over(self, selenium_elt, offset):
+		self._move_to_element(selenium_elt, offset).release().perform()
+	def _move_to_element(self, element, offset):
+		result = self.require_driver().action()
+		if offset is not None:
+			result.move_to_element_with_offset(element, *offset)
+		else:
+			result.move_to_element(element)
+		return result
+	def drag_impl(self, element, to):
+		with DragHelper(self) as drag_helper:
+			self._perform_mouse_action(element, drag_helper.start_dragging)
+			self._perform_mouse_action(to, drag_helper.drop_on_target)
 	@might_spawn_window
 	@handle_unexpected_alert
-	def _perform_mouse_action(
-		self, element, action_without_offset, action_with_offset
-	):
+	def _perform_mouse_action(self, element, action):
 		element, offset = self._unwrap_clickable_element(element)
-		driver = self.require_driver()
-		if offset is not None:
-			def action(elt):
-				action_chains = driver\
-					.action()\
-					.move_to_element_with_offset(elt.unwrap(), *offset)
-				action_with_offset(action_chains).perform()
-		else:
-			action = lambda wew: action_without_offset(wew.unwrap())
-		self._manipulate(element, action)
+		self._manipulate(element, lambda wew: action(wew.unwrap(), offset))
 	def _unwrap_clickable_element(self, elt):
 		from helium import HTMLElement, Point
 		offset = None
@@ -280,12 +263,6 @@ class APIImpl:
 			# work even when this happens:
 			offset = (1, 1)
 		return element, offset
-	def drag_impl(self, element, to):
-		with DragHelper(self) as drag_helper:
-			element, _ = self._unwrap_clickable_element(element)
-			self._manipulate(element, drag_helper.start_dragging)
-			to, _ = self._unwrap_clickable_element(to)
-			self._manipulate(to, drag_helper.drop_on_target)
 	@handle_unexpected_alert
 	def find_all_impl(self, predicate):
 		return [
@@ -450,18 +427,16 @@ class DragHelper:
 			"};"
 		)
 		return self
-	def start_dragging(self, element):
+	def start_dragging(self, element, offset):
 		if self._attempt_html_5_drag(element):
 			self.is_html_5_drag = True
 		else:
-			self.api_impl.press_mouse_on(element)
-	def drop_on_target(self, target):
+			self.api_impl._press_mouse_on(element, offset)
+	def drop_on_target(self, target, offset):
 		if self.is_html_5_drag:
 			self._complete_html_5_drag(target)
 		else:
-			self.api_impl.release_mouse_over(target)
-	def __exit__(self, *_):
-		self._execute_script("delete window.helium;")
+			self.api_impl._release_mouse_over(target, offset)
 	def _attempt_html_5_drag(self, element_to_drag):
 		return self._execute_script(
 			"var source = arguments[0];"
@@ -490,7 +465,7 @@ class DragHelper:
 			"source.dispatchEvent(dragStart);"
 			"window.helium.dragHelper.dataTransfer = dragStart.dataTransfer;"
 			"return true;",
-			element_to_drag.unwrap()
+			element_to_drag
 		)
 	def _complete_html_5_drag(self, on):
 		self._execute_script(
@@ -501,8 +476,10 @@ class DragHelper:
 			"var dragEnd = window.helium.dragHelper.createEvent('dragend');"
 			"dragEnd.dataTransfer = window.helium.dragHelper.dataTransfer;"
 			"window.helium.dragHelper.draggedElement.dispatchEvent(dragEnd);",
-			on.unwrap()
+			on
 		)
+	def __exit__(self, *_):
+		self._execute_script("delete window.helium;")
 	def _execute_script(self, script, *args):
 		return self.api_impl.require_driver().execute_script(script, *args)
 

@@ -1,5 +1,5 @@
-from helium import click, Point, Button, hover, rightclick, doubleclick
-from tests.api import BrowserAT
+from helium import click, Point, Button, hover, rightclick, doubleclick, drag
+from tests.api import BrowserAT, test_browser_name
 from re import search
 
 class PointTest(BrowserAT):
@@ -13,6 +13,17 @@ class PointTest(BrowserAT):
 	"""
 	def get_page(self):
 		return 'test_point.html'
+	def setUp(self):
+		super().setUp()
+		if test_browser_name() != 'chrome':
+			# Imagine two consecutive tests that hover the mouse cursor to the
+			# same position. In the second test, Firefox does not generate a
+			# "mouse move" event (probably because the cursor is already in the
+			# "correct" location). However, this prevents our JavaScript from
+			# firing, which updates the status text element required for this
+			# text. Fix this by re-setting the mouse cursor. Chrome does not
+			# suffer from this problem.
+			hover(Point(0, 0))
 	def test_top_left(self):
 		self.assert_is_in_range(
 			Point(2, 3), Button("Button 1").top_left, delta=(0, 1)
@@ -81,6 +92,11 @@ class PointTest(BrowserAT):
 	def test_doubleclick_top_left_offset(self):
 		doubleclick(Button("Button 3").top_left + (3, 4))
 		self.assert_result_is("Button 3 doubleclicked at offset (3, 4).")
+	def test_drag_point(self):
+		drag(Button("Button 1").top_left, to=Point(39, 13))
+		self.assert_result_is(
+			"Button 1 clicked at offset (37, 10).", offset_delta=(0, 1)
+		)
 	def assert_result_is(self, expected, offset_delta=(0, 0)):
 		actual = self.read_result_from_browser()
 		expected_offset = self._extract_offset(expected)

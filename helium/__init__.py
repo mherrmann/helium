@@ -304,10 +304,10 @@ def drag(element, to):
 	_get_api_impl().drag_impl(element, to)
 
 def press_mouse_on(element):
-	_get_api_impl().press_mouse_on(element)
+	_get_api_impl().press_mouse_on_impl(element)
 
 def release_mouse_over(element):
-	_get_api_impl().release_mouse_over(element)
+	_get_api_impl().release_mouse_over_impl(element)
 
 def find_all(predicate):
 	"""
