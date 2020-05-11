@@ -21,6 +21,30 @@ from time import sleep, time
 
 import atexit
 import re
+import json
+from bs4 import BeautifulSoup
+import string
+import numpy as np
+import pandas as pd
+import tensorflow.compat.v1 as tf
+import tensorflow_hub as hub
+
+
+locatorsDatabase = "data.json"
+modelPath = 'model'
+tf.disable_v2_behavior()
+
+def embed_useT(module):
+    with tf.Graph().as_default():
+        sentences = tf.placeholder(tf.string)
+        embed = hub.Module(module)
+        embeddings = embed(sentences)
+        session = tf.train.MonitoredSession()
+    return lambda x: session.run(embeddings, {sentences: x})
+
+embed_fn = embed_useT(modelPath)
+
+
 
 def might_spawn_window(f):
 	def f_decorated(self, *args, **kwargs):
@@ -74,9 +98,49 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
+
+	def smartSearchElement(self, htmlToFind, position):
+		page = BeautifulSoup(self.require_driver().page_source, 'html.parser')
+		pageAsString = str(page)
+
+		matchers_list = []
+		matchers_elements = []
+		elementPosition = []
+		positionDifference = []
+		beautifulsoupElement = []
+
+		for el in page():  # page() is equivalent to page.find_all()
+			mtch = np.inner(embed_fn([str(el)]), embed_fn([htmlToFind])).max()
+
+			if mtch*100 > 94:
+				beautifulsoupElement.append(el)
+				matchers_list.append(mtch)
+				matchers_elements.append(str(el))
+				foundPosition = pageAsString.index(str(el))
+				if foundPosition == -1:
+					elementPosition.append(1000000)
+					positionDifference.append(1000000)
+				else:
+					elementPosition.append(foundPosition)
+					positionDifference.append(abs(position - foundPosition))
+
+		resultsData = pd.DataFrame(
+		     {
+		         'match' : matchers_list,
+		         'elementString' : matchers_elements,
+				 'position' : elementPosition,
+				 'positionDifference' : positionDifference,
+				 'beautifulsoupElement' : beautifulsoupElement
+		     }
+		)
+
+		return resultsData.nlargest(5, 'match').nsmallest(1, 'positionDifference')['beautifulsoupElement'].iloc[0]
+
+
 	def start_firefox_impl(self, url=None, headless=False, options=None):
 		firefox_driver = self._start_firefox_driver(headless, options)
 		return self._start(firefox_driver, url)
+
 	def _start_firefox_driver(self, headless, options):
 		firefox_options = self._get_firefox_options(headless, options)
 		kwargs = self._get_firefox_driver_kwargs(firefox_options)
@@ -161,28 +225,151 @@ class APIImpl:
 	def get_driver_impl(self):
 		if self.driver is not None:
 			return self.driver.unwrap()
+
 	@might_spawn_window
 	@handle_unexpected_alert
-	def write_impl(self, text, into=None):
-		if into is not None:
-			from helium import GUIElement
-			if isinstance(into, GUIElement):
-				into = into._impl
+	def write_impl(self, text, into=None, alias=None):
+		if not self._validate_value(value=alias, dataset=locatorsDatabase):
+			if into is not None:
+				from helium import GUIElement
+				if isinstance(into, GUIElement):
+					into = into._impl
+
 		self._handle_alerts(
-			self._write_no_alert, self._write_with_alert, text, into=into
+			self._write_no_alert, self._write_with_alert, text, into=into, alias=alias
 		)
-	def _write_no_alert(self, text, into=None):
-		if into:
-			if isinstance(into, str):
-				into = TextFieldImpl(self.require_driver(), into)
+
+
+
+	def write_json(self, data, filename=locatorsDatabase):
+		with open(filename, 'w') as f:
+			json.dump(data, f, indent=4)
+
+	def constructData(self, element, alias):
+		if alias is not None:
+			with open(locatorsDatabase) as json_file:
+				data = json.load(json_file)
+
+				temp = data
+				# python object to be appended
+
+				elementSource = element.get_attribute('outerHTML')
+				pageSource = self.require_driver().page_source
+
+				y = {
+					"alias": alias
+					, "location": str(BeautifulSoup(pageSource, "html.parser")).index(str(BeautifulSoup(elementSource, "html.parser")))
+					, "html": elementSource}
+
+				# appending data to emp_details
+				temp.append(y)
+
+			self.write_json(data)
+
+	def _validate_value(self, value, dataset):
+		if value is None:
+			return False
+
+		data = json.loads(open(locatorsDatabase).read())
+
+		for i in data:
+			if i['alias'] == value:
+				return True
+		return False
+
+	def xpath_soup(self, element):
+		# type: (typing.Union[bs4.element.Tag, bs4.element.NavigableString]) -> str
+		"""
+		Generate xpath from BeautifulSoup4 element.
+		:param element: BeautifulSoup4 element.
+		:type element: bs4.element.Tag or bs4.element.NavigableString
+		:return: xpath as string
+		:rtype: str
+		Usage
+		-----
+		>>> import bs4
+		>>> html = (
+		...     '<html><head><title>title</title></head>'
+		...     '<body><p>p <i>1</i></p><p>p <i>2</i></p></body></html>'
+		...     )
+		>>> soup = bs4.BeautifulSoup(html, 'html.parser')
+		>>> xpath_soup(soup.html.body.p.i)
+		'/html/body/p[1]/i'
+		>>> import bs4
+		>>> xml = '<doc><elm/><elm/></doc>'
+		>>> soup = bs4.BeautifulSoup(xml, 'lxml-xml')
+		>>> xpath_soup(soup.doc.elm.next_sibling)
+		'/doc/elm[2]'
+		"""
+		components = []
+		child = element if element.name else element.parent
+		for parent in child.parents:  # type: bs4.element.Tag
+			siblings = parent.find_all(child.name, recursive=False)
+			components.append(
+				child.name if 1 == len(siblings) else '%s[%d]' % (
+					child.name,
+					next(i for i, s in enumerate(siblings, 1) if s is child)
+				)
+			)
+			child = parent
+		components.reverse()
+		return '/%s' % '/'.join(components)
+
+
+	def	_smart_find(self, elementAliasName):
+		if not self._validate_value(value=elementAliasName, dataset=locatorsDatabase):
+			return None
+		else:
+			data = json.loads(open(locatorsDatabase).read())
+			info = None
+
+			for i in data:
+				if i['alias'] == elementAliasName:
+					info = i
+
+			found = self.smartSearchElement(info['html'], info['location'])
+
+			return self.xpath_soup(found)
+
+
+	def _write_no_alert(self, text, into=None, alias=None):
+		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
+
+			elt = self.require_driver().find_element_by_xpath(self._smart_find(alias))
+
 			def _write(elt):
 				if hasattr(elt, 'clear') and callable(elt.clear):
 					elt.clear()
 				elt.send_keys(text)
-			self._manipulate(into, _write)
+
+			#self._manipulate(into, _write)
+			_write(elt)
+
 		else:
-			self.require_driver().switch_to.active_element.send_keys(text)
-	def _write_with_alert(self, text, into=None):
+			if into:
+				if isinstance(into, str):
+					into = TextFieldImpl(self.require_driver(), into)
+				def _write(elt):
+					if hasattr(elt, 'clear') and callable(elt.clear):
+						elt.clear()
+					elt.send_keys(text)
+					self.constructData(element=elt, alias=alias)
+
+				self._manipulate(into, _write)
+
+			else:
+				el = self.require_driver().switch_to.active_element
+
+				def _write(elt):
+					if hasattr(elt, 'clear') and callable(elt.clear):
+						elt.clear()
+					elt.send_keys(text)
+
+				#el.send_keys(text)
+				_write(el)
+				self.constructData(element=el, alias=alias)
+
+	def _write_with_alert(self, text, into=None, alias=None):
 		if into is None:
 			into = AlertImpl(self.require_driver())
 		if not isinstance(into, AlertImpl):
@@ -190,27 +377,36 @@ class APIImpl:
 				"into=%r is not allowed when an alert is present." % into
 			)
 		into._write(text)
+
 	def _handle_alerts(self, no_alert, with_alert, *args, **kwargs):
 		driver = self.require_driver()
 		if not AlertImpl(driver).exists():
 			return no_alert(*args, **kwargs)
 		return with_alert(*args, **kwargs)
+
 	@might_spawn_window
 	@handle_unexpected_alert
 	def press_impl(self, key):
 		self.require_driver().switch_to.active_element.send_keys(key)
-	def click_impl(self, element):
-		self._perform_mouse_action(element, self._click)
-	def doubleclick_impl(self, element):
-		self._perform_mouse_action(element, self._doubleclick)
-	def hover_impl(self, element):
-		self._perform_mouse_action(element, self._hover)
-	def rightclick_impl(self, element):
-		self._perform_mouse_action(element, self._rightclick)
-	def press_mouse_on_impl(self, element):
-		self._perform_mouse_action(element, self._press_mouse_on)
-	def release_mouse_over_impl(self, element):
-		self._perform_mouse_action(element, self._release_mouse_over)
+
+	def click_impl(self, element, alias=None):
+		self._perform_mouse_action(element, self._click, alias=alias)
+
+	def doubleclick_impl(self, element, alias = None):
+		self._perform_mouse_action(element, self._doubleclick, alias=alias)
+
+	def hover_impl(self, element, alias=None):
+		self._perform_mouse_action(element, self._hover, alias=alias)
+
+	def rightclick_impl(self, element, alias=None):
+		self._perform_mouse_action(element, self._rightclick, alias=alias)
+
+	def press_mouse_on_impl(self, element, alias=None):
+		self._perform_mouse_action(element, self._press_mouse_on, alias=alias)
+
+	def release_mouse_over_impl(self, element, alias=None):
+		self._perform_mouse_action(element, self._release_mouse_over, alias=alias)
+
 	def _click(self, selenium_elt, offset):
 		self._move_to_element(selenium_elt, offset).click().perform()
 	def _doubleclick(self, selenium_elt, offset):
@@ -230,15 +426,33 @@ class APIImpl:
 		else:
 			result.move_to_element(element)
 		return result
-	def drag_impl(self, element, to):
-		with DragHelper(self) as drag_helper:
-			self._perform_mouse_action(element, drag_helper.start_dragging)
-			self._perform_mouse_action(to, drag_helper.drop_on_target)
+	def drag_impl(self, element, to, aliasElementFrom=None, aliasElementTo=None):
+
+		if aliasElementFrom is not None and aliasElementTo is not None and self._validate_value(value=aliasElementFrom, dataset=locatorsDatabase) and self._validate_value(value=aliasElementTo, dataset=locatorsDatabase):
+			fromEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementFrom))
+			toEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementTo))
+			with DragHelper(self) as drag_helper:
+				self._perform_mouse_action(fromEl, drag_helper.start_dragging)
+				self._perform_mouse_action(toEl, drag_helper.drop_on_target)
+		else:
+			with DragHelper(self) as drag_helper:
+				self._perform_mouse_action(element, drag_helper.start_dragging)
+				self._perform_mouse_action(to, drag_helper.drop_on_target)
+				self.constructData(element=element.web_element, alias=aliasElementFrom)
+				self.constructData(element=to.web_element, alias=aliasElementFrom)
+
 	@might_spawn_window
 	@handle_unexpected_alert
-	def _perform_mouse_action(self, element, action):
-		element, offset = self._unwrap_clickable_element(element)
+	def _perform_mouse_action(self, element, action, alias=None):
+		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
+			offset = None
+			element = self.require_driver().find_element_by_xpath(self._smart_find(alias))
+		else:
+			element, offset = self._unwrap_clickable_element(element)
+			self.constructData(element=element.web_element, alias=alias)
+
 		self._manipulate(element, lambda wew: action(wew.unwrap(), offset))
+
 	def _unwrap_clickable_element(self, elt):
 		from helium import HTMLElement, Point
 		offset = None
@@ -249,6 +463,7 @@ class APIImpl:
 		elif isinstance(elt, Point):
 			elt, offset = self._point_to_element_and_offset(elt)
 		return elt, offset
+
 	def _point_to_element_and_offset(self, point):
 		driver = self.require_driver()
 		element = WebElementWrapper(driver.execute_script(
@@ -284,17 +499,22 @@ class APIImpl:
 		)
 	@might_spawn_window
 	@handle_unexpected_alert
-	def select_impl(self, combo_box, value):
-		from helium import ComboBox
-		if isinstance(combo_box, str):
-			combo_box = ComboBoxImpl(self.require_driver(), combo_box)
-		elif isinstance(combo_box, ComboBox):
-			combo_box = combo_box._impl
+	def select_impl(self, combo_box, value, alias=None):
+		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
+			combo_box = self.require_driver().find_element_by_xpath(self._smart_find(alias))
+		else:
+			from helium import ComboBox
+			if isinstance(combo_box, str):
+				combo_box = ComboBoxImpl(self.require_driver(), combo_box)
+			elif isinstance(combo_box, ComboBox):
+				combo_box = combo_box._impl
+
 		def _select(web_element):
 			if isinstance(web_element, WebElementWrapper):
 				web_element = web_element.unwrap()
 			Select(web_element).select_by_visible_text(value)
 		self._manipulate(combo_box, _select)
+
 	def _manipulate(self, gui_or_web_elt, action):
 		driver = self.require_driver()
 		if hasattr(gui_or_web_elt, 'perform') \
@@ -336,9 +556,11 @@ class APIImpl:
 		)
 	def _refresh_no_alert(self):
 		self.require_driver().refresh()
+
 	def _refresh_with_alert(self):
 		AlertImpl(self.require_driver()).accept()
 		self._refresh_no_alert()
+
 	def wait_until_impl(self, condition_fn, timeout_secs=10, interval_secs=0.5):
 		if ismethod(condition_fn):
 			is_bound = condition_fn.__self__ is not None
@@ -368,6 +590,7 @@ class APIImpl:
 	def kill_browser_impl(self):
 		self.require_driver().quit()
 		self.driver = None
+
 	@handle_unexpected_alert
 	def highlight_impl(self, element):
 		driver = self.require_driver()

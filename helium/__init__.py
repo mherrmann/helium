@@ -140,7 +140,7 @@ def get_driver():
 	"""
 	return _get_api_impl().get_driver_impl()
 
-def write(text, into=None):
+def write(text, into=None, alias=None):
 	"""
 	:param text: The text to be written.
 	:type text: one of str, unicode
@@ -156,7 +156,7 @@ def write(text, into=None):
 		write("user12345", into="Username:")
 		write("Michael", into=Alert("Please enter your name"))
 	"""
-	_get_api_impl().write_impl(text, into)
+	_get_api_impl().write_impl(text, into, alias=alias)
 
 def press(key):
 	"""
@@ -250,7 +250,7 @@ F12          = Keys.F12
 META         = Keys.META
 COMMAND      = Keys.COMMAND
 
-def click(element):
+def click(element, alias=None):
 	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
@@ -263,9 +263,9 @@ def click(element):
 		click(Point(200, 300))
 		click(ComboBox("File type").top_left + (50, 0))
 	"""
-	_get_api_impl().click_impl(element)
+	_get_api_impl().click_impl(element, alias=alias)
 
-def doubleclick(element):
+def doubleclick(element, alias=None):
 	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
@@ -278,9 +278,9 @@ def doubleclick(element):
 		doubleclick(Point(200, 300))
 		doubleclick(TextField("Username").top_left - (0, 20))
 	"""
-	_get_api_impl().doubleclick_impl(element)
+	_get_api_impl().doubleclick_impl(element, alias = alias)
 
-def drag(element, to):
+def drag(element, to, aliasElementFrom=None, aliasElementTo=None):
 	"""
 	:param element: The element or point to drag.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
@@ -301,7 +301,7 @@ def drag(element, to):
 	If you wish to drag a file from the hard disk onto the browser window (eg.
 	to initiate a file upload), use function :py:func:`drag_file`.
 	"""
-	_get_api_impl().drag_impl(element, to)
+	_get_api_impl().drag_impl(element, to, aliasElementFrom=aliasElementFrom, aliasElementTo=aliasElementTo)
 
 def press_mouse_on(element):
 	_get_api_impl().press_mouse_on_impl(element)
@@ -360,7 +360,7 @@ def scroll_left(num_pixels=100):
 	"""
 	_get_api_impl().scroll_left_impl(num_pixels)
 
-def hover(element):
+def hover(element, alias=None):
 	"""
 	:param element: The element or point to hover.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
@@ -374,9 +374,9 @@ def hover(element):
 		hover(Point(200, 300))
 		hover(ComboBox("File type").top_left + (50, 0))
 	"""
-	_get_api_impl().hover_impl(element)
+	_get_api_impl().hover_impl(element, alias=alias)
 
-def rightclick(element):
+def rightclick(element, alias=None):
 	"""
 	:param element: The element or point to click.
 	:type element: str, unicode, :py:class:`HTMLElement`, \
@@ -388,9 +388,9 @@ def rightclick(element):
 		rightclick(Point(200, 300))
 		rightclick(Image("captcha"))
 	"""
-	_get_api_impl().rightclick_impl(element)
+	_get_api_impl().rightclick_impl(element, alias=alias)
 
-def select(combo_box, value):
+def select(combo_box, value, alias=None):
 	"""
 	:param combo_box: The combo box whose value should be changed.
 	:type combo_box: str, unicode or :py:class:`ComboBox`
@@ -401,7 +401,7 @@ def select(combo_box, value):
 		select("Language", "English")
 		select(ComboBox("Language"), "English")
 	"""
-	_get_api_impl().select_impl(combo_box, value)
+	_get_api_impl().select_impl(combo_box, value, alias=alias)
 
 def drag_file(file_path, to):
 	"""
@@ -1122,7 +1122,7 @@ def kill_browser():
 	"""
 	_get_api_impl().kill_browser_impl()
 
-def highlight(element):
+def highlight(element, alias=None):
 	"""
 	:param element: The element to highlight.
 
@@ -1132,7 +1132,7 @@ def highlight(element):
 		highlight("Helium")
 		highlight(Button("Sign in"))
 	"""
-	_get_api_impl().highlight_impl(element)
+	_get_api_impl().highlight_impl(element, alias=alias)
 
 def _get_api_impl():
 	global _API_IMPL
