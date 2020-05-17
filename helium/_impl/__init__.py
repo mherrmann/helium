@@ -26,12 +26,17 @@ from bs4 import BeautifulSoup
 import string
 import numpy as np
 import pandas as pd
+#import tensorflow as tf
+
 import tensorflow.compat.v1 as tf
+tf.logging.set_verbosity(tf.logging.ERROR)
+
 import tensorflow_hub as hub
 
 
 locatorsDatabase = "data.json"
-modelPath = 'model'
+modelPath = 'model2'
+
 tf.disable_v2_behavior()
 
 def embed_useT(module):
@@ -43,8 +48,6 @@ def embed_useT(module):
     return lambda x: session.run(embeddings, {sentences: x})
 
 embed_fn = embed_useT(modelPath)
-
-
 
 def might_spawn_window(f):
 	def f_decorated(self, *args, **kwargs):
@@ -98,8 +101,9 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
+		self.embed = hub.load(modelPath)
 
-	def smartSearchElement(self, htmlToFind, position):
+	def smartSearchElement3(self, htmlToFind, position):
 		page = BeautifulSoup(self.require_driver().page_source, 'html.parser')
 		pageAsString = str(page)
 
@@ -110,9 +114,10 @@ class APIImpl:
 		beautifulsoupElement = []
 
 		for el in page():  # page() is equivalent to page.find_all()
-			mtch = np.inner(embed_fn([str(el)]), embed_fn([htmlToFind])).max()
 
-			if mtch*100 > 94:
+			mtch = np.inner(self.embed([str(el)]), self.embed([htmlToFind])).max()
+
+			if mtch*100 > 80:
 				beautifulsoupElement.append(el)
 				matchers_list.append(mtch)
 				matchers_elements.append(str(el))
@@ -136,6 +141,50 @@ class APIImpl:
 
 		return resultsData.nlargest(5, 'match').nsmallest(1, 'positionDifference')['beautifulsoupElement'].iloc[0]
 
+	def smartSearchElement(self, htmlToFind, position):
+		page = BeautifulSoup(self.require_driver().page_source, 'html.parser')
+		pageAsString = str(page)
+
+		matchers_list = []
+		matchers_elements = []
+		elementPosition = []
+		positionDifference = []
+		beautifulsoupElement = []
+
+		skiped_tags = ['meta', 'style', 'body', 'script', 'html', 'head']
+
+		for el in [b for b in page() if b.name not in skiped_tags]:  # page() is equivalent to page.find_all()
+			mtch = np.inner(embed_fn([str(el)]), embed_fn([htmlToFind])).max()
+
+			if mtch*100 > 94:
+				beautifulsoupElement.append(el)
+				matchers_list.append(mtch)
+				#matchers_elements.append(str(el))
+				foundPosition = pageAsString.index(str(el))
+				if foundPosition == -1:
+					#elementPosition.append(1000000)
+					positionDifference.append(1000000)
+				else:
+					#elementPosition.append(foundPosition)
+					positionDifference.append(abs(position - foundPosition))
+
+		resultsData = pd.DataFrame(
+		     {
+		         'match' : matchers_list,
+		         #'elementString' : matchers_elements,
+				 #'position' : elementPosition,
+				 'positionDifference' : positionDifference,
+				 'beautifulsoupElement' : beautifulsoupElement
+		     }
+		)
+
+		result = None
+
+		try:
+			result = resultsData.nlargest(5, 'match').nsmallest(1, 'positionDifference')['beautifulsoupElement'].iloc[0]
+		except:
+			print("Element not found")
+		return result
 
 	def start_firefox_impl(self, url=None, headless=False, options=None):
 		firefox_driver = self._start_firefox_driver(headless, options)
@@ -229,17 +278,14 @@ class APIImpl:
 	@might_spawn_window
 	@handle_unexpected_alert
 	def write_impl(self, text, into=None, alias=None):
-		if not self._validate_value(value=alias, dataset=locatorsDatabase):
-			if into is not None:
-				from helium import GUIElement
-				if isinstance(into, GUIElement):
-					into = into._impl
+		if into is not None:
+			from helium import GUIElement
+			if isinstance(into, GUIElement):
+				into = into._impl
 
 		self._handle_alerts(
 			self._write_no_alert, self._write_with_alert, text, into=into, alias=alias
 		)
-
-
 
 	def write_json(self, data, filename=locatorsDatabase):
 		with open(filename, 'w') as f:
@@ -333,22 +379,11 @@ class APIImpl:
 
 
 	def _write_no_alert(self, text, into=None, alias=None):
-		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
-
-			elt = self.require_driver().find_element_by_xpath(self._smart_find(alias))
-
-			def _write(elt):
-				if hasattr(elt, 'clear') and callable(elt.clear):
-					elt.clear()
-				elt.send_keys(text)
-
-			#self._manipulate(into, _write)
-			_write(elt)
-
-		else:
+		try:
 			if into:
 				if isinstance(into, str):
 					into = TextFieldImpl(self.require_driver(), into)
+
 				def _write(elt):
 					if hasattr(elt, 'clear') and callable(elt.clear):
 						elt.clear()
@@ -365,9 +400,19 @@ class APIImpl:
 						elt.clear()
 					elt.send_keys(text)
 
-				#el.send_keys(text)
 				_write(el)
 				self.constructData(element=el, alias=alias)
+
+		except Exception:
+			print("Failed to find the element, checking for similar one")
+			elt = self.require_driver().find_element_by_xpath(self._smart_find(alias))
+
+			def _write(elt):
+				if hasattr(elt, 'clear') and callable(elt.clear):
+					elt.clear()
+				elt.send_keys(text)
+
+			_write(elt)
 
 	def _write_with_alert(self, text, into=None, alias=None):
 		if into is None:
@@ -426,32 +471,39 @@ class APIImpl:
 		else:
 			result.move_to_element(element)
 		return result
-	def drag_impl(self, element, to, aliasElementFrom=None, aliasElementTo=None):
 
-		if aliasElementFrom is not None and aliasElementTo is not None and self._validate_value(value=aliasElementFrom, dataset=locatorsDatabase) and self._validate_value(value=aliasElementTo, dataset=locatorsDatabase):
-			fromEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementFrom))
-			toEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementTo))
-			with DragHelper(self) as drag_helper:
-				self._perform_mouse_action(fromEl, drag_helper.start_dragging)
-				self._perform_mouse_action(toEl, drag_helper.drop_on_target)
-		else:
+	def drag_impl(self, element, to, aliasElementFrom=None, aliasElementTo=None):
+		try:
 			with DragHelper(self) as drag_helper:
 				self._perform_mouse_action(element, drag_helper.start_dragging)
 				self._perform_mouse_action(to, drag_helper.drop_on_target)
 				self.constructData(element=element.web_element, alias=aliasElementFrom)
 				self.constructData(element=to.web_element, alias=aliasElementFrom)
+		except Exception:
+			print("Failed to find the element, checking for similar one")
+			if aliasElementFrom is not None and aliasElementTo is not None and self._validate_value(
+					value=aliasElementFrom, dataset=locatorsDatabase) and self._validate_value(value=aliasElementTo,
+																							   dataset=locatorsDatabase):
+				fromEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementFrom))
+				toEl = element = self.require_driver().find_element_by_xpath(self._smart_find(aliasElementTo))
+				with DragHelper(self) as drag_helper:
+					self._perform_mouse_action(fromEl, drag_helper.start_dragging)
+					self._perform_mouse_action(toEl, drag_helper.drop_on_target)
 
 	@might_spawn_window
 	@handle_unexpected_alert
 	def _perform_mouse_action(self, element, action, alias=None):
-		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
-			offset = None
-			element = self.require_driver().find_element_by_xpath(self._smart_find(alias))
-		else:
+		try:
 			element, offset = self._unwrap_clickable_element(element)
-			self.constructData(element=element.web_element, alias=alias)
-
-		self._manipulate(element, lambda wew: action(wew.unwrap(), offset))
+			self._manipulate(element, lambda wew: action(wew.unwrap(), offset))
+			if alias is not None:
+				self.constructData(element=element.web_element, alias=alias)
+		except Exception:
+			print("Failed to find the element, checking for similar one")
+			if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
+				offset = None
+				element = self.require_driver().find_element_by_xpath(self._smart_find(alias))
+			self._manipulate(element, lambda wew: action(wew.unwrap(), offset))
 
 	def _unwrap_clickable_element(self, elt):
 		from helium import HTMLElement, Point
@@ -500,14 +552,16 @@ class APIImpl:
 	@might_spawn_window
 	@handle_unexpected_alert
 	def select_impl(self, combo_box, value, alias=None):
-		if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
-			combo_box = self.require_driver().find_element_by_xpath(self._smart_find(alias))
-		else:
+		try:
 			from helium import ComboBox
 			if isinstance(combo_box, str):
 				combo_box = ComboBoxImpl(self.require_driver(), combo_box)
 			elif isinstance(combo_box, ComboBox):
 				combo_box = combo_box._impl
+		except Exception:
+			print("Failed to find the element, checking for similar one")
+			if alias is not None and self._validate_value(value=alias, dataset=locatorsDatabase):
+				combo_box = self.require_driver().find_element_by_xpath(self._smart_find(alias))
 
 		def _select(web_element):
 			if isinstance(web_element, WebElementWrapper):
