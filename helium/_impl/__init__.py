@@ -112,7 +112,7 @@ class APIImpl:
 		else:
 			# Webdriver could not be located
 			raise RuntimeError(
-				"A suitable geckodriver webdriver could not be located"
+				"A suitable geckodriver could not be located"
 			) from None
 		return result
 	def start_chrome_impl(self, url=None, headless=False, options=None):
@@ -154,7 +154,7 @@ class APIImpl:
 		else:
 			# Webdriver could not be located
 			raise RuntimeError(
-				"A suitable chromedriver webdriver could not be located"
+				"A suitable chromedriver could not be located"
 			) from None
 		return result
 	def _locate_web_driver(self, driver_name):
