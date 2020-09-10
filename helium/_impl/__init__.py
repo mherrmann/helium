@@ -9,7 +9,7 @@ from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
 from os import access, X_OK
 from os.path import exists, join, dirname
-from selenium.common.exceptions import UnexpectedAlertPresentException, \
+from selenium.common.exceptions import SessionNotCreatedException, UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
@@ -79,8 +79,14 @@ class APIImpl:
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options):
 		firefox_options = self._get_firefox_options(headless, options)
-		kwargs = self._get_firefox_driver_kwargs(firefox_options)
-		result = Firefox(**kwargs)
+		try:
+			kwargs = self._get_firefox_driver_kwargs(firefox_options)
+			result = Firefox(**kwargs)
+		except (WebDriverException, SessionNotCreatedException) as e:
+			# Incompatible webdriver or webdriver not in PATH
+			# Use the helium provided webdriver instead
+			kwargs = self._get_firefox_driver_kwargs(firefox_options, locate_driver=True)
+			result = Firefox(**kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def _get_firefox_options(self, headless, options):
@@ -88,23 +94,40 @@ class APIImpl:
 		if headless:
 			result.headless = True
 		return result
-	def _get_firefox_driver_kwargs(self, firefox_options):
+	def _get_firefox_driver_kwargs(self, firefox_options, locate_driver=False):
 		result = {
 			'options': firefox_options,
 			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
+		if not locate_driver:
+			# The webdriver at path should be used by default
+			# No need to locate the webdriver unless the caller explicitly wants it
+			return result
+		# Locate the webdriver and set its path to 'executable_path' param
 		driver = self._locate_web_driver('geckodriver')
 		if exists(driver):
+			# Make sure the driver exists and is executable
 			self._ensure_driver_is_executable(driver)
 			result['executable_path'] = driver
+		else:
+			# Webdriver could not be located
+			raise RuntimeError(
+				"A suitable geckodriver webdriver could not be located"
+			) from None
 		return result
 	def start_chrome_impl(self, url=None, headless=False, options=None):
 		chrome_driver = self._start_chrome_driver(headless, options)
 		return self._start(chrome_driver, url)
 	def _start_chrome_driver(self, headless, options):
 		chrome_options = self._get_chrome_options(headless, options)
-		kwargs = self._get_chrome_driver_kwargs(chrome_options)
-		result = Chrome(**kwargs)
+		try:
+			kwargs = self._get_chrome_driver_kwargs(chrome_options)
+			result = Chrome(**kwargs)
+		except (WebDriverException, SessionNotCreatedException) as e:
+			# Incompatible webdriver or webdriver not in PATH
+			# Use the helium provided webdriver instead
+			kwargs = self._get_chrome_driver_kwargs(chrome_options, locate_driver=True)
+			result = Chrome(**kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def _get_chrome_options(self, headless, options):
@@ -114,14 +137,25 @@ class APIImpl:
 		if headless:
 			result.add_argument('--headless')
 		return result
-	def _get_chrome_driver_kwargs(self, chrome_options):
+	def _get_chrome_driver_kwargs(self, chrome_options, locate_driver=False):
 		result = {
 			'options': chrome_options
 		}
+		if not locate_driver:
+			# The webdriver at path should be used by default
+			# No need to locate the webdriver unless the caller explicitly wants it
+			return result
+		# Locate the webdriver and set its path to 'executable_path' param
 		driver = self._locate_web_driver('chromedriver')
 		if exists(driver):
+			# Make sure the driver exists and is executable
 			self._ensure_driver_is_executable(driver)
 			result['executable_path'] = driver
+		else:
+			# Webdriver could not be located
+			raise RuntimeError(
+				"A suitable chromedriver webdriver could not be located"
+			) from None
 		return result
 	def _locate_web_driver(self, driver_name):
 		if is_windows():
