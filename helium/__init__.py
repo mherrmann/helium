@@ -49,9 +49,16 @@ def start_firefox(url=None, headless=False, options=None):
 	:param options: FirefoxOptions to use for starting the browser.
 	:type options: :py:class:`selenium.webdriver.FirefoxOptions`
 
-	Starts an instance of Firefox. You can optionally open a URL::
+	Starts an instance of Firefox::
 
 		start_firefox()
+
+	If this doesn't work for you, then it may be that Helium's copy of
+	geckodriver is not compatible with your version of Firefox. To fix this,
+	place a copy of geckodriver on your `PATH`.
+
+	You can optionally open a URL::
+
 		start_firefox("google.com")
 
 	The `headless` switch lets you prevent the browser window from appearing on
@@ -86,9 +93,16 @@ def start_chrome(url=None, headless=False, options=None):
 	:param options: ChromeOptions to use for starting the browser
 	:type options: :py:class:`selenium.webdriver.ChromeOptions`
 
-	Starts an instance of Google Chrome. You can optionally open a URL::
+	Starts an instance of Google Chrome::
 
 		start_chrome()
+
+	If this doesn't work for you, then it may be that Helium's copy of
+	ChromeDriver is not compatible with your version of Chrome. To fix this,
+	place a copy of ChromeDriver on your `PATH`.
+
+	You can optionally open a URL::
+
 		start_chrome("google.com")
 
 	The `headless` switch lets you prevent the browser window from appearing on

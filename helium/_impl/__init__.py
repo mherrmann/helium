@@ -78,33 +78,32 @@ class APIImpl:
 		firefox_driver = self._start_firefox_driver(headless, options)
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options):
-		firefox_options = self._get_firefox_options(headless, options)
-		kwargs = self._get_firefox_driver_kwargs(firefox_options)
-		result = Firefox(**kwargs)
-		atexit.register(self._kill_service, result.service)
-		return result
-	def _get_firefox_options(self, headless, options):
-		result = FirefoxOptions() if options is None else options
+		firefox_options = FirefoxOptions() if options is None else options
 		if headless:
-			result.headless = True
-		return result
-	def _get_firefox_driver_kwargs(self, firefox_options):
-		result = {
+			firefox_options.headless = True
+		kwargs = {
 			'options': firefox_options,
 			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
-		driver = self._locate_web_driver('geckodriver')
-		if exists(driver):
-			self._ensure_driver_is_executable(driver)
-			result['executable_path'] = driver
+		try:
+			result = Firefox(**kwargs)
+		except WebDriverException:
+			# This usually happens when geckodriver is not on the PATH.
+			driver_path = self._use_included_web_driver('geckodriver')
+			result = Firefox(executable_path=driver_path, **kwargs)
+		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(self, url=None, headless=False, options=None):
 		chrome_driver = self._start_chrome_driver(headless, options)
 		return self._start(chrome_driver, url)
 	def _start_chrome_driver(self, headless, options):
 		chrome_options = self._get_chrome_options(headless, options)
-		kwargs = self._get_chrome_driver_kwargs(chrome_options)
-		result = Chrome(**kwargs)
+		try:
+			result = Chrome(options=chrome_options)
+		except WebDriverException:
+			# This usually happens when chromedriver is not on the PATH.
+			driver_path = self._use_included_web_driver('chromedriver')
+			result = Chrome(options=chrome_options, executable_path=driver_path)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def _get_chrome_options(self, headless, options):
@@ -114,30 +113,21 @@ class APIImpl:
 		if headless:
 			result.add_argument('--headless')
 		return result
-	def _get_chrome_driver_kwargs(self, chrome_options):
-		result = {
-			'options': chrome_options
-		}
-		driver = self._locate_web_driver('chromedriver')
-		if exists(driver):
-			self._ensure_driver_is_executable(driver)
-			result['executable_path'] = driver
-		return result
-	def _locate_web_driver(self, driver_name):
+	def _use_included_web_driver(self, driver_name):
 		if is_windows():
 			driver_name += '.exe'
-		return join(
+		driver_path = join(
 			dirname(__file__), 'webdrivers', get_canonical_os_name(),
 			driver_name
 		)
-	def _ensure_driver_is_executable(self, driver_path):
 		if not access(driver_path, X_OK):
 			try:
 				make_executable(driver_path)
-			except:
+			except Exception:
 				raise RuntimeError(
 					"The driver located at %s is not executable." % driver_path
 				) from None
+		return driver_path
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None
