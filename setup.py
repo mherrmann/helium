@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name = 'helium',
-	version = '3.0.5',
+	version = '3.0.6-SNAPSHOT',
 	author = 'Michael Herrmann',
 	author_email = 'michael+removethisifyouarehuman@herrmann.io',
 	description = 'Lighter browser automation based on Selenium.',
