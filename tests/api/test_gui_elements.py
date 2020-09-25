@@ -270,3 +270,9 @@ class GUIElementsTest(BrowserAT):
 		text_field = TextField("Language")
 		combo_box = ComboBox("Language")
 		self.assertNotEqual(text_field.y, combo_box.y)
+	def test_html_element_get_attribute(self):
+		text_field = TextField("Example Text Field")
+		self.assertEqual("text", text_field.get_attribute("type"))
+		self.assertEqual("exampleTextFieldName", text_field.get_attribute("name"))
+		self.assertEqual("exampleTextFieldClass", text_field.get_attribute("class"))
+		self.assertEqual(None, text_field.get_attribute("nonexistent"))

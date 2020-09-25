@@ -603,6 +603,16 @@ class HTMLElement(GUIElement):
 		The Selenium WebElement corresponding to this element.
 		"""
 		return self._impl.web_element
+	def get_attribute(self, name):
+		"""
+		Returns the value of a specific attribute of this element
+		:param name: the name of attribute to check
+		:return: the value of the attribute (or None)
+		"""
+		try:
+			return self.web_element.get_attribute(name)
+		except LookupError:
+			return None
 	def __repr__(self):
 		if self._is_bound():
 			element_html = self.web_element.get_attribute('outerHTML')
