@@ -43,7 +43,7 @@ traditionally painful in Selenium:
   to appear in Selenium, you would write:
   ```python
   element = WebDriverWait(driver, 10).until(
-      EC.presence_of_element_located((By.ID, "myDynamicElement"))
+	  EC.presence_of_element_located((By.ID, "myDynamicElement"))
   )
   ```
   With Helium, you can write:

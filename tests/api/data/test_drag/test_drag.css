@@ -1,13 +1,13 @@
 .dropTarget {
-    float: left;
-    width: 100px;
-    height: 35px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #aaaaaa;
-    text-align: center;
+	float: left;
+	width: 100px;
+	height: 35px;
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #aaaaaa;
+	text-align: center;
 }
 
 .dropTarget p {
-    margin-top: 10px;
+	margin-top: 10px;
 }
