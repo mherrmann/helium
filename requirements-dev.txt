@@ -1,0 +1,7 @@
+autopep8==1.5.4
+flake8==3.8.3
+psutil==5.7.2
+selenium==3.141.0
+sphinx-rtd-theme==0.5.0
+sphinx==3.2.1
+urllib3==1.25.10
