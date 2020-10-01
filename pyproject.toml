@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "selenium-python-helium"
+name = "helium"
 version = "3.0.6"
 description = "Lighter browser automation based on Selenium."
 authors = ["mherrmann <michael+removethisifyouarehuman@herrmann.io>"]
