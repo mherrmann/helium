@@ -3,7 +3,7 @@
 [Selenium-python](https://selenium-python.readthedocs.io/) is great for web
 automation. Helium makes it easier to use. For example:
 
-![Helium Demo](doc/helium-demo.gif)
+![Helium Demo](docs/helium-demo.gif)
 
 Under the hood, Helium forwards each call to Selenium. The difference is that
 Helium's API is much more high-level. In Selenium, you need to use HTML IDs,
