@@ -150,14 +150,14 @@ six = "*"
 
 [[package]]
 name = "psutil"
-version = "5.7.2"
+version = "5.6.6"
 description = "Cross-platform lib for process and system monitoring in Python."
 category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.extras]
-test = ["ipaddress", "mock", "unittest2", "enum34", "pywin32", "wmi"]
+enum = ["enum34"]
 
 [[package]]
 name = "pycodestyle"
@@ -396,7 +396,7 @@ testing = ["pathlib2", "unittest2", "jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.5"
-content-hash = "8449c0fda9c7b3b645cabf431921162280e90d103f8156449883cf854bdbcd1e"
+content-hash = "f20645d935a1f794bd7b10da907fbbd9d235ebc50313f8b5a9c369a176cdaf30"
 
 [metadata.files]
 alabaster = [
@@ -490,17 +490,17 @@ packaging = [
     {file = "packaging-20.4.tar.gz", hash = "sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8"},
 ]
 psutil = [
-    {file = "psutil-5.7.2-cp27-none-win32.whl", hash = "sha256:f2018461733b23f308c298653c8903d32aaad7873d25e1d228765e91ae42c3f2"},
-    {file = "psutil-5.7.2-cp27-none-win_amd64.whl", hash = "sha256:66c18ca7680a31bf16ee22b1d21b6397869dda8059dbdb57d9f27efa6615f195"},
-    {file = "psutil-5.7.2-cp35-cp35m-win32.whl", hash = "sha256:5e9d0f26d4194479a13d5f4b3798260c20cecf9ac9a461e718eb59ea520a360c"},
-    {file = "psutil-5.7.2-cp35-cp35m-win_amd64.whl", hash = "sha256:4080869ed93cce662905b029a1770fe89c98787e543fa7347f075ade761b19d6"},
-    {file = "psutil-5.7.2-cp36-cp36m-win32.whl", hash = "sha256:d8a82162f23c53b8525cf5f14a355f5d1eea86fa8edde27287dd3a98399e4fdf"},
-    {file = "psutil-5.7.2-cp36-cp36m-win_amd64.whl", hash = "sha256:0ee3c36428f160d2d8fce3c583a0353e848abb7de9732c50cf3356dd49ad63f8"},
-    {file = "psutil-5.7.2-cp37-cp37m-win32.whl", hash = "sha256:ff1977ba1a5f71f89166d5145c3da1cea89a0fdb044075a12c720ee9123ec818"},
-    {file = "psutil-5.7.2-cp37-cp37m-win_amd64.whl", hash = "sha256:a5b120bb3c0c71dfe27551f9da2f3209a8257a178ed6c628a819037a8df487f1"},
-    {file = "psutil-5.7.2-cp38-cp38-win32.whl", hash = "sha256:10512b46c95b02842c225f58fa00385c08fa00c68bac7da2d9a58ebe2c517498"},
-    {file = "psutil-5.7.2-cp38-cp38-win_amd64.whl", hash = "sha256:68d36986ded5dac7c2dcd42f2682af1db80d4bce3faa126a6145c1637e1b559f"},
-    {file = "psutil-5.7.2.tar.gz", hash = "sha256:90990af1c3c67195c44c9a889184f84f5b2320dce3ee3acbd054e3ba0b4a7beb"},
+    {file = "psutil-5.6.6-cp27-none-win32.whl", hash = "sha256:06660136ab88762309775fd47290d7da14094422d915f0466e0adf8e4b22214e"},
+    {file = "psutil-5.6.6-cp27-none-win_amd64.whl", hash = "sha256:f21a7bb4b207e4e7c60b3c40ffa89d790997619f04bbecec9db8e3696122bc78"},
+    {file = "psutil-5.6.6-cp35-cp35m-win32.whl", hash = "sha256:5e8dbf31871b0072bcba8d1f2861c0ec6c84c78f13c723bb6e981bce51b58f12"},
+    {file = "psutil-5.6.6-cp35-cp35m-win_amd64.whl", hash = "sha256:724390895cff80add7a1c4e7e0a04d9c94f3ee61423a2dcafd83784fabbd1ee9"},
+    {file = "psutil-5.6.6-cp36-cp36m-win32.whl", hash = "sha256:6d81b9714791ef9a3a00b2ca846ee547fc5e53d259e2a6258c3d2054928039ff"},
+    {file = "psutil-5.6.6-cp36-cp36m-win_amd64.whl", hash = "sha256:3004361c6b93dbad71330d992c1ae409cb8314a6041a0b67507cc882357f583e"},
+    {file = "psutil-5.6.6-cp37-cp37m-win32.whl", hash = "sha256:0fc7a5619b47f74331add476fbc6022d7ca801c22865c7069ec0867920858963"},
+    {file = "psutil-5.6.6-cp37-cp37m-win_amd64.whl", hash = "sha256:f60042bef7dc50a78c06334ca8e25580455948ba2fa98f240d034a4fed9141a5"},
+    {file = "psutil-5.6.6-cp38-cp38-win32.whl", hash = "sha256:0c11adde31011a286197630ba2671e34651f004cc418d30ae06d2033a43c9e20"},
+    {file = "psutil-5.6.6-cp38-cp38-win_amd64.whl", hash = "sha256:0c211eec4185725847cb6c28409646c7cfa56fdb531014b35f97b5dc7fe04ff9"},
+    {file = "psutil-5.6.6.tar.gz", hash = "sha256:ad21281f7bd6c57578dd53913d2d44218e9e29fd25128d10ff7819ef16fa46e7"},
 ]
 pycodestyle = [
     {file = "pycodestyle-2.6.0-py2.py3-none-any.whl", hash = "sha256:2295e7b2f6b5bd100585ebcb1f616591b652db8a741695b3d8f5d28bdc934367"},
