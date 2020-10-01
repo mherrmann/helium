@@ -98,7 +98,7 @@ If you use an IDE such as PyCharm, you should get auto-completion and
 documentation for Helium's various functions. Otherwise, please look at
 [this Python file](helium/__init__.py). It lists all of Helium's public
 functions. I have not yet had time to bring this into a more readable state,
-sorry.
+sorry.For more you can refer https://pypi.org/project/helium-python/
 
 ## Status of this project
 
