@@ -252,3 +252,5 @@ sw.*
 **/cypress/screenshots
 
 sample-data/
+pyproject.toml
+poetry.lock
