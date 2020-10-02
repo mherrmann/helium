@@ -139,3 +139,5 @@ poetry.lock
 
 # IDE / Editor
 .idea
+.vscode
+
