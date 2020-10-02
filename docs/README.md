@@ -6,11 +6,11 @@ The documentation is built using
 
 ## Setting up documentation locally
 
-Ensure you have [poetry](https://python-poetry.org/docs/) installed on your
+Ensure you have `python` and `pip` installed on your
 system and then run this command in the project root:
 
 ```bash
-poetry install
+pip install -r requirements-dev.txt
 make -C docs/ html
 ```
 
