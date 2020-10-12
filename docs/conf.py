@@ -1,13 +1,15 @@
 import os
 import sys
 
+from datetime import date
+
 sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'helium'
-copyright = '2020, Michael Herrmann'
+copyright = '%s, Michael Herrmann' % date.today().year
 author = 'Michael Herrmann'
 
 # Also update ../setup.py when you change this:
