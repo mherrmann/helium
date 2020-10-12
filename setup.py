@@ -12,6 +12,7 @@ setup(
 	python_requires='>=3',
 	packages = find_packages(exclude=['tests', 'tests.*']),
 	install_requires = [
+		# Also update requirements/base.txt when you make changes here.
 		'selenium==3.141.0'
 	],
 	package_data = {
@@ -33,12 +34,5 @@ setup(
 		'Operating System :: POSIX :: Linux',
 		'Operating System :: MacOS :: MacOS X'
 	],
-	test_suite='tests',
-	tests_require=[
-		'psutil==5.6.6',
-		"pywin32 >= 227;platform_system=='Windows'"
-	],
-	extras_require={
-        'docs': ['sphinx-rtd-theme==0.5.0', 'sphinx==3.2.1'],
-    }
+	test_suite='tests'
 )

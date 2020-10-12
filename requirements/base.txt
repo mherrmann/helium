@@ -1,0 +1,2 @@
+# Also update setup.py when you edit this file.
+selenium==3.141.0
