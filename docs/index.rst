@@ -1,4 +1,4 @@
-Welcome to helium's documentation!
+Welcome to Helium's documentation!
 ==================================
 
 .. toctree::
