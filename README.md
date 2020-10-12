@@ -100,6 +100,8 @@ documentation for Helium's various functions. Otherwise, please look at
 functions. I have not yet had time to bring this into a more readable state,
 sorry.
 
+The documentation for this project can be found [here](https://selenium-python-helium.readthedocs.io/en/latest/).
+
 ## Status of this project
 
 I have too little spare time to maintain this project for free. If you'd like
