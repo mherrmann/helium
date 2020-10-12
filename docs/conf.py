@@ -10,7 +10,7 @@ project = 'helium'
 copyright = '2020, Michael Herrmann'
 author = 'Michael Herrmann'
 
-# The full version, including alpha/beta/rc tags
+# Also update ../setup.py when you change this:
 release = '3.0.6-SNAPSHOT'
 
 
