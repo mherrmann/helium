@@ -37,5 +37,8 @@ setup(
 	tests_require=[
 		'psutil==5.6.6',
 		"pywin32 >= 227;platform_system=='Windows'"
-	]
+	],
+	extras_require={
+        'docs': ['sphinx-rtd-theme==0.5.0', 'sphinx==3.2.1'],
+    }
 )
