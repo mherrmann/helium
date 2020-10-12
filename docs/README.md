@@ -1,4 +1,4 @@
-# Welcome to helium's documentation
+# Welcome to Helium's documentation
 
 The documentation is built using
 [sphinx](https://www.sphinx-doc.org/en/master/index.html) and the theme used is
@@ -10,7 +10,7 @@ Ensure you have `python` and `pip` installed on your
 system and then run this command in the project root:
 
 ```bash
-pip install -r requirements-dev.txt
+pip install -Ur requirements/docs.txt
 make -C docs/ html
 ```
 

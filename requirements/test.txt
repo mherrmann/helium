@@ -1,0 +1,4 @@
+-r base.txt
+
+psutil==5.6.6
+pywin32 >= 227;platform_system=='Windows'
