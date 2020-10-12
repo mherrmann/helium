@@ -10,7 +10,7 @@ Ensure you have `python` and `pip` installed on your
 system and then run this command in the project root:
 
 ```bash
-pip install -e ".[docs]"
+pip install -Ur requirements/docs.txt
 make -C docs/ html
 ```
 
