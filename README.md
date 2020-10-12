@@ -3,7 +3,7 @@
 [Selenium-python](https://selenium-python.readthedocs.io/) is great for web
 automation. Helium makes it easier to use. For example:
 
-![Helium Demo](doc/helium-demo.gif)
+![Helium Demo](docs/helium-demo.gif)
 
 Under the hood, Helium forwards each call to Selenium. The difference is that
 Helium's API is much more high-level. In Selenium, you need to use HTML IDs,
@@ -28,28 +28,28 @@ So in other words, you don't lose anything by using Helium over pure Selenium.
 In addition to its more high-level API, Helium simplifies further tasks that are
 traditionally painful in Selenium:
 
- * **Web driver management:** Helium ships with its own copies of ChromeDriver
-   and geckodriver so you don't need to download and put them on your PATH.
- * **iFrames:** Unlike Selenium, Helium lets you interact with elements inside
-   nested iFrames, without having to first "switch to" the iFrame.
- * **Window management.** Helium notices when popups open or close and focuses /
-   defocuses them like a user would. You can also easily switch to a window by
-   (parts of) its title. No more having to iterate over Selenium window handles.
- * **Implicit waits.** By default, if you try click on an element with Selenium
-   and that element is not yet present on the page, your script fails. Helium by
-   default waits up to 10 seconds for the element to appear.
- * **Explicit waits.** Helium gives you a much nicer API for waiting for a
-   condition on the web page to become true. For example: To wait for an element
-   to appear in Selenium, you would write:
-   ```python
-   element = WebDriverWait(driver, 10).until(
-       EC.presence_of_element_located((By.ID, "myDynamicElement"))
-   )
-   ```
-   With Helium, you can write:
-   ```python
-   wait_until(Button('Download').exists)
-   ```
+- **Web driver management:** Helium ships with its own copies of ChromeDriver
+  and geckodriver so you don't need to download and put them on your PATH.
+- **iFrames:** Unlike Selenium, Helium lets you interact with elements inside
+  nested iFrames, without having to first "switch to" the iFrame.
+- **Window management.** Helium notices when popups open or close and focuses /
+  defocuses them like a user would. You can also easily switch to a window by
+  (parts of) its title. No more having to iterate over Selenium window handles.
+- **Implicit waits.** By default, if you try click on an element with Selenium
+  and that element is not yet present on the page, your script fails. Helium by
+  default waits up to 10 seconds for the element to appear.
+- **Explicit waits.** Helium gives you a much nicer API for waiting for a
+  condition on the web page to become true. For example: To wait for an element
+  to appear in Selenium, you would write:
+  ```python
+  element = WebDriverWait(driver, 10).until(
+      EC.presence_of_element_located((By.ID, "myDynamicElement"))
+  )
+  ```
+  With Helium, you can write:
+  ```python
+  wait_until(Button('Download').exists)
+  ```
 
 ## Installation
 
@@ -89,7 +89,7 @@ the animation at the top of this page (`from helium import *`, ...).
 
 ## Your first script
 
-I've compiled a [cheatsheet](doc/Cheatsheet.md) that quickly teaches you all
+I've compiled a [cheatsheet](docs/cheatsheet.md) that quickly teaches you all
 you need to know to be productive with Helium.
 
 ## API Documentation
@@ -115,11 +115,11 @@ see [Contributing](#Contributing) below.
 I find Helium extremely useful in my own projects and feel it should be more
 widely known. Here's how you can help with this:
 
- * Star this project on GitHub.
- * Tell your friends and colleagues about it.
- * [Share it on Twitter with one click](https://twitter.com/intent/tweet?text=I%20find%20Helium%20very%20useful%20for%20web%20automation%20with%20Python%3A%20https%3A//github.com/mherrmann/helium)
- * Share it on other social media
- * Write a blog post about Helium.
+- Star this project on GitHub.
+- Tell your friends and colleagues about it.
+- [Share it on Twitter with one click](https://twitter.com/intent/tweet?text=I%20find%20Helium%20very%20useful%20for%20web%20automation%20with%20Python%3A%20https%3A//github.com/mherrmann/helium)
+- Share it on other social media
+- Write a blog post about Helium.
 
 With this, I think we can eventually make Helium the de-facto standard for web
 automation in Python.
