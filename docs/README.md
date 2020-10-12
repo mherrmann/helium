@@ -1,4 +1,4 @@
-# Welcome to helium's documentation
+# Welcome to Helium's documentation
 
 The documentation is built using
 [sphinx](https://www.sphinx-doc.org/en/master/index.html) and the theme used is
