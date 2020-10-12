@@ -18,27 +18,49 @@ from selenium.webdriver.common.keys import Keys
 
 import helium._impl
 
-__all__ = [
-	# Actions:
-	'attach_file', 'click', 'doubleclick', 'drag', 'drag_file', 'find_all',
-	'get_driver', 'go_to', 'highlight', 'hover', 'kill_browser', 'press',
-	'refresh', 'rightclick', 'scroll_down', 'scroll_left', 'scroll_right',
-	'scroll_up', 'select', 'set_driver', 'start_chrome', 'start_firefox',
-	'switch_to', 'wait_until', 'write',
-	# Predicates:
-	'Alert', 'Button', 'CheckBox', 'ComboBox', 'Config', 'Image', 'Link',
-	'ListItem', 'Point', 'S', 'RadioButton', 'Text', 'TextField', 'Window',
-	# Keys:
-	'ADD', 'ALT', 'ARROW_DOWN', 'ARROW_LEFT', 'ARROW_RIGHT', 'ARROW_UP',
-	'BACK_SPACE', 'CANCEL', 'CLEAR', 'COMMAND', 'CONTROL', 'DECIMAL', 'DELETE',
-	'DIVIDE', 'DOWN', 'END', 'ENTER', 'EQUALS', 'ESCAPE', 'F1', 'F2', 'F3',
-	'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'HELP', 'HOME',
-	'INSERT', 'LEFT', 'LEFT_ALT', 'LEFT_CONTROL', 'LEFT_SHIFT', 'META',
-	'MULTIPLY', 'NULL', 'NUMPAD0', 'NUMPAD1', 'NUMPAD2', 'NUMPAD3', 'NUMPAD4',
-	'NUMPAD5', 'NUMPAD6', 'NUMPAD7', 'NUMPAD8', 'NUMPAD9', 'PAGE_DOWN',
-	'PAGE_UP', 'PAUSE', 'RETURN', 'RIGHT', 'SEMICOLON', 'SEPARATOR', 'SHIFT',
-	'SPACE', 'SUBTRACT', 'TAB', 'UP'
-]
+def start_chrome(url=None, headless=False, options=None):
+	"""
+	:param url: URL to open.
+	:type url: str
+	:param headless: Whether to start Chrome in headless mode.
+	:type headless: bool
+	:param options: ChromeOptions to use for starting the browser
+	:type options: :py:class:`selenium.webdriver.ChromeOptions`
+
+	Starts an instance of Google Chrome::
+
+		start_chrome()
+
+	If this doesn't work for you, then it may be that Helium's copy of
+	ChromeDriver is not compatible with your version of Chrome. To fix this,
+	place a copy of ChromeDriver on your `PATH`.
+
+	You can optionally open a URL::
+
+		start_chrome("google.com")
+
+	The `headless` switch lets you prevent the browser window from appearing on
+	your screen::
+
+		start_chrome(headless=True)
+		start_chrome("google.com", headless=True)
+
+	For more advanced configuration, use the `options` parameter::
+
+		from selenium.webdriver import ChromeOptions
+		options = ChromeOptions()
+		options.add_argument('--start-maximized')
+		options.add_argument('--proxy-server=1.2.3.4:5678')
+		start_chrome(options=options)
+
+	On shutdown of the Python interpreter, Helium cleans up all resources used
+	for controlling the browser (such as the ChromeDriver process), but does
+	not close the browser itself. If you want to terminate the browser at the
+	end of your script, use the following command::
+
+		kill_browser()
+	"""
+	return _get_api_impl().start_chrome_impl(url, headless, options)
 
 def start_firefox(url=None, headless=False, options=None):
 	"""
@@ -83,50 +105,6 @@ def start_firefox(url=None, headless=False, options=None):
 		kill_browser()
 	"""
 	return _get_api_impl().start_firefox_impl(url, headless, options)
-
-def start_chrome(url=None, headless=False, options=None):
-	"""
-	:param url: URL to open.
-	:type url: str
-	:param headless: Whether to start Chrome in headless mode.
-	:type headless: bool
-	:param options: ChromeOptions to use for starting the browser
-	:type options: :py:class:`selenium.webdriver.ChromeOptions`
-
-	Starts an instance of Google Chrome::
-
-		start_chrome()
-
-	If this doesn't work for you, then it may be that Helium's copy of
-	ChromeDriver is not compatible with your version of Chrome. To fix this,
-	place a copy of ChromeDriver on your `PATH`.
-
-	You can optionally open a URL::
-
-		start_chrome("google.com")
-
-	The `headless` switch lets you prevent the browser window from appearing on
-	your screen::
-
-		start_chrome(headless=True)
-		start_chrome("google.com", headless=True)
-
-	For more advanced configuration, use the `options` parameter::
-
-		from selenium.webdriver import ChromeOptions
-		options = ChromeOptions()
-		options.add_argument('--start-maximized')
-		options.add_argument('--proxy-server=1.2.3.4:5678')
-		start_chrome(options=options)
-
-	On shutdown of the Python interpreter, Helium cleans up all resources used
-	for controlling the browser (such as the ChromeDriver process), but does
-	not close the browser itself. If you want to terminate the browser at the
-	end of your script, use the following command::
-
-		kill_browser()
-	"""
-	return _get_api_impl().start_chrome_impl(url, headless, options)
 
 def go_to(url):
 	"""
