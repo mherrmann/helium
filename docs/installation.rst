@@ -1,7 +1,7 @@
-Installing Helium
-=================
+Installation
+============
 
-You need Python 3 and Chrome or Firefox.
+To install Helium, you need Python 3 and Chrome or Firefox.
 
 If you already know Python, then the following command should be all you need:
 
