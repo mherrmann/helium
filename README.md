@@ -94,13 +94,8 @@ you need to know to be productive with Helium.
 
 ## API Documentation
 
-If you use an IDE such as PyCharm, you should get auto-completion and
-documentation for Helium's various functions. Otherwise, please look at
-[this Python file](helium/__init__.py). It lists all of Helium's public
-functions. I have not yet had time to bring this into a more readable state,
-sorry.
-
-The documentation for this project can be found [here](https://selenium-python-helium.readthedocs.io/en/latest/).
+The documentation for this project can be found
+[here](https://selenium-python-helium.readthedocs.io/en/latest/).
 
 ## Status of this project
 
@@ -134,6 +129,7 @@ rest of the code, in particular the use of tabs over spaces.
 Before you submit a PR, ensure that the tests still work:
 
 ```bash
+pip install -Ur requirements\test.txt
 python setup.py test
 ```
 
