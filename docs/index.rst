@@ -35,7 +35,7 @@ So in other words, you don't lose anything by using Helium over pure Selenium.
    :caption: Contents:
 
    installation.rst
-   main.rst
+   api.rst
    contributors.rst
 
 
