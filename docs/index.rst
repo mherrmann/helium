@@ -34,7 +34,7 @@ So in other words, you don't lose anything by using Helium over pure Selenium.
    :maxdepth: 2
    :caption: Contents:
 
-   getting-started.rst
+   installation.rst
    main.rst
    contributors.rst
 

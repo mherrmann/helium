@@ -1,10 +1,7 @@
-Getting started with Helium
-===========================
-
 Installing Helium
-^^^^^^^^^^^^^^^^^
+=================
 
-To get started with Helium, you need Python 3 and Chrome or Firefox.
+You need Python 3 and Chrome or Firefox.
 
 If you already know Python, then the following command should be all you need:
 
