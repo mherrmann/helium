@@ -124,12 +124,14 @@ automation in Python.
 ## Contributing
 
 Pull Requests are very welcome. Please follow the same coding conventions as the
-rest of the code, in particular the use of tabs over spaces.
+rest of the code, in particular the use of tabs over spaces. Also, read through my
+[PR guidelines](https://gist.github.com/mherrmann/5ce21814789152c17abd91c0b3eaadca).
+Doing this will save you (and me) unnecessary effort.
 
 Before you submit a PR, ensure that the tests still work:
 
 ```bash
-pip install -Ur requirements\test.txt
+pip install -Ur requirements/test.txt
 python setup.py test
 ```
 
