@@ -18,9 +18,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from time import sleep, time
-
 import atexit
 import re
+
 
 def might_spawn_window(f):
 	def f_decorated(self, *args, **kwargs):
@@ -128,6 +128,12 @@ class APIImpl:
 					"The driver located at %s is not executable." % driver_path
 				) from None
 		return driver_path
+
+	def maximize_window_impl(self):
+
+		ch_opt = ChromeOptions()
+		ch_opt.add_argument("--start-maximized")
+
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None
