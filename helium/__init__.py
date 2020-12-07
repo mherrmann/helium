@@ -106,14 +106,6 @@ def start_firefox(url=None, headless=False, options=None):
 	"""
 	return _get_api_impl().start_firefox_impl(url, headless, options)
 
-def maximize_window():
-	"""
-	To maximize chrome browser window
-	param : none
-	"""
-
-	_get_api_impl().maximize_window_impl()
-
 def go_to(url):
 	"""
 	:param url: URL to open.

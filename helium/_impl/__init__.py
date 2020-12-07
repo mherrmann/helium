@@ -94,8 +94,12 @@ class APIImpl:
 		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(self, url=None, headless=False, options=None):
-		chrome_driver = self._start_chrome_driver(headless, options)
-		return self._start(chrome_driver, url)
+		if headless == False :
+			ch_opt = ChromeOptions()
+			ch_opt.add_argument("--start-maximized")
+		else:
+			chrome_driver = self._start_chrome_driver(headless, options)
+			return self._start(chrome_driver, url)
 	def _start_chrome_driver(self, headless, options):
 		chrome_options = self._get_chrome_options(headless, options)
 		try:
@@ -128,12 +132,6 @@ class APIImpl:
 					"The driver located at %s is not executable." % driver_path
 				) from None
 		return driver_path
-
-	def maximize_window_impl(self):
-
-		ch_opt = ChromeOptions()
-		ch_opt.add_argument("--start-maximized")
-
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None
