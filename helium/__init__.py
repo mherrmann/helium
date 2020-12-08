@@ -18,12 +18,14 @@ from selenium.webdriver.common.keys import Keys
 
 import helium._impl
 
-def start_chrome(url=None, headless=False, options=None):
+def start_chrome(url=None, headless=False, maximize=False,  options=None):
 	"""
 	:param url: URL to open.
 	:type url: str
 	:param headless: Whether to start Chrome in headless mode.
 	:type headless: bool
+	:param maximize: Whether to start Chrome window in maximized mode.
+	:type maximize: bool
 	:param options: ChromeOptions to use for starting the browser
 	:type options: :py:class:`selenium.webdriver.ChromeOptions`
 
@@ -49,7 +51,6 @@ def start_chrome(url=None, headless=False, options=None):
 
 		from selenium.webdriver import ChromeOptions
 		options = ChromeOptions()
-		options.add_argument('--start-maximized')
 		options.add_argument('--proxy-server=1.2.3.4:5678')
 		start_chrome(options=options)
 
@@ -60,7 +61,7 @@ def start_chrome(url=None, headless=False, options=None):
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_chrome_impl(url, headless, options)
+	return _get_api_impl().start_chrome_impl(url, headless, maximize, options)
 
 def start_firefox(url=None, headless=False, options=None):
 	"""

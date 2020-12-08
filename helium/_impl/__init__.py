@@ -93,11 +93,11 @@ class APIImpl:
 			result = Firefox(executable_path=driver_path, **kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
-	def start_chrome_impl(self, url=None, headless=False, options=None):
-		chrome_driver = self._start_chrome_driver(headless, options)
+	def start_chrome_impl(self, url=None, headless=False, maximize=False, options=None):
+		chrome_driver = self._start_chrome_driver(headless, maximize, options)
 		return self._start(chrome_driver, url)
-	def _start_chrome_driver(self, headless, options):
-		chrome_options = self._get_chrome_options(headless, options)
+	def _start_chrome_driver(self, headless, maximize, options):
+		chrome_options = self._get_chrome_options(headless, maximize, options)
 		try:
 			result = Chrome(options=chrome_options)
 		except WebDriverException:
@@ -106,12 +106,14 @@ class APIImpl:
 			result = Chrome(options=chrome_options, executable_path=driver_path)
 		atexit.register(self._kill_service, result.service)
 		return result
-	def _get_chrome_options(self, headless, options):
+	def _get_chrome_options(self, headless, maximize, options):
 		result = ChromeOptions() if options is None else options
 		# Prevent Chrome's debug logs from appearing in our console window:
 		result.add_experimental_option('excludeSwitches', ['enable-logging'])
 		if headless:
 			result.add_argument('--headless')
+		elif maximize:
+			result.add_argument("--start-maximized")
 		return result
 	def _use_included_web_driver(self, driver_name):
 		if is_windows():
