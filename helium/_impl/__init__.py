@@ -1044,14 +1044,10 @@ class CompositeElement(HTMLElementImpl):
 		raise NotImplementedError()
 
 class ClickableText(CompositeElement):
-	def __init__(self, driver, text, **kwargs):
-		super(ClickableText, self).__init__(driver, text, **kwargs)
 	def get_element_types(self):
 		return [ButtonImpl, TextImpl, ImageImpl]
 
 class TextFieldImpl(CompositeElement):
-	def __init__(self, driver, label=None, **kwargs):
-		super(TextFieldImpl, self).__init__(driver, label, **kwargs)
 	def get_element_types(self):
 		return [
 			StandardTextFieldWithPlaceholder, StandardTextFieldWithLabel,
@@ -1112,8 +1108,6 @@ class FileInput(LabelledElement):
 		return "//input[@type='file']"
 
 class ComboBoxImpl(CompositeElement):
-	def __init__(self, driver, label=None, **kwargs):
-		super(ComboBoxImpl, self).__init__(driver, label, **kwargs)
 	def get_element_types(self):
 		return [ComboBoxIdentifiedByDisplayedValue, ComboBoxIdentifiedByLabel]
 	def is_editable(self):

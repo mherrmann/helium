@@ -256,7 +256,7 @@ class GUIElementsTest(BrowserAT):
 	# ListItem tests:
 	def test_list_item_no_text(self):
 		all_list_items = find_all(ListItem(below="HTML Unordered List"))
-		texts = set(list_item.web_element.text for list_item in all_list_items)
+		texts = {list_item.web_element.text for list_item in all_list_items}
 		self.assertEqual({'ListItem 1', 'ListItem 2'}, texts)
 
 	# Image tests:
