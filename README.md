@@ -97,6 +97,16 @@ you need to know to be productive with Helium.
 The documentation for this project can be found
 [here](https://selenium-python-helium.readthedocs.io/en/latest/).
 
+## Status of this project
+
+I have too little spare time to maintain this project for free. If you'd like
+my help, please go to my [web site](http://herrmann.io) to ask about my
+consulting rates. Otherwise, unless it is very easy for me, I will usually not
+respond to emails or issues on the issue tracker. I will however accept and
+merge PRs. So if you add some functionality to Helium that may be useful for
+others, do share it with us by creating a Pull Request. For instructions, please
+see [Contributing](#Contributing) below.
+
 ## How you can help
 
 I find Helium extremely useful in my own projects and feel it should be more
