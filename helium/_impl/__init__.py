@@ -8,7 +8,7 @@ from helium._impl.util.system import is_windows, get_canonical_os_name
 from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
 from os import access, X_OK
-from os.path import exists, join, dirname
+from os.path import join, dirname
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
