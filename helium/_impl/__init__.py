@@ -655,6 +655,8 @@ class GUIElementImpl:
 			return True
 		if isinstance(exception, MoveTargetOutOfBoundsException):
 			return True
+		if isinstance(exception, StaleElementReferenceException):
+			return True
 		if isinstance(exception, WebDriverException):
 			msg = exception.msg
 			if 'is not clickable at point' in msg \
