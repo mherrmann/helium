@@ -93,17 +93,17 @@ class APIImpl:
 			result = Firefox(executable_path=driver_path, **kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
-	def start_chrome_impl(self, url=None, headless=False, options=None):
-		chrome_driver = self._start_chrome_driver(headless, options)
+	def start_chrome_impl(self, url=None, headless=False, options=None, capabilities=None):
+		chrome_driver = self._start_chrome_driver(headless, options, capabilities)
 		return self._start(chrome_driver, url)
-	def _start_chrome_driver(self, headless, options):
+	def _start_chrome_driver(self, headless, options, capabilities):
 		chrome_options = self._get_chrome_options(headless, options)
 		try:
-			result = Chrome(options=chrome_options)
+			result = Chrome(options=chrome_options, desired_capabilities=capabilities)
 		except WebDriverException:
 			# This usually happens when chromedriver is not on the PATH.
 			driver_path = self._use_included_web_driver('chromedriver')
-			result = Chrome(options=chrome_options, executable_path=driver_path)
+			result = Chrome(options=chrome_options, desired_capabilities=capabilities, executable_path=driver_path)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def _get_chrome_options(self, headless, options):
