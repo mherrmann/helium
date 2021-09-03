@@ -18,7 +18,7 @@ from selenium.webdriver.common.keys import Keys
 
 import helium._impl
 
-def start_chrome(url=None, headless=False, options=None):
+def start_chrome(url=None, headless=False, options=None, capabilities=None):
 	"""
 	:param url: URL to open.
 	:type url: str
@@ -26,6 +26,8 @@ def start_chrome(url=None, headless=False, options=None):
 	:type headless: bool
 	:param options: ChromeOptions to use for starting the browser
 	:type options: :py:class:`selenium.webdriver.ChromeOptions`
+	:param capabilities: DesiredCapabilities to use for starting the browser
+	:type capabilities: :py:class:`selenium.webdriver.DesiredCapabilities`
 
 	Starts an instance of Google Chrome::
 
@@ -53,6 +55,12 @@ def start_chrome(url=None, headless=False, options=None):
 		options.add_argument('--proxy-server=1.2.3.4:5678')
 		start_chrome(options=options)
 
+		from selenium.webdriver import DesiredCapabilities
+		capabilities = DesiredCapabilities.CHROME
+		capabilities["pageLoadStrategy"] = "none"
+		capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
+		start_chrome(capabilities=capabilities)
+
 	On shutdown of the Python interpreter, Helium cleans up all resources used
 	for controlling the browser (such as the ChromeDriver process), but does
 	not close the browser itself. If you want to terminate the browser at the
@@ -60,7 +68,7 @@ def start_chrome(url=None, headless=False, options=None):
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_chrome_impl(url, headless, options)
+	return _get_api_impl().start_chrome_impl(url, headless, options, capabilities)
 
 def start_firefox(url=None, headless=False, options=None):
 	"""
