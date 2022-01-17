@@ -1,6 +1,7 @@
 from copy import copy
 
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as ServiceChrome
+from selenium.webdriver.firefox.service import Service as ServiceFirefox
 
 from helium._impl.chromedriver import install_matching_chromedriver
 from helium._impl.match_type import PREFIX_IGNORE_CASE
@@ -99,7 +100,7 @@ class APIImpl:
 		except WebDriverException:
 			# This usually happens when geckodriver is not on the PATH.
 			driver_path = self._use_included_web_driver('geckodriver')
-			result = Firefox(executable_path=driver_path, **kwargs)
+			result = Firefox(service=ServiceFirefox(driver_path), **kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(
@@ -120,7 +121,7 @@ class APIImpl:
 			driver_path = install_matching_chromedriver()
 			result = Chrome(
 				options=chrome_options, desired_capabilities=capabilities,
-				service=Service(driver_path)
+				service=ServiceChrome(driver_path)
 			)
 		atexit.register(self._kill_service, result.service)
 		return result
