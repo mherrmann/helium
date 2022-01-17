@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 from helium import write, click, switch_to, TextField, Text, get_driver, \
 	Link, wait_until
 from tests.api import BrowserAT, test_browser_name
@@ -46,7 +48,7 @@ class WindowHandlingTest(BrowserAT):
 		self.driver.switch_to.window(self.main_window_handle)
 		super().tearDown()
 	def _get_value(self, element_id):
-		return self.driver.find_element_by_id(element_id).get_attribute('value')
+		return self.driver.find_element(By.ID, element_id).get_attribute('value')
 	def _open_popup(self):
 		click("Open popup")
 		wait_until(self._is_in_popup)
