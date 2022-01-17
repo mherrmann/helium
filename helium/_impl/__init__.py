@@ -1,4 +1,7 @@
 from copy import copy
+
+from selenium.webdriver.chrome.service import Service
+
 from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
@@ -109,7 +112,7 @@ class APIImpl:
 			driver_path = self._use_included_web_driver('chromedriver')
 			result = Chrome(
 				options=chrome_options, desired_capabilities=capabilities,
-				executable_path=driver_path
+				service=Service(driver_path)
 			)
 		atexit.register(self._kill_service, result.service)
 		return result
