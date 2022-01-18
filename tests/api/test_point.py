@@ -1,3 +1,6 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
 from helium import click, Point, Button, hover, rightclick, doubleclick, drag
 from tests.api import BrowserAT, test_browser_name
 from re import search
@@ -40,6 +43,16 @@ class PointTest(BrowserAT):
 		)
 	def test_click_top_left(self):
 		click(Button("Button 1").top_left)
+		self.assert_result_is(
+			"Button 1 clicked at offset (0, 0).", offset_delta=(1, 1)
+		)
+	def test_click_top_left_selenium(self):
+		driver = self.driver
+		el = driver.find_element(By.XPATH, "//button[text()='Button 1']")
+		action = ActionChains(driver)
+		action.move_to_element_with_offset(el, 0, 0)
+		action.click()
+		action.perform()
 		self.assert_result_is(
 			"Button 1 clicked at offset (0, 0).", offset_delta=(1, 1)
 		)
