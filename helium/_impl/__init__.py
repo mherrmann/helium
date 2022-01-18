@@ -1,6 +1,7 @@
 from copy import copy
 
 from selenium.webdriver.chrome.service import Service as ServiceChrome
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as ServiceFirefox
 
 from helium._impl.match_type import PREFIX_IGNORE_CASE
@@ -789,17 +790,17 @@ class SImpl(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
-			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
+			return wrap(self._driver.find_elements(By.NAME, self.selector[1:]))
 		if self.selector.startswith('//'):
-			return wrap(self._driver.find_elements_by_xpath(self.selector))
-		return wrap(self._driver.find_elements_by_css_selector(self.selector))
+			return wrap(self._driver.find_elements(By.XPATH, self.selector))
+		return wrap(self._driver.find_elements(By.CSS_SELECTOR, self.selector))
 
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		x_path = self.get_xpath()
 		return self._sort_search_result(
 			list(map(
-				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+				WebElementWrapper, self._driver.find_elements(By.XPATH, x_path)
 			))
 		)
 	def _sort_search_result(self, search_result):
@@ -942,7 +943,7 @@ class LabelledElement(HTMLElementImpl):
 		if xpath is None:
 			xpath = self.get_xpath()
 		return list(map(
-			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+			WebElementWrapper, self._driver.find_elements(By.XPATH, xpath)
 		))
 	def _find_elts_by_free_text(self):
 		elt_types = [
