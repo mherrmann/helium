@@ -42,17 +42,7 @@ class PointTest(BrowserAT):
 			actual, list(range(expected - delta, expected + delta + 1)), msg
 		)
 	def test_click_top_left(self):
-		click(Button("Button 1").top_left)
-		self.assert_result_is(
-			"Button 1 clicked at offset (0, 0).", offset_delta=(1, 1)
-		)
-	def test_click_top_left_selenium(self):
-		driver = self.driver
-		el = driver.find_element(By.XPATH, "//button[text()='Button 1']")
-		action = ActionChains(driver)
-		action.move_to_element_with_offset(el, 0, 0)
-		action.click()
-		action.perform()
+		click(Button("Button 1").top_left + (1, 1))
 		self.assert_result_is(
 			"Button 1 clicked at offset (0, 0).", offset_delta=(1, 1)
 		)
@@ -65,7 +55,7 @@ class PointTest(BrowserAT):
 		click(Button("Button 3").top_left + (3, 4))
 		self.assert_result_is("Button 3 clicked at offset (3, 4).")
 	def test_hover_top_left(self):
-		hover(Button("Button 1").top_left)
+		hover(Button("Button 1").top_left + (1, 1))
 		self.assert_result_is(
 			"Button 1 hovered at offset (0, 0).", offset_delta=(1, 1)
 		)
@@ -78,7 +68,7 @@ class PointTest(BrowserAT):
 		hover(Button("Button 3").top_left + (3, 4))
 		self.assert_result_is("Button 3 hovered at offset (3, 4).")
 	def test_rightclick_top_left(self):
-		rightclick(Button("Button 1").top_left)
+		rightclick(Button("Button 1").top_left + (1, 1))
 		self.assert_result_is(
 			"Button 1 rightclicked at offset (0, 0).", offset_delta=(1, 1)
 		)
@@ -93,7 +83,7 @@ class PointTest(BrowserAT):
 			"Button 3 rightclicked at offset (3, 4)."
 		)
 	def test_doubleclick_top_left(self):
-		doubleclick(Button("Button 1").top_left)
+		doubleclick(Button("Button 1").top_left + (1, 1))
 		self.assert_result_is(
 			"Button 1 doubleclicked at offset (0, 0).", offset_delta=(1, 1)
 		)
