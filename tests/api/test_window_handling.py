@@ -46,7 +46,7 @@ class WindowHandlingTest(BrowserAT):
 		self.driver.switch_to.window(self.main_window_handle)
 		super().tearDown()
 	def _get_value(self, element_id):
-		return self.driver.find_element_by_id(element_id).get_attribute('value')
+		return self.driver.find_element(by='id', value=element_id).get_attribute('value')
 	def _open_popup(self):
 		click("Open popup")
 		wait_until(self._is_in_popup)

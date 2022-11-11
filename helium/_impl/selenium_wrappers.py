@@ -2,6 +2,7 @@ from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
 	NoSuchFrameException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from urllib.error import URLError
 import sys
 
@@ -40,13 +41,13 @@ class WebDriverWrapper(Wrapper):
 			return 0
 	def find_elements_by_name(self, name):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_name(name) or []
+		return self.target.find_elements(by=By.NAME, value=name) or []
 	def find_elements_by_xpath(self, xpath):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_xpath(xpath) or []
+		return self.target.find_elements(by=By.XPATH, value=xpath) or []
 	def find_elements_by_css_selector(self, selector):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_css_selector(selector) or []
+		return self.target.find_elements(by=By.CSS_SELECTOR, value=selector) or []
 	def is_firefox(self):
 		return self.browser_name == 'firefox'
 	@property

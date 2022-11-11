@@ -4,7 +4,7 @@ from tests.api import BrowserAT
 class DragTest(BrowserAT):
 	def setUp(self):
 		super().setUp()
-		self.drag_target = self.driver.find_element_by_id('target')
+		self.drag_target = self.driver.find_element(by='id', value='target')
 	def get_page(self):
 		return 'test_drag/default.html'
 	def test_drag(self):
@@ -26,5 +26,5 @@ class Html5DragIT(BrowserAT):
 	def get_page(self):
 		return 'test_drag/html5.html'
 	def test_html5_drag(self):
-		drag("Drag me.", to=self.driver.find_element_by_id('target'))
+		drag("Drag me.", to=self.driver.find_element(by='id', value='target'))
 		self.assertEqual('Success!', self.read_result_from_browser())

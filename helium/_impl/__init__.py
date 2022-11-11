@@ -13,6 +13,9 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
@@ -86,11 +89,11 @@ class APIImpl:
 			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
 		try:
-			result = Firefox(**kwargs)
+			result = Firefox(service=FirefoxService(), **kwargs)
 		except WebDriverException:
 			# This usually happens when geckodriver is not on the PATH.
 			driver_path = self._use_included_web_driver('geckodriver')
-			result = Firefox(executable_path=driver_path, **kwargs)
+			result = Firefox(service=FirefoxService(driver_path), **kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(
@@ -103,13 +106,14 @@ class APIImpl:
 	def _start_chrome_driver(self, headless, maximize, options, capabilities):
 		chrome_options = self._get_chrome_options(headless, maximize, options)
 		try:
-			result = Chrome(options=chrome_options, desired_capabilities=capabilities)
+			result = Chrome(options=chrome_options, desired_capabilities=capabilities,
+							service=ChromeService())
 		except WebDriverException:
 			# This usually happens when chromedriver is not on the PATH.
 			driver_path = self._use_included_web_driver('chromedriver')
 			result = Chrome(
 				options=chrome_options, desired_capabilities=capabilities,
-				executable_path=driver_path
+				service=ChromeService(driver_path),
 			)
 		atexit.register(self._kill_service, result.service)
 		return result
@@ -785,17 +789,17 @@ class SImpl(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
-			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
+			return wrap(self._driver.find_elements(by=By.NAME, value=self.selector[1:]))
 		if self.selector.startswith('//'):
-			return wrap(self._driver.find_elements_by_xpath(self.selector))
-		return wrap(self._driver.find_elements_by_css_selector(self.selector))
+			return wrap(self._driver.find_elements(by=By.XPATH, value=self.selector))
+		return wrap(self._driver.find_elements(by=By.CSS_SELECTOR, value=self.selector))
 
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		x_path = self.get_xpath()
 		return self._sort_search_result(
 			list(map(
-				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+				WebElementWrapper, self._driver.find_elements(by=By.XPATH, value=x_path)
 			))
 		)
 	def _sort_search_result(self, search_result):
@@ -938,7 +942,7 @@ class LabelledElement(HTMLElementImpl):
 		if xpath is None:
 			xpath = self.get_xpath()
 		return list(map(
-			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+			WebElementWrapper, self._driver.find_elements(by=By.XPATH, value=xpath)
 		))
 	def _find_elts_by_free_text(self):
 		elt_types = [

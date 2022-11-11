@@ -34,7 +34,7 @@ class BrowserAT(TestCase):
 		start_time = time()
 		while time() < start_time + timeout_secs:
 			result = self.driver\
-				.find_element_by_id('result').get_attribute('innerHTML')
+				.find_element(by='id', value='result').get_attribute('innerHTML')
 			if result:
 				return result
 			sleep(0.2)
