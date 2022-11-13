@@ -77,7 +77,7 @@ def start_chrome(
 		url, headless, maximize, options, capabilities
 	)
 
-def start_firefox(url=None, headless=False, options=None):
+def start_firefox(url=None, headless=False, options=None, profile=None):
 	"""
 	:param url: URL to open.
 	:type url: str
@@ -85,6 +85,8 @@ def start_firefox(url=None, headless=False, options=None):
 	:type headless: bool
 	:param options: FirefoxOptions to use for starting the browser.
 	:type options: :py:class:`selenium.webdriver.FirefoxOptions`
+	:param profile: FirefoxProfile to use for starting the browser.
+	:type profile: :py:class:`selenium.webdriver.FirefoxProfile`
 
 	Starts an instance of Firefox::
 
@@ -112,6 +114,23 @@ def start_firefox(url=None, headless=False, options=None):
 		options.add_argument("--height=1440")
 		start_firefox(options=options)
 
+	To set proxy, useragent, etc. (ie. things you find in about:config), use the `profile` parameter::
+
+		from selenium.webdriver import FirefoxProfile
+		profile = FirefoxProfile()
+		SOCKS5_PROXY_HOST = "0.0.0.0"
+		PROXY_PORT = 0
+		profile.set_preference("network.proxy.type", 1)
+		profile.set_preference("network.proxy.socks", SOCKS5_PROXY_HOST)
+		profile.set_preference("network.proxy.socks_port", PROXY_PORT)
+		profile.set_preference("network.proxy.socks_remote_dns", True)
+		profile.set_preference("network.proxy.socks_version", 5)
+		profile.set_preference("network.proxy.no_proxies_on", "localhost, 10.20.30.40")
+		USER_AGENT = "Mozilla/5.0 ..."
+		profile.set_preference("general.useragent.override", USER_AGENT)
+		start_firefox(profile=profile)
+
+
 	On shutdown of the Python interpreter, Helium cleans up all resources used
 	for controlling the browser (such as the geckodriver process), but does
 	not close the browser itself. If you want to terminate the browser at the
@@ -119,7 +138,7 @@ def start_firefox(url=None, headless=False, options=None):
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_firefox_impl(url, headless, options)
+	return _get_api_impl().start_firefox_impl(url, headless, options, profile)
 
 def go_to(url):
 	"""
