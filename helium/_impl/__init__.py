@@ -19,7 +19,7 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
+from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, FirefoxProfile
 from time import sleep, time
 
 import atexit
@@ -77,15 +77,17 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
-	def start_firefox_impl(self, url=None, headless=False, options=None):
-		firefox_driver = self._start_firefox_driver(headless, options)
+	def start_firefox_impl(self, url=None, headless=False, options=None, profile=None):
+		firefox_driver = self._start_firefox_driver(headless, options, profile)
 		return self._start(firefox_driver, url)
-	def _start_firefox_driver(self, headless, options):
+	def _start_firefox_driver(self, headless, options, profile):
 		firefox_options = FirefoxOptions() if options is None else options
+		firefox_profile = FirefoxProfile() if profile is None else profile
 		if headless:
 			firefox_options.headless = True
 		kwargs = {
 			'options': firefox_options,
+			'firefox_profile': firefox_profile,
 			'service_log_path': 'nul' if is_windows() else '/dev/null'
 		}
 		try:
