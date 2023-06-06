@@ -38,15 +38,18 @@ class WebDriverWrapper(Wrapper):
 			# No .location. This happens when last_manipulated_element is an
 			# Alert or a Window.
 			return 0
-	def find_elements_by_name(self, name):
+	def find_elements(self, by, xpath):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_name(name) or []
-	def find_elements_by_xpath(self, xpath):
-		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_xpath(xpath) or []
-	def find_elements_by_css_selector(self, selector):
-		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_css_selector(selector) or []
+		return self.target.find_elements(by, xpath) or []
+	#def find_elements_by_name(self, name):
+	#	# Selenium sometimes returns None. For robustness, we turn this into []:
+	#	return self.target.find_elements_by_name(name) or []
+	#def find_elements_by_xpath(self, xpath):
+	#	# Selenium sometimes returns None. For robustness, we turn this into []:
+	#	return self.target.find_elements_by_xpath(xpath) or []
+	#def find_elements_by_css_selector(self, selector):
+	#	# Selenium sometimes returns None. For robustness, we turn this into []:
+	#	return self.target.find_elements_by_css_selector(selector) or []
 	def is_firefox(self):
 		return self.browser_name == 'firefox'
 	@property

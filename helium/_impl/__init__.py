@@ -13,6 +13,7 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
@@ -797,7 +798,8 @@ class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 		x_path = self.get_xpath()
 		return self._sort_search_result(
 			list(map(
-				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+				WebElementWrapper, self._driver.find_elements(By.XPATH, x_path)
+				#WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
 			))
 		)
 	def _sort_search_result(self, search_result):
@@ -940,7 +942,9 @@ class LabelledElement(HTMLElementImpl):
 		if xpath is None:
 			xpath = self.get_xpath()
 		return list(map(
-			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+			WebElementWrapper, self._driver.find_elements(By.XPATH, xpath)
+			#WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+			
 		))
 	def _find_elts_by_free_text(self):
 		elt_types = [
