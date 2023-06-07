@@ -1,4 +1,5 @@
 from copy import copy
+from distutils.version import StrictVersion
 from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
@@ -9,6 +10,7 @@ from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
 from os import access, X_OK
 from os.path import join, dirname
+import selenium
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
@@ -22,6 +24,7 @@ from time import sleep, time
 
 import atexit
 import re
+
 
 def might_spawn_window(f):
 	def f_decorated(self, *args, **kwargs):
@@ -788,20 +791,39 @@ class SImpl(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
-			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
+			if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+			    _xpath = wrap(self._driver.find_elements(By.NAME, self.selector[1:]))
+			else:
+			    _xpath = wrap(self._driver.find_elements_by_name(self.selector[1:]))			
+			return _xpath
 		if self.selector.startswith('//'):
-			return wrap(self._driver.find_elements_by_xpath(self.selector))
-		return wrap(self._driver.find_elements_by_css_selector(self.selector))
+			if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+			    _xpath = wrap(self._driver.find_elements(By.XPATH, self.selector))
+			else:
+			    _xpath = wrap(self._driver.find_elements_by_xpath(self.selector))
+			return _xpath
+		if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+		    _xpath = wrap(self._driver.find_elements(By.CSS_SELECTOR, self.selector))
+		else:
+		    _xpath = wrap(self._driver.find_elements_by_css_selector(self.selector))
+		return _xpath
 
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 	def find_all_in_curr_frame(self):
 		x_path = self.get_xpath()
-		return self._sort_search_result(
+		if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+		    _xpath = self._sort_search_result(
 			list(map(
 				WebElementWrapper, self._driver.find_elements(By.XPATH, x_path)
-				#WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
 			))
 		)
+		else:
+		    _xpath = self._sort_search_result(
+			list(map(
+				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+			))
+		)		
+		return _xpath
 	def _sort_search_result(self, search_result):
 		keys_to_result_items = []
 		for web_elt in search_result:
@@ -941,11 +963,15 @@ class LabelledElement(HTMLElementImpl):
 	def _find_elts(self, xpath=None):
 		if xpath is None:
 			xpath = self.get_xpath()
-		return list(map(
+		if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+		    _xpath = list(map(
 			WebElementWrapper, self._driver.find_elements(By.XPATH, xpath)
-			#WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
-			
-		))
+		    ))
+		else:
+		    _xpath = list(map(
+			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+		    ))
+		return _xpath
 	def _find_elts_by_free_text(self):
 		elt_types = [
 			xpath.strip().lstrip('/') for xpath in self.get_xpath().split('|')
