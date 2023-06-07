@@ -1,9 +1,12 @@
+from distutils.version import StrictVersion
 from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
 	NoSuchFrameException, WebDriverException
+import selenium
 from selenium.webdriver.common.action_chains import ActionChains
 from urllib.error import URLError
 import sys
+
 
 class Wrapper:
 	def __init__(self, target):
@@ -38,15 +41,21 @@ class WebDriverWrapper(Wrapper):
 			# No .location. This happens when last_manipulated_element is an
 			# Alert or a Window.
 			return 0
-	def find_elements_by_name(self, name):
-		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_name(name) or []
-	def find_elements_by_xpath(self, xpath):
-		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_xpath(xpath) or []
-	def find_elements_by_css_selector(self, selector):
-		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_css_selector(selector) or []
+	# Compare the version with '4.0.0'
+	if StrictVersion(selenium.__version__) >= StrictVersion('4.0.0'):
+		def find_elements(self, by, xpath):
+			# Selenium sometimes returns None. For robustness, we turn this into []:
+			return self.target.find_elements(by, xpath) or []
+	else:
+		def find_elements_by_name(self, name):
+			# Selenium sometimes returns None. For robustness, we turn this into []:
+			return self.target.find_elements_by_name(name) or []
+		def find_elements_by_xpath(self, xpath):
+			# Selenium sometimes returns None. For robustness, we turn this into []:
+			return self.target.find_elements_by_xpath(xpath) or []
+		def find_elements_by_css_selector(self, selector):
+			# Selenium sometimes returns None. For robustness, we turn this into []:
+			return self.target.find_elements_by_css_selector(selector) or []
 	def is_firefox(self):
 		return self.browser_name == 'firefox'
 	@property
