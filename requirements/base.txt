@@ -1,2 +1,6 @@
 # Also update setup.py when you edit this file.
+
 selenium==3.141.0
+
+# Selenium 3 is incompatible with urllib3 >= 2:
+urllib3<2

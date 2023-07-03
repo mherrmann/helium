@@ -13,7 +13,9 @@ setup(
 	packages = find_packages(exclude=['tests', 'tests.*']),
 	install_requires = [
 		# Also update requirements/base.txt when you make changes here.
-		'selenium==3.141.0'
+		'selenium==3.141.0',
+		# Selenium 3 is incompatible with urllib3 >= 2:
+		'urllib3<2'
 	],
 	package_data = {
 		'helium._impl': ['webdrivers/**/*']
