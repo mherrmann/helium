@@ -74,8 +74,11 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
-	def start_firefox_impl(self, url=None, headless=False, options=None, profile=None):
+	def start_firefox_impl(self, url=None, headless=False, options=None, profile=None, addons=None):
 		firefox_driver = self._start_firefox_driver(headless, options, profile)
+		if not addons is None:
+			for addon in addons:
+				firefox_driver.install_addon(addon)
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options, profile):
 		firefox_options = FirefoxOptions() if options is None else options

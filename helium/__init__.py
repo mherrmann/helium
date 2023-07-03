@@ -58,6 +58,7 @@ def start_chrome(
 		from selenium.webdriver import ChromeOptions
 		options = ChromeOptions()
 		options.add_argument('--proxy-server=1.2.3.4:5678')
+		options.add_extension('/absolute/path/to/extension/noscript-chrome.zip')
 		start_chrome(options=options)
 
 		from selenium.webdriver import DesiredCapabilities
@@ -77,7 +78,7 @@ def start_chrome(
 		url, headless, maximize, options, capabilities
 	)
 
-def start_firefox(url=None, headless=False, options=None, profile=None):
+def start_firefox(url=None, headless=False, options=None, profile=None, addons=None):
 	"""
 	:param url: URL to open.
 	:type url: str
@@ -87,6 +88,8 @@ def start_firefox(url=None, headless=False, options=None, profile=None):
 	:type options: :py:class:`selenium.webdriver.FirefoxOptions`
 	:param profile: FirefoxProfile to use for starting the browser.
 	:type profile: :py:class:`selenium.webdriver.FirefoxProfile`
+	:param addons: List of absolute paths to Firefox addons (.xpi files) to install
+	:type addons: list
 
 	Starts an instance of Firefox::
 
@@ -129,6 +132,14 @@ def start_firefox(url=None, headless=False, options=None, profile=None):
 		USER_AGENT = "Mozilla/5.0 ..."
 		profile.set_preference("general.useragent.override", USER_AGENT)
 		start_firefox(profile=profile)
+	
+	To install addons (such as uBlock and NoScript in the example), use the `addons` parameter::
+
+		extensions = [
+			'/absolute/path/to/addon/uBlock.xpi',
+			'/absolute/path/to/addon/noscript.xpi'
+		]
+		start_firefox(addons=extensions)
 
 
 	On shutdown of the Python interpreter, Helium cleans up all resources used
