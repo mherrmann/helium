@@ -1,4 +1,5 @@
 from copy import copy
+from helium._impl.chromedriver import install_matching_chromedriver
 from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
@@ -16,7 +17,8 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, FirefoxProfile
+from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, \
+	FirefoxProfile
 from time import sleep, time
 
 import atexit
@@ -74,7 +76,9 @@ class APIImpl:
 		" * set_driver(...)"
 	def __init__(self):
 		self.driver = None
-	def start_firefox_impl(self, url=None, headless=False, options=None, profile=None):
+	def start_firefox_impl(
+		self, url=None, headless=False, options=None, profile=None
+	):
 		firefox_driver = self._start_firefox_driver(headless, options, profile)
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options, profile):
@@ -105,10 +109,12 @@ class APIImpl:
 	def _start_chrome_driver(self, headless, maximize, options, capabilities):
 		chrome_options = self._get_chrome_options(headless, maximize, options)
 		try:
-			result = Chrome(options=chrome_options, desired_capabilities=capabilities)
+			result = Chrome(
+				options=chrome_options, desired_capabilities=capabilities
+			)
 		except WebDriverException:
 			# This usually happens when chromedriver is not on the PATH.
-			driver_path = self._use_included_web_driver('chromedriver')
+			driver_path = install_matching_chromedriver()
 			result = Chrome(
 				options=chrome_options, desired_capabilities=capabilities,
 				executable_path=driver_path

@@ -38,10 +38,6 @@ def start_chrome(
 
 		start_chrome()
 
-	If this doesn't work for you, then it may be that Helium's copy of
-	ChromeDriver is not compatible with your version of Chrome. To fix this,
-	place a copy of ChromeDriver on your `PATH`.
-
 	You can optionally open a URL::
 
 		start_chrome("google.com")
@@ -66,10 +62,16 @@ def start_chrome(
 		capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
 		start_chrome(capabilities=capabilities)
 
-	On shutdown of the Python interpreter, Helium cleans up all resources used
-	for controlling the browser (such as the ChromeDriver process), but does
-	not close the browser itself. If you want to terminate the browser at the
-	end of your script, use the following command::
+	When no compatible ChromeDriver is found on your `PATH`, then `start_chrome`
+	automatically downloads it into the following directories::
+
+	 * Windows: `%LOCALAPPDATA%\Cache\Helium`
+	 * macOS: `~/Library/Caches/Helium`
+	 * Linux: `$XDG_CACHE_HOME/helium` or `~/.cache/Helium`
+
+	On shutdown of the Python interpreter, Helium terminates the ChromeDriver
+	process but does not close the browser itself. If you want to close the
+	browser at the end of your script, use the following command::
 
 		kill_browser()
 	"""
