@@ -15,7 +15,7 @@ def install_matching_chromedriver():
 		cached_chrome_version.write(chrome_version)
 	return join(
 		cache_directory,
-		'chromedriver' + '.exe' if platform.system() == 'Windows' else ''
+		'chromedriver' + ('.exe' if platform.system() == 'Windows' else '')
 	)
 
 def _get_cache_directory():
