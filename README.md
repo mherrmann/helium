@@ -28,8 +28,9 @@ So in other words, you don't lose anything by using Helium over pure Selenium.
 In addition to its more high-level API, Helium simplifies further tasks that are
 traditionally painful in Selenium:
 
-- **Web driver management:** Helium ships with its own copies of ChromeDriver
-  and geckodriver so you don't need to download and put them on your PATH.
+- **Web driver management:** Helium ships with its own copies of geckodriver and
+  automatically downloads a matching ChromeDriver for your system, so you don't
+  need to manually download and put them on your PATH.
 - **iFrames:** Unlike Selenium, Helium lets you interact with elements inside
   nested iFrames, without having to first "switch to" the iFrame.
 - **Window management.** Helium notices when popups open or close and focuses /
