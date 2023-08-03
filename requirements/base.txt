@@ -5,4 +5,4 @@ selenium==3.141.0
 # Selenium 3 is incompatible with urllib3 >= 2:
 urllib3<2
 
-webdriver-manager==4.0.0
+webdriver-manager>=4.0.0

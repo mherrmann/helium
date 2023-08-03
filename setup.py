@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
 	name = 'helium',
 	# Also update docs/conf.py when you change this:
-	version = '3.2.4',
+	version = '3.2.5',
 	author = 'Michael Herrmann',
 	author_email = 'michael+removethisifyouarehuman@herrmann.io',
 	description = 'Lighter browser automation based on Selenium.',
@@ -16,7 +16,7 @@ setup(
 		'selenium==3.141.0',
 		# Selenium 3 is incompatible with urllib3 >= 2:
 		'urllib3<2',
-		'webdriver-manager==4.0.0'
+		'webdriver-manager>=4.0.0'
 	],
 	package_data = {
 		'helium._impl': ['webdrivers/**/*']
