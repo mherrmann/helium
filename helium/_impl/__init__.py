@@ -723,23 +723,19 @@ class HTMLElementImpl(GUIElementImpl):
 		self._handle_closed_window()
 		self._driver.switch_to.default_content()
 		already_yielded = set()
-		try:
-			for frame_index in FrameIterator(self._driver):
-				search_regions = self._get_search_regions_in_curr_frame()
-				for occurrence in self.find_all_in_curr_frame():
-					if self._should_yield(occurrence, search_regions):
-						if occurrence.target in already_yielded:
-							# We have seen this element before, but its frame
-							# had a different index. This means that the frames
-							# have changed. Prevent the element from appearing
-							# in results multiple times and abort:
-							raise FramesChangedWhileIterating()
-						occurrence.frame_index = frame_index
-						yield occurrence
-						already_yielded.add(occurrence.target)
-		except FramesChangedWhileIterating:
-			# Abort this search.
-			pass
+		for frame_index in FrameIterator(self._driver):
+			search_regions = self._get_search_regions_in_curr_frame()
+			for occurrence in self.find_all_in_curr_frame():
+				if self._should_yield(occurrence, search_regions):
+					if occurrence.target in already_yielded:
+						# We have seen this element before, but its frame had a
+						# different index. This means that the frames have
+						# changed. Prevent the element from appearing in results
+						# multiple times and abort:
+						return
+					occurrence.frame_index = frame_index
+					yield occurrence
+					already_yielded.add(occurrence.target)
 	def _handle_closed_window(self):
 		window_handles = self._driver.window_handles
 		try:
