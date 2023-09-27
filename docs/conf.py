@@ -12,7 +12,7 @@ copyright = '%s, Michael Herrmann' % date.today().year
 author = 'Michael Herrmann'
 
 # Also update ../setup.py when you change this:
-release = '3.2.5'
+release = '3.2.6'
 
 
 # -- General configuration ---------------------------------------------------
