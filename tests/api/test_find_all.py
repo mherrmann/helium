@@ -17,6 +17,15 @@ class FindAllTest(BrowserAT):
 				"Duplicate Button", below="Column 1", to_right_of="Row 1"
 			)))
 		)
+	def test_find_all_nested_search_areas(self):
+		# `test_find_all_duplicate_button_below_to_right_of` above showed that
+		# there is only one button that fulfills the following criteria:
+		button = \
+			Button("Duplicate Button", below="Column 1", to_right_of="Row 1")
+		# Similarly, there should only be one button below this button:
+		self.assertEqual(
+			1, len(find_all(Button("Duplicate Button", below=button)))
+		)
 	def test_find_all_non_existent_button(self):
 		self.assertEqual([], find_all(Button("Non-existent Button")))
 	def test_find_all_yields_api_elements(self):

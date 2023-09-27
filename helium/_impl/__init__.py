@@ -693,13 +693,8 @@ class HTMLElementImpl(GUIElementImpl):
 		self.above = self._unwrap_element(above)
 		self.to_left_of = self._unwrap_element(to_left_of)
 		self.matches = PREFIX_IGNORE_CASE()
-	def _unwrap_element(self, element):
-		if isinstance(element, str):
-			return TextImpl(self._driver, element)
-		from helium import HTMLElement
-		if isinstance(element, HTMLElement):
-			return element._impl
-		return element
+	def find_anywhere_in_curr_frame(self):
+		raise NotImplementedError()
 	@property
 	def width(self):
 		return self.first_occurrence.location.width
@@ -724,18 +719,15 @@ class HTMLElementImpl(GUIElementImpl):
 		self._driver.switch_to.default_content()
 		already_yielded = set()
 		for frame_index in FrameIterator(self._driver):
-			search_regions = self._get_search_regions_in_curr_frame()
-			for occurrence in self.find_all_in_curr_frame():
-				if self._should_yield(occurrence, search_regions):
-					if occurrence.target in already_yielded:
-						# We have seen this element before, but its frame had a
-						# different index. This means that the frames have
-						# changed. Prevent the element from appearing in results
-						# multiple times and abort:
-						return
-					occurrence.frame_index = frame_index
-					yield occurrence
-					already_yielded.add(occurrence.target)
+			for occurrence in self._find_all_in_curr_frame():
+				if occurrence.target in already_yielded:
+					# We have seen this element before, but its frame had a
+					# different index. This means that the frames have changed.
+					# Abort:
+					return
+				occurrence.frame_index = frame_index
+				yield occurrence
+				already_yielded.add(occurrence.target)
 	def _handle_closed_window(self):
 		window_handles = self._driver.window_handles
 		try:
@@ -746,32 +738,36 @@ class HTMLElementImpl(GUIElementImpl):
 			window_has_been_closed = curr_window_handle not in window_handles
 		if window_has_been_closed:
 			self._driver.switch_to.window(window_handles[0])
+	def _find_all_in_curr_frame(self):
+		search_regions = self._get_search_regions_in_curr_frame()
+		for occurrence in self.find_anywhere_in_curr_frame():
+			if not occurrence.is_displayed():
+				continue
+			if self._is_in_any_search_region(occurrence, search_regions):
+				yield occurrence
 	def _get_search_regions_in_curr_frame(self):
 		result = []
 		if self.below:
 			result.append([
 				elt.location.is_above
-				for elt in self.below.find_all_in_curr_frame()
+				for elt in self.below._find_all_in_curr_frame()
 			])
 		if self.to_right_of:
 			result.append([
 				elt.location.is_to_left_of
-				for elt in self.to_right_of.find_all_in_curr_frame()
+				for elt in self.to_right_of._find_all_in_curr_frame()
 			])
 		if self.above:
 			result.append([
 				elt.location.is_below
-				for elt in self.above.find_all_in_curr_frame()
+				for elt in self.above._find_all_in_curr_frame()
 			])
 		if self.to_left_of:
 			result.append([
 				elt.location.is_to_right_of
-				for elt in self.to_left_of.find_all_in_curr_frame()
+				for elt in self.to_left_of._find_all_in_curr_frame()
 			])
 		return result
-	def _should_yield(self, occurrence, search_regions):
-		return occurrence.is_displayed() and \
-			   self._is_in_any_search_region(occurrence, search_regions)
 	def _is_in_any_search_region(self, element, search_regions):
 		for direction in search_regions:
 			found = False
@@ -782,19 +778,24 @@ class HTMLElementImpl(GUIElementImpl):
 			if not found:
 				return False
 		return True
-	def find_all_in_curr_frame(self):
-		raise NotImplementedError()
 	def _is_enabled(self):
 		"""
 		Useful for subclasses.
 		"""
 		return self.first_occurrence.get_attribute('disabled') is None
+	def _unwrap_element(self, element):
+		if isinstance(element, str):
+			return TextImpl(self._driver, element)
+		from helium import HTMLElement
+		if isinstance(element, HTMLElement):
+			return element._impl
+		return element
 
 class SImpl(HTMLElementImpl):
 	def __init__(self, driver, selector, **kwargs):
 		super(SImpl, self).__init__(driver, **kwargs)
 		self.selector = selector
-	def find_all_in_curr_frame(self):
+	def find_anywhere_in_curr_frame(self):
 		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
 			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
@@ -803,7 +804,7 @@ class SImpl(HTMLElementImpl):
 		return wrap(self._driver.find_elements_by_css_selector(self.selector))
 
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
-	def find_all_in_curr_frame(self):
+	def find_anywhere_in_curr_frame(self):
 		x_path = self.get_xpath()
 		return self._sort_search_result(
 			list(map(
@@ -932,13 +933,13 @@ class LabelledElement(HTMLElementImpl):
 	def __init__(self, driver, label=None, **kwargs):
 		super(LabelledElement, self).__init__(driver, **kwargs)
 		self.label = label
-	def find_all_in_curr_frame(self):
+	def find_anywhere_in_curr_frame(self):
 		if not self.label:
 			result = self._find_elts()
 		else:
 			labels = TextImpl(
 				self._driver, self.label, include_free_text=False
-			).find_all_in_curr_frame()
+			).find_anywhere_in_curr_frame()
 			if labels:
 				result = list(self._filter_elts_belonging_to_labels(
 					self._find_elts(), labels
@@ -1049,12 +1050,12 @@ class CompositeElement(HTMLElementImpl):
 	def first_element(self):
 		if self._first_element is None:
 			self._bind_to_first_occurrence()
-			# find_all_in_curr_frame() below now sets _first_element
+			# find_anywhere_in_curr_frame() below now sets _first_element
 		return self._first_element
-	def find_all_in_curr_frame(self):
+	def find_anywhere_in_curr_frame(self):
 		already_yielded = []
 		for element in self.get_elements():
-			for bound_gui_elt_impl in element.find_all_in_curr_frame():
+			for bound_gui_elt_impl in element.find_anywhere_in_curr_frame():
 				if self._first_element is None:
 					self._first_element = element
 				if bound_gui_elt_impl not in already_yielded:
@@ -1159,10 +1160,10 @@ class ComboBoxIdentifiedByDisplayedValue(HTMLElementContainingText):
 		option_xpath = \
 			super(ComboBoxIdentifiedByDisplayedValue, self).get_xpath()
 		return option_xpath + '/ancestor::select[1]'
-	def find_all_in_curr_frame(self):
+	def find_anywhere_in_curr_frame(self):
 		all_cbs_with_a_matching_value = super(
 			ComboBoxIdentifiedByDisplayedValue, self
-		).find_all_in_curr_frame()
+		).find_anywhere_in_curr_frame()
 		result = []
 		for cb in all_cbs_with_a_matching_value:
 			for selected_option in Select(cb.unwrap()).all_selected_options:
