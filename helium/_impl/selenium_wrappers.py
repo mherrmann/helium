@@ -1,6 +1,6 @@
 from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
-	NoSuchFrameException, WebDriverException
+	NoSuchFrameException, WebDriverException, NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from urllib.error import URLError
@@ -83,7 +83,7 @@ def handle_element_being_in_other_frame(f):
 			return f(self, *args, **kwargs)
 		try:
 			return f(self, *args, **kwargs)
-		except StaleElementReferenceException as original_exc:
+		except (StaleElementReferenceException, NoSuchElementException) as original_exc:
 			try:
 				frame_iterator = FrameIterator(self.target.parent)
 				frame_iterator.switch_to_frame(self.frame_index)

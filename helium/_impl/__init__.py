@@ -86,13 +86,15 @@ class APIImpl:
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options, profile):
 		firefox_options = FirefoxOptions() if options is None else options
-		firefox_profile = FirefoxProfile() if profile is None else profile
 		if headless:
-			firefox_options.headless = True
+			firefox_options.add_argument('--headless')
 		kwargs = {
-			'options': firefox_options,
-            'firefox_profile': firefox_profile
+			'options': firefox_options
 		}
+		if profile:
+			# This is Deprecated in the driver so only do it (and trigger the warnings)
+			# if the user requests it
+			kwargs['firefox_profile'] = profile
 		service_log_path = 'nul' if is_windows() else '/dev/null'
 		try:
 			result = Firefox(service=ServiceFirefox(log_path=service_log_path), **kwargs)
