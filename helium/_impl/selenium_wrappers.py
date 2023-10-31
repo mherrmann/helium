@@ -1,9 +1,8 @@
-from selenium.webdriver.common.by import By
-
 from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
 	NoSuchFrameException, WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from urllib.error import URLError
 import sys
 

@@ -1,6 +1,5 @@
-from selenium.webdriver.common.by import By
-
 from helium import *
+from selenium.webdriver.common.by import By
 from tests.api import BrowserAT
 
 class DragTest(BrowserAT):

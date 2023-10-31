@@ -1,9 +1,4 @@
 from copy import copy
-
-from selenium.webdriver.chrome.service import Service as ServiceChrome
-from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service as ServiceFirefox
-
 from helium._impl.chromedriver import install_matching_chromedriver
 from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
@@ -19,6 +14,9 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
+from selenium.webdriver.chrome.service import Service as ServiceChrome
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select

@@ -1,7 +1,6 @@
-from selenium.webdriver.common.by import By
-
 from helium._impl import TextImpl
 from helium._impl.selenium_wrappers import WebDriverWrapper
+from selenium.webdriver.common.by import By
 from tests.api import BrowserAT
 
 class TextImplTest(BrowserAT):
