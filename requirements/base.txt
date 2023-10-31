@@ -1,2 +1,3 @@
 # Also update setup.py when you edit this file.
-selenium==4.9.0
+selenium>=4.9,<4.10
+webdriver_manager
