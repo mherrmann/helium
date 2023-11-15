@@ -1,3 +1,5 @@
 # Also update setup.py when you edit this file.
 selenium>=4.9,<4.10
-webdriver_manager
+# Freeze webdriver-manager for security; It downloads and runs binaries from the
+# internet. If it becomes malicious in the future, very bad things can happen.
+webdriver-manager==4.0.1
