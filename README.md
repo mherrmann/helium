@@ -1,4 +1,4 @@
-# Selenium-python but lighter: Helium
+# Lighter web automation for Python
 
 [Selenium-python](https://selenium-python.readthedocs.io/) is great for web
 automation. Helium makes it easier to use. For example:
@@ -166,3 +166,6 @@ Helium used to be available for both Java and Python. But because I now only
 use it from Python, I didn't have time to bring the Java implementation up to
 speed as well. Similarly for Internet Explorer: Helium used to support it, but
 since I have no need for it, I removed the (probably broken) old implementation.
+
+The name Helium was chosen because it is also a chemical element like Selenium
+- but it is lighter.
