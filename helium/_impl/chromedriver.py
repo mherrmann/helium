@@ -1,3 +1,8 @@
+# Suppress webdriver_manager's excessive log output:
+import logging
+import os
+os.environ.setdefault('WDM_LOG', str(logging.NOTSET))
+
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.driver_cache import DriverCacheManager
 
