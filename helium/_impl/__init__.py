@@ -4,12 +4,9 @@ from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
 from helium._impl.util.dictionary import inverse
-from helium._impl.util.os_ import make_executable
 from helium._impl.util.system import is_windows, get_canonical_os_name
 from helium._impl.util.xpath import lower, predicate, predicate_or
 from inspect import getfullargspec, ismethod, isfunction
-from os import access, X_OK
-from os.path import join, dirname
 from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
@@ -20,8 +17,7 @@ from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, \
-	FirefoxProfile
+from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions
 from time import sleep, time
 
 import atexit
@@ -96,18 +92,8 @@ class APIImpl:
 			# warnings) if the user requests it
 			kwargs['firefox_profile'] = profile
 		service_log_path = 'nul' if is_windows() else '/dev/null'
-		try:
-			result = Firefox(
-				service=ServiceFirefox(log_path=service_log_path), **kwargs
-			)
-		except WebDriverException:
-			# This usually happens when geckodriver is not on the PATH.
-			driver_path = self._use_included_web_driver('geckodriver')
-			result = Firefox(
-				service=ServiceFirefox(driver_path, log_path=service_log_path),
-				**kwargs
-			)
-		atexit.register(self._kill_service, result.service)
+		service = ServiceFirefox(log_path=service_log_path)
+		result = Firefox(service=service, **kwargs)
 		return result
 	def start_chrome_impl(
 		self, url=None, headless=False, maximize=False, options=None,
@@ -140,21 +126,6 @@ class APIImpl:
 		elif maximize:
 			result.add_argument('--start-maximized')
 		return result
-	def _use_included_web_driver(self, driver_name):
-		if is_windows():
-			driver_name += '.exe'
-		driver_path = join(
-			dirname(__file__), 'webdrivers', get_canonical_os_name(),
-			driver_name
-		)
-		if not access(driver_path, X_OK):
-			try:
-				make_executable(driver_path)
-			except Exception:
-				raise RuntimeError(
-					"The driver located at %s is not executable." % driver_path
-				) from None
-		return driver_path
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
 		service.send_remote_shutdown_command = lambda: None
