@@ -245,8 +245,9 @@ class APIImpl:
 		if offset is not None:
 			result.move_to_element_with_offset(
 				element,
-				*(offset[0] - element.size['width']/2,
-				offset[1] - element.size['height']/2))
+				offset[0] - element.size['width'] / 2,
+				offset[1] - element.size['height'] / 2
+			)
 		else:
 			result.move_to_element(element)
 		return result
