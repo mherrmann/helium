@@ -92,16 +92,21 @@ class APIImpl:
 			'options': firefox_options
 		}
 		if profile:
-			# This is Deprecated in the driver so only do it (and trigger the warnings)
-			# if the user requests it
+			# This is Deprecated in the driver so only do it (and trigger the
+			# warnings) if the user requests it
 			kwargs['firefox_profile'] = profile
 		service_log_path = 'nul' if is_windows() else '/dev/null'
 		try:
-			result = Firefox(service=ServiceFirefox(log_path=service_log_path), **kwargs)
+			result = Firefox(
+				service=ServiceFirefox(log_path=service_log_path), **kwargs
+			)
 		except WebDriverException:
 			# This usually happens when geckodriver is not on the PATH.
 			driver_path = self._use_included_web_driver('geckodriver')
-			result = Firefox(service=ServiceFirefox(driver_path, log_path=service_log_path), **kwargs)
+			result = Firefox(
+				service=ServiceFirefox(driver_path, log_path=service_log_path),
+				**kwargs
+			)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(
