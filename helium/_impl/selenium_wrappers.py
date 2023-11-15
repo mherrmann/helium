@@ -1,7 +1,8 @@
 from helium._impl.util.geom import Rectangle
 from selenium.common.exceptions import StaleElementReferenceException, \
-	NoSuchFrameException, WebDriverException
+	NoSuchFrameException, WebDriverException, NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from urllib.error import URLError
 import sys
 
@@ -40,13 +41,13 @@ class WebDriverWrapper(Wrapper):
 			return 0
 	def find_elements_by_name(self, name):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_name(name) or []
+		return self.target.find_elements(By.NAME, name) or []
 	def find_elements_by_xpath(self, xpath):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_xpath(xpath) or []
+		return self.target.find_elements(By.XPATH, xpath) or []
 	def find_elements_by_css_selector(self, selector):
 		# Selenium sometimes returns None. For robustness, we turn this into []:
-		return self.target.find_elements_by_css_selector(selector) or []
+		return self.target.find_elements(By.CSS_SELECTOR, selector) or []
 	def is_firefox(self):
 		return self.browser_name == 'firefox'
 	@property
@@ -82,7 +83,7 @@ def handle_element_being_in_other_frame(f):
 			return f(self, *args, **kwargs)
 		try:
 			return f(self, *args, **kwargs)
-		except StaleElementReferenceException as original_exc:
+		except (StaleElementReferenceException, NoSuchElementException) as original_exc:
 			try:
 				frame_iterator = FrameIterator(self.target.parent)
 				frame_iterator.switch_to_frame(self.frame_index)

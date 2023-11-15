@@ -1,8 +1,9 @@
 from helium import start_chrome, start_firefox, go_to, set_driver, \
 	kill_browser
-from unittest import TestCase
+from selenium.webdriver.common.by import By
 from tests.api.util import get_data_file_url
 from time import time, sleep
+from unittest import TestCase
 
 import os
 
@@ -34,7 +35,7 @@ class BrowserAT(TestCase):
 		start_time = time()
 		while time() < start_time + timeout_secs:
 			result = self.driver\
-				.find_element_by_id('result').get_attribute('innerHTML')
+				.find_element(By.ID, 'result').get_attribute('innerHTML')
 			if result:
 				return result
 			sleep(0.2)

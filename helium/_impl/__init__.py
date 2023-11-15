@@ -14,6 +14,9 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
+from selenium.webdriver.chrome.service import Service as ServiceChrome
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
@@ -83,20 +86,22 @@ class APIImpl:
 		return self._start(firefox_driver, url)
 	def _start_firefox_driver(self, headless, options, profile):
 		firefox_options = FirefoxOptions() if options is None else options
-		firefox_profile = FirefoxProfile() if profile is None else profile
 		if headless:
-			firefox_options.headless = True
+			firefox_options.add_argument('--headless')
 		kwargs = {
-			'options': firefox_options,
-			'firefox_profile': firefox_profile,
-			'service_log_path': 'nul' if is_windows() else '/dev/null'
+			'options': firefox_options
 		}
+		if profile:
+			# This is Deprecated in the driver so only do it (and trigger the warnings)
+			# if the user requests it
+			kwargs['firefox_profile'] = profile
+		service_log_path = 'nul' if is_windows() else '/dev/null'
 		try:
-			result = Firefox(**kwargs)
+			result = Firefox(service=ServiceFirefox(log_path=service_log_path), **kwargs)
 		except WebDriverException:
 			# This usually happens when geckodriver is not on the PATH.
 			driver_path = self._use_included_web_driver('geckodriver')
-			result = Firefox(executable_path=driver_path, **kwargs)
+			result = Firefox(service=ServiceFirefox(driver_path, log_path=service_log_path), **kwargs)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def start_chrome_impl(
@@ -117,7 +122,7 @@ class APIImpl:
 			driver_path = install_matching_chromedriver()
 			result = Chrome(
 				options=chrome_options, desired_capabilities=capabilities,
-				executable_path=driver_path
+				service=ServiceChrome(driver_path)
 			)
 		atexit.register(self._kill_service, result.service)
 		return result
@@ -233,7 +238,10 @@ class APIImpl:
 	def _move_to_element(self, element, offset):
 		result = self.require_driver().action()
 		if offset is not None:
-			result.move_to_element_with_offset(element, *offset)
+			result.move_to_element_with_offset(
+				element,
+				*(offset[0] - element.size['width']/2,
+				offset[1] - element.size['height']/2))
 		else:
 			result.move_to_element(element)
 		return result
@@ -798,17 +806,17 @@ class SImpl(HTMLElementImpl):
 	def find_anywhere_in_curr_frame(self):
 		wrap = lambda web_elements: list(map(WebElementWrapper, web_elements))
 		if self.selector.startswith('@'):
-			return wrap(self._driver.find_elements_by_name(self.selector[1:]))
+			return wrap(self._driver.find_elements(By.NAME, self.selector[1:]))
 		if self.selector.startswith('//'):
-			return wrap(self._driver.find_elements_by_xpath(self.selector))
-		return wrap(self._driver.find_elements_by_css_selector(self.selector))
+			return wrap(self._driver.find_elements(By.XPATH, self.selector))
+		return wrap(self._driver.find_elements(By.CSS_SELECTOR, self.selector))
 
 class HTMLElementIdentifiedByXPath(HTMLElementImpl):
 	def find_anywhere_in_curr_frame(self):
 		x_path = self.get_xpath()
 		return self._sort_search_result(
 			list(map(
-				WebElementWrapper, self._driver.find_elements_by_xpath(x_path)
+				WebElementWrapper, self._driver.find_elements(By.XPATH, x_path)
 			))
 		)
 	def _sort_search_result(self, search_result):
@@ -951,7 +959,7 @@ class LabelledElement(HTMLElementImpl):
 		if xpath is None:
 			xpath = self.get_xpath()
 		return list(map(
-			WebElementWrapper, self._driver.find_elements_by_xpath(xpath)
+			WebElementWrapper, self._driver.find_elements(By.XPATH, xpath)
 		))
 	def _find_elts_by_free_text(self):
 		elt_types = [

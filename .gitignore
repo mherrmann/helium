@@ -58,3 +58,4 @@ poetry.lock
 .idea
 .vscode
 
+geckodriver.log
