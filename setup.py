@@ -8,7 +8,7 @@ setup(
 	author_email = 'michael+removethisifyouarehuman@herrmann.io',
 	description = 'Lighter browser automation based on Selenium.',
 	keywords = 'helium selenium browser automation',
-	url = 'https://github.com/mherrmann/selenium-python-helium',
+	url = 'https://github.com/mherrmann/helium',
 	python_requires='>=3',
 	packages = find_packages(exclude=['tests', 'tests.*']),
 	install_requires = [

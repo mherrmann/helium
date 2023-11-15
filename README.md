@@ -96,7 +96,7 @@ you need to know to be productive with Helium.
 ## API Documentation
 
 The documentation for this project can be found
-[here](https://selenium-python-helium.readthedocs.io/en/latest/).
+[here](https://helium.readthedocs.io/en/latest/).
 
 ## Status of this project
 

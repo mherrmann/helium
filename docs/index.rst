@@ -8,7 +8,7 @@ you a simpler API. Helium's name comes from being a lighter chemical element
 than Selenium.
 
 For a quick overview of Helium's features, please see
-`the project home page <https://github.com/mherrmann/selenium-python-helium>`_.
+`the project home page <https://github.com/mherrmann/helium>`_.
 Here, in the documentation, you will find a more comprehensive reference.
 
 
