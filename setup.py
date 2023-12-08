@@ -13,11 +13,7 @@ setup(
 	packages = find_packages(exclude=['tests', 'tests.*']),
 	install_requires = [
 		# Also update requirements/base.txt when you make changes here.
-		'selenium>=4.9.0,<4.10',
-		# Freeze webdriver-manager for security; It downloads and runs binaries
-		# from the internet. If it becomes malicious in the future, very bad
-		# things can happen.
-		'webdriver-manager==4.0.1'
+		'selenium>=4.16.0'
 	],
 	package_data = {
 		'helium._impl': ['webdrivers/**/*']

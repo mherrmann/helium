@@ -1,5 +1,4 @@
 from copy import copy
-from helium._impl.chromedriver import install_matching_chromedriver
 from helium._impl.match_type import PREFIX_IGNORE_CASE
 from helium._impl.selenium_wrappers import WebElementWrapper, \
 	WebDriverWrapper, FrameIterator, FramesChangedWhileIterating
@@ -11,7 +10,6 @@ from selenium.common.exceptions import UnexpectedAlertPresentException, \
 	ElementNotVisibleException, MoveTargetOutOfBoundsException, \
 	WebDriverException, StaleElementReferenceException, \
 	NoAlertPresentException, NoSuchWindowException
-from selenium.webdriver.chrome.service import Service as ServiceChrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as ServiceFirefox
 from selenium.webdriver.remote.webelement import WebElement
@@ -96,25 +94,13 @@ class APIImpl:
 		result = Firefox(service=service, **kwargs)
 		return result
 	def start_chrome_impl(
-		self, url=None, headless=False, maximize=False, options=None,
-		capabilities=None
+		self, url=None, headless=False, maximize=False, options=None
 	):
-		chrome_driver = \
-			self._start_chrome_driver(headless, maximize, options, capabilities)
+		chrome_driver = self._start_chrome_driver(headless, maximize, options)
 		return self._start(chrome_driver, url)
-	def _start_chrome_driver(self, headless, maximize, options, capabilities):
+	def _start_chrome_driver(self, headless, maximize, options):
 		chrome_options = self._get_chrome_options(headless, maximize, options)
-		try:
-			result = Chrome(
-				options=chrome_options, desired_capabilities=capabilities
-			)
-		except WebDriverException:
-			# This usually happens when chromedriver is not on the PATH.
-			driver_path = install_matching_chromedriver()
-			result = Chrome(
-				options=chrome_options, desired_capabilities=capabilities,
-				service=ServiceChrome(driver_path)
-			)
+		result = Chrome(options=chrome_options)
 		atexit.register(self._kill_service, result.service)
 		return result
 	def _get_chrome_options(self, headless, maximize, options):

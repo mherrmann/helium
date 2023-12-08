@@ -18,9 +18,7 @@ from selenium.webdriver.common.keys import Keys
 
 import helium._impl
 
-def start_chrome(
-	url=None, headless=False, maximize=False, options=None, capabilities=None
-):
+def start_chrome(url=None, headless=False, maximize=False, options=None):
 	"""
 	:param url: URL to open.
 	:type url: str
@@ -31,8 +29,6 @@ def start_chrome(
 	:type maximize: bool
 	:param options: ChromeOptions to use for starting the browser
 	:type options: :py:class:`selenium.webdriver.ChromeOptions`
-	:param capabilities: DesiredCapabilities to use for starting the browser
-	:type capabilities: :py:class:`selenium.webdriver.DesiredCapabilities`
 
 	Starts an instance of Google Chrome::
 
@@ -48,26 +44,16 @@ def start_chrome(
 		start_chrome(headless=True)
 		start_chrome("google.com", headless=True)
 
-	For more advanced configuration, use the `options` or `capabilities`
-	parameters::
+	For more advanced configuration, use the `options` parameter::
 
 		from selenium.webdriver import ChromeOptions
 		options = ChromeOptions()
 		options.add_argument('--proxy-server=1.2.3.4:5678')
+		options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 		start_chrome(options=options)
 
-		from selenium.webdriver import DesiredCapabilities
-		capabilities = DesiredCapabilities.CHROME
-		capabilities["pageLoadStrategy"] = "none"
-		capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
-		start_chrome(capabilities=capabilities)
-
 	When no compatible ChromeDriver is found on your `PATH`, then `start_chrome`
-	automatically downloads it into the following directories::
-
-	 * Windows: `%LOCALAPPDATA%\Cache\Helium`
-	 * macOS: `~/Library/Caches/Helium`
-	 * Linux: `$XDG_CACHE_HOME/helium` or `~/.cache/Helium`
+	automatically downloads it using Selenium Manager.
 
 	On shutdown of the Python interpreter, Helium terminates the ChromeDriver
 	process but does not close the browser itself. If you want to close the
@@ -75,9 +61,7 @@ def start_chrome(
 
 		kill_browser()
 	"""
-	return _get_api_impl().start_chrome_impl(
-		url, headless, maximize, options, capabilities
-	)
+	return _get_api_impl().start_chrome_impl(url, headless, maximize, options)
 
 def start_firefox(url=None, headless=False, options=None, profile=None):
 	"""
@@ -116,7 +100,8 @@ def start_firefox(url=None, headless=False, options=None, profile=None):
 		options.add_argument("--height=1440")
 		start_firefox(options=options)
 
-	To set proxy, useragent, etc. (ie. things you find in about:config), use the `profile` parameter::
+	To set proxy, useragent, etc. (ie. things you find in about:config), use the
+	`profile` parameter::
 
 		from selenium.webdriver import FirefoxProfile
 		profile = FirefoxProfile()
@@ -131,7 +116,6 @@ def start_firefox(url=None, headless=False, options=None, profile=None):
 		USER_AGENT = "Mozilla/5.0 ..."
 		profile.set_preference("general.useragent.override", USER_AGENT)
 		start_firefox(profile=profile)
-
 
 	On shutdown of the Python interpreter, Helium cleans up all resources used
 	for controlling the browser (such as the geckodriver process), but does
