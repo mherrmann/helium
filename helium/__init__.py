@@ -112,7 +112,8 @@ def start_firefox(url=None, headless=False, options=None, profile=None):
 		profile.set_preference("network.proxy.socks_port", PROXY_PORT)
 		profile.set_preference("network.proxy.socks_remote_dns", True)
 		profile.set_preference("network.proxy.socks_version", 5)
-		profile.set_preference("network.proxy.no_proxies_on", "localhost, 10.20.30.40")
+		profile.set_preference("network.proxy.no_proxies_on", "localhost,
+		                       10.20.30.40")
 		USER_AGENT = "Mozilla/5.0 ..."
 		profile.set_preference("general.useragent.override", USER_AGENT)
 		start_firefox(profile=profile)

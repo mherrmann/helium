@@ -1,4 +1,5 @@
-from helium._impl.selenium_wrappers import FrameIterator, FramesChangedWhileIterating
+from helium._impl.selenium_wrappers import FrameIterator, \
+	FramesChangedWhileIterating
 from selenium.common.exceptions import NoSuchFrameException
 from unittest import TestCase
 
