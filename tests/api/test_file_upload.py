@@ -23,6 +23,7 @@ class FileUploadTest(BrowserAT):
 			self.file_to_upload,
 			to=Text('Normal file upload').top_left + (200, 10)
 		)
+		self.assertEqual('Success!', self.read_result_from_browser())
 	def test_drag_file_to_appearing_drop_area(self):
 		drag_file(self.file_to_upload, to='Drop the file here!')
 		self.assertEqual('Success!', self.read_result_from_browser())
