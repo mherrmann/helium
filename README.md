@@ -1,6 +1,6 @@
 # Lighter web automation for Python
 
-[Selenium-python](https://selenium-python.readthedocs.io/) is great for web
+[Selenium-Python](https://www.selenium.dev/documentation/) is great for web
 automation. Helium makes it easier to use. For example:
 
 ![Helium Demo](docs/helium-demo.gif)
