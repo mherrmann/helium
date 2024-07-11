@@ -1009,7 +1009,10 @@ class LabelledElement(HTMLElementImpl):
 			else:
 				distances.append((distance, elt))
 		if distances:
-			return sorted(distances)[0][1]
+			# Provide `key=` to prevent a TypeError that happens when Python
+			# attempts to sort on the second items of the tuples when the first
+			# items are equal.
+			return sorted(distances, key=lambda tpl: tpl[0])[0][1]
 	def _compute_distance(self, elt_1, elt_2):
 		loc_1 = elt_1.location
 		loc_2 = elt_2.location
