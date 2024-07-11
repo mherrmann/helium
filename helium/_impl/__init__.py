@@ -631,9 +631,7 @@ class GUIElementImpl:
 			try:
 				action(occurrence)
 			except Exception as e:
-				if self.should_ignore_exception(e):
-					continue
-				else:
+				if not self.should_ignore_exception(e):
 					raise
 			else:
 				self._bound_occurrence = occurrence
@@ -957,21 +955,29 @@ class LabelledElement(HTMLElementImpl):
 				yield next(iter(elts_for_label))
 	def _get_labels_with_explicit_elts(self, all_elts, labels):
 		for label in labels:
-			if label.tag_name == 'label':
-				label_target = label.get_attribute('for')
-				if label_target:
-					for elt in all_elts:
-						elt_id = elt.get_attribute('id')
-						if elt_id.lower() == label_target.lower():
-							yield label, elt
+			try:
+				if label.tag_name == 'label':
+					label_target = label.get_attribute('for')
+					if label_target:
+						for elt in all_elts:
+							elt_id = elt.get_attribute('id')
+							if elt_id.lower() == label_target.lower():
+								yield label, elt
+			except Exception as e:
+				if not self.should_ignore_exception(e):
+					raise
 	def _get_related_elts(self, all_elts, labels):
 		result = {}
 		for label in labels:
 			for elt in all_elts:
-				if self._are_related(elt, label):
-					if label not in result:
-						result[label] = set()
-					result[label].add(elt)
+				try:
+					if self._are_related(elt, label):
+						if label not in result:
+							result[label] = set()
+						result[label].add(elt)
+				except Exception as e:
+					if not self.should_ignore_exception(e):
+						raise
 		return result
 	def _are_related(self, elt, label):
 		if elt.location.intersects(label.location):
@@ -989,19 +995,21 @@ class LabelledElement(HTMLElementImpl):
 	def _retain_closest(self, pivots_to_elts):
 		for pivot, elts in list(pivots_to_elts.items()):
 			if elts:
-				# Would like to use a set literal {...} here, but this is not
-				# supported in Python 2.6. Thus we need to use set([...]).
-				pivots_to_elts[pivot] = set([self._find_closest(pivot, elts)])
+				closest = self._find_closest(pivot, elts)
+				if closest:
+					pivots_to_elts[pivot] = {closest}
 	def _find_closest(self, to_pivot, among_elts):
-		remaining_elts = iter(among_elts)
-		result = next(remaining_elts)
-		result_distance = self._compute_distance(result, to_pivot)
-		for element in remaining_elts:
-			element_distance = self._compute_distance(element, to_pivot)
-			if element_distance < result_distance:
-				result = element
-				result_distance = element_distance
-		return result
+		distances = []
+		for elt in among_elts:
+			try:
+				distance = self._compute_distance(elt, to_pivot)
+			except Exception as e:
+				if not self.should_ignore_exception(e):
+					raise
+			else:
+				distances.append((distance, elt))
+		if distances:
+			return sorted(distances)[0][1]
 	def _compute_distance(self, elt_1, elt_2):
 		loc_1 = elt_1.location
 		loc_2 = elt_2.location
