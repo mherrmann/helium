@@ -9,30 +9,20 @@ For example:
 
 To get started with Helium, you need Python 3 and Chrome or Firefox.
 
-If you already know Python, then the following command should be all you need:
+I would recommend creating a virtual environment. This lets you install Helium
+for just your current project, instead of globally on your whole computer.
 
-```bash
-pip install helium
-```
-
-Otherwise - Hi! I would recommend you create a virtual environment in the
-current directory. Any libraries you download (such as Helium) will be placed
-there. Enter the following into a command prompt:
+To create and activate a virtual environment, type the following commands into
+a command prompt window:
 
 ```bash
 python3 -m venv venv
-```
-
-This creates a virtual environment in the `venv` directory. To activate it:
-
-```bash
 # On Mac/Linux:
 source venv/bin/activate
 # On Windows:
 call venv\scripts\activate.bat
 ```
-
-Then, install Helium using `pip`:
+Then, you can install Helium with `pip`:
 
 ```bash
 python -m pip install helium
