@@ -1,7 +1,7 @@
 # Lighter web automation with Python
 
-[Selenium-Python](https://www.selenium.dev/documentation/) is great for web
-automation. Helium makes it easier to use. For example:
+Helium is Python library for automating browsers such as Chrome and Firefox.
+Fox example:
 
 ![Helium Demo](docs/helium-demo.gif)
 
