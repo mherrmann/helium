@@ -1,7 +1,7 @@
 # Lighter web automation with Python
 
 Helium is Python library for automating browsers such as Chrome and Firefox.
-Fox example:
+For example:
 
 ![Helium Demo](docs/helium-demo.gif)
 
