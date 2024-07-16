@@ -5,6 +5,49 @@ Fox example:
 
 ![Helium Demo](docs/helium-demo.gif)
 
+## Installation
+
+To get started with Helium, you need Python 3 and Chrome or Firefox.
+
+If you already know Python, then the following command should be all you need:
+
+```bash
+pip install helium
+```
+
+Otherwise - Hi! I would recommend you create a virtual environment in the
+current directory. Any libraries you download (such as Helium) will be placed
+there. Enter the following into a command prompt:
+
+```bash
+python3 -m venv venv
+```
+
+This creates a virtual environment in the `venv` directory. To activate it:
+
+```bash
+# On Mac/Linux:
+source venv/bin/activate
+# On Windows:
+call venv\scripts\activate.bat
+```
+
+Then, install Helium using `pip`:
+
+```bash
+python -m pip install helium
+```
+
+Now enter `python` into the command prompt and (for instance) the commands in
+the animation at the top of this page (`from helium import *`, ...).
+
+## Your first script
+
+I've compiled a [cheatsheet](docs/cheatsheet.md) that quickly teaches you all
+you need to know to be productive with Helium.
+
+## Connection to Selenium
+
 Under the hood, Helium forwards each call to Selenium. The difference is that
 Helium's API is much more high-level. In Selenium, you need to use HTML IDs,
 XPaths and CSS selectors to identify web page elements. Helium on the other hand
@@ -48,52 +91,6 @@ traditionally painful in Selenium:
   ```python
   wait_until(Button('Download').exists)
   ```
-
-## Installation
-
-To get started with Helium, you need Python 3 and Chrome or Firefox.
-
-If you already know Python, then the following command should be all you need:
-
-```bash
-pip install helium
-```
-
-Otherwise - Hi! I would recommend you create a virtual environment in the
-current directory. Any libraries you download (such as Helium) will be placed
-there. Enter the following into a command prompt:
-
-```bash
-python3 -m venv venv
-```
-
-This creates a virtual environment in the `venv` directory. To activate it:
-
-```bash
-# On Mac/Linux:
-source venv/bin/activate
-# On Windows:
-call venv\scripts\activate.bat
-```
-
-Then, install Helium using `pip`:
-
-```bash
-python -m pip install helium
-```
-
-Now enter `python` into the command prompt and (for instance) the commands in
-the animation at the top of this page (`from helium import *`, ...).
-
-## Your first script
-
-I've compiled a [cheatsheet](docs/cheatsheet.md) that quickly teaches you all
-you need to know to be productive with Helium.
-
-## API Documentation
-
-The documentation for this project can be found
-[here](https://helium.readthedocs.io/en/latest/).
 
 ## Status of this project
 
