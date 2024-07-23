@@ -327,8 +327,11 @@ class APIImpl:
 				condition_fn = condition_fn.__call__
 			args_spec = getfullargspec(condition_fn).args
 			unfilled_args = len(args_spec)
-		condition = \
-			condition_fn if unfilled_args else lambda driver: condition_fn()
+		def condition(driver):
+			try:
+				return condition_fn(driver) if unfilled_args else condition_fn()
+			except FramesChangedWhileIterating:
+				return False
 		wait = WebDriverWait(
 			self.require_driver().unwrap(), timeout_secs,
 			poll_frequency=interval_secs
