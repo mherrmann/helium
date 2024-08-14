@@ -243,10 +243,16 @@ class APIImpl:
 		return element, offset
 	@handle_unexpected_alert
 	def find_all_impl(self, predicate):
-		return [
-			predicate.with_impl(bound_gui_elt_impl)
-			for bound_gui_elt_impl in predicate._impl.find_all()
-		]
+		while True:
+			try:
+				return [
+					predicate.with_impl(bound_gui_elt_impl)
+					for bound_gui_elt_impl in predicate._impl.iter_all()
+				]
+			except FramesChangedWhileIterating:
+				# Try again.
+				pass
+			break
 	def scroll_down_impl(self, num_pixels):
 		self._scroll_by(0, num_pixels)
 	def scroll_up_impl(self, num_pixels):
@@ -589,15 +595,21 @@ class GUIElementImpl:
 	def __init__(self, driver):
 		self._bound_occurrence = None
 		self._driver = driver
-	def find_all(self):
+	def iter_all(self, ignore_frame_changes=False):
 		if self._is_bound():
 			yield self
 		else:
-			for occurrence in self.find_all_occurrences():
-				yield self.bound_to_occurrence(occurrence)
+			while True:
+				try:
+					for occurrence in self.iter_all_occurrences():
+						yield self.bound_to_occurrence(occurrence)
+				except FramesChangedWhileIterating:
+					if not ignore_frame_changes:
+						raise
+				break
 	def _is_bound(self):
 		return self._bound_occurrence is not None
-	def find_all_occurrences(self):
+	def iter_all_occurrences(self):
 		raise NotImplementedError()
 	def bound_to_occurrence(self, occurrence):
 		result = copy(self)
@@ -605,7 +617,7 @@ class GUIElementImpl:
 		return result
 	def exists(self):
 		try:
-			next(self.find_all())
+			next(self.iter_all(ignore_frame_changes=True))
 		except StopIteration:
 			return False
 		else:
@@ -629,7 +641,7 @@ class GUIElementImpl:
 			return result
 		raise LookupError()
 	def _perform_no_wait(self, action):
-		for bound_gui_elt_impl in self.find_all():
+		for bound_gui_elt_impl in self.iter_all(ignore_frame_changes=True):
 			occurrence = bound_gui_elt_impl.first_occurrence
 			try:
 				action(occurrence)
@@ -686,7 +698,7 @@ class HTMLElementImpl(GUIElementImpl):
 	@property
 	def web_element(self):
 		return self.first_occurrence.unwrap()
-	def find_all_occurrences(self):
+	def iter_all_occurrences(self):
 		self._handle_closed_window()
 		self._driver.switch_to.default_content()
 		already_yielded = set()
@@ -1183,7 +1195,7 @@ class WindowImpl(GUIElementImpl):
 	def __init__(self, driver, title=None):
 		super(WindowImpl, self).__init__(driver)
 		self.search_title = title
-	def find_all_occurrences(self):
+	def iter_all_occurrences(self):
 		result_scores = []
 		for handle in self._driver.window_handles:
 			window = WindowImpl.SeleniumWindow(self._driver, handle)
@@ -1231,7 +1243,7 @@ class AlertImpl(GUIElementImpl):
 	def __init__(self, driver, search_text=None):
 		super(AlertImpl, self).__init__(driver)
 		self.search_text = search_text
-	def find_all_occurrences(self):
+	def iter_all_occurrences(self):
 		try:
 			result = self._driver.switch_to.alert
 			text = result.text
