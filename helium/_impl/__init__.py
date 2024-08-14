@@ -252,7 +252,6 @@ class APIImpl:
 			except FramesChangedWhileIterating:
 				# Try again.
 				pass
-			break
 	def scroll_down_impl(self, num_pixels):
 		self._scroll_by(0, num_pixels)
 	def scroll_up_impl(self, num_pixels):
