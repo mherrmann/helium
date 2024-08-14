@@ -1,4 +1,4 @@
-from helium import Text, get_driver
+from helium import Text, get_driver, find_all
 from tests.api import BrowserAT
 
 class IframeTest(BrowserAT):
@@ -18,3 +18,9 @@ class IframeTest(BrowserAT):
 		self.assertEqual("This text is inside an iframe.", text.value)
 		get_driver().switch_to.default_content()
 		self.assertEqual("This text is inside an iframe.", text.value)
+	def test_repr(self):
+		text, = find_all(Text("This text is inside an iframe."))
+		get_driver().switch_to.default_content()
+		# The text is now outside the current iframe. `repr(...)` should still
+		# work without producing any errors:
+		self.assertEqual("Text('This text is inside an iframe.')", repr(text))

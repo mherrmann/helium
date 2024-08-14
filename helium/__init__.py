@@ -14,6 +14,7 @@ from copy import copy
 from helium._impl import APIImpl
 from helium._impl.util.html import get_easily_readable_snippet
 from helium._impl.util.inspect_ import repr_args
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 
 import helium._impl
@@ -604,10 +605,20 @@ class HTMLElement(GUIElement):
 		return self._impl.web_element
 	def __repr__(self):
 		if self._is_bound():
-			element_html = self.web_element.get_attribute('outerHTML')
-			return get_easily_readable_snippet(element_html)
-		else:
-			return super(HTMLElement, self).__repr__()
+			try:
+				element_html = self.web_element.get_attribute('outerHTML')
+			except NoSuchElementException:
+				# This can happen when the element is not in the current iframe.
+				# We could call `self._impl.first_occurrence.get_attribute(...)`
+				# instead of `self.web_element.get_attribute(...)` to avoid it.
+				# However, this would change the current frame. That seems too
+				# surprising a side effect for a repr(...) call. So we instead
+				# catch the error and fall back to the super implementation
+				# further below.
+				pass
+			else:
+				return get_easily_readable_snippet(element_html)
+		return super(HTMLElement, self).__repr__()
 
 class S(HTMLElement):
 	"""
