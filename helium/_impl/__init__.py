@@ -1092,8 +1092,9 @@ class StandardTextFieldWithLabel(LabelledElement):
 	def get_xpath(self):
 		return \
 			"//input[%s='text' or %s='email' or %s='password' or %s='number' " \
-			"or %s='tel' or string-length(@type)=0]" % ((lower('@type'), ) * 5)\
-			+ " | //textarea | //*[@contenteditable='true']"
+			 "or %s='date' or %s='time' or %s='tel' or string-length(@type)=0]"\
+			 % ((lower('@type'), ) * 7) + \
+			 " | //textarea | //*[@contenteditable='true']"
 
 class AriaTextFieldWithLabel(LabelledElement):
 	@property

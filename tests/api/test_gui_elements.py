@@ -96,6 +96,10 @@ class GUIElementsTest(BrowserAT):
 		)
 	def test_input_type_tel(self):
 		self.assertFindsEltWithId(TextField("Input type=tel"), "inputTypeTel")
+	def test_input_type_date(self):
+		self.assertFindsEltWithId(TextField("Input type=date"), "inputTypeDate")
+	def test_input_type_time(self):
+		self.assertFindsEltWithId(TextField("Input type=time"), "inputTypeTime")
 	def test_text_field_to_right_of_text_field(self):
 		self.assertFindsEltWithId(
 			TextField(to_right_of=TextField("Required Text Field")),
