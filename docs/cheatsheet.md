@@ -218,9 +218,27 @@ Use
 ## Clicking at x, y coordinates
 
 Sometimes, you may want to click at a specific `(x, y)` coordinate, or at an
-offset of an element. See the
+offset of an element. 
+
+### Create a `Point` to specify the coordinates and use it to click:
+
+```python
+from helium import click
+point = Point(x=100, y=200)
+click(point)  # Clicks at (100, 200)
+```
+
+### Adjusting a Point by a offset
+You can modify a point's position using addition or subtraction by a delta:
+
+```python
+delta = (20, -10)
+click(Point(100, 200) + delta)  # Clicks at (120, 190)
+```
+
+See the
 [`Point` class](https://github.com/mherrmann/helium/blob/0667ddb9be531367a0d707ad8f5fcfb75c528521/helium/__init__.py#L1010)
-for how.
+for more.
 
 ## Taking a screenshot
 
