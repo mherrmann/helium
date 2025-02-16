@@ -86,9 +86,7 @@ class APIImpl:
 			'options': firefox_options
 		}
 		if profile:
-			# This is Deprecated in the driver so only do it (and trigger the
-			# warnings) if the user requests it
-			kwargs['firefox_profile'] = profile
+			firefox_options.profile = profile
 		service_log_path = 'nul' if is_windows() else '/dev/null'
 		service = ServiceFirefox(log_path=service_log_path)
 		result = Firefox(service=service, **kwargs)
