@@ -1,2 +1,2 @@
 # Also update setup.py when you edit this file.
-selenium>=4.16.0
+selenium>=4.29.0
