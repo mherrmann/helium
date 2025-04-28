@@ -34,7 +34,9 @@ the animation at the top of this page (`from helium import *`, ...).
 ## Your first script
 
 I've compiled a [cheatsheet](docs/cheatsheet.md) that quickly teaches you all
-you need to know to be productive with Helium.
+you need to know to be productive with Helium. For a more complete reference of
+Helium's features, please see the
+[documentation](https://helium.readthedocs.io/en/latest/).
 
 ## Connection to Selenium
 
