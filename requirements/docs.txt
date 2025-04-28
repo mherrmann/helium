@@ -1,4 +1,4 @@
 -r base.txt
 
-sphinx-rtd-theme==0.5.0
-sphinx==3.2.1
+sphinx-rtd-theme==3.0.2
+sphinx==8.2.3
