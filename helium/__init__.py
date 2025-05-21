@@ -1158,6 +1158,64 @@ def highlight(element):
 	"""
 	_get_api_impl().highlight_impl(element)
 
+def open_new_tab(url=None):
+	"""
+	打开新标签页
+	
+	Args:
+		url: 可选，新标签页要打开的URL
+	
+	Example:
+		open_new_tab()  # 打开空白标签页
+		open_new_tab('https://www.google.com')  # 打开并导航到指定URL
+	"""
+	return _get_api_impl().open_new_tab_impl(url)
+
+def close_current_tab():
+	"""
+	关闭当前标签页
+	
+	Example:
+		close_current_tab()  # 关闭当前标签页
+	"""
+	return _get_api_impl().close_current_tab_impl()
+
+def switch_to_tab(index):
+	"""
+	切换到指定索引的标签页
+	
+	Args:
+		index: 标签页索引（从0开始）
+	
+	Example:
+		switch_to_tab(0)  # 切换到第一个标签页
+	"""
+	return _get_api_impl().switch_to_tab_impl(index)
+
+def get_tab_count():
+	"""
+	获取当前标签页数量
+	
+	Returns:
+		int: 标签页数量
+	
+	Example:
+		count = get_tab_count()  # 获取当前标签页数量
+	"""
+	return _get_api_impl().get_tab_count_impl()
+
+def get_current_tab_index():
+	"""
+	获取当前标签页的索引
+	
+	Returns:
+		int: 当前标签页的索引
+	
+	Example:
+		index = get_current_tab_index()  # 获取当前标签页的索引
+	"""
+	return _get_api_impl().get_current_tab_index_impl()
+
 def _get_api_impl():
 	global _API_IMPL
 	if _API_IMPL is None:

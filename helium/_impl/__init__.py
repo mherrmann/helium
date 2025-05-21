@@ -385,6 +385,58 @@ class APIImpl:
 		if not self.driver:
 			raise RuntimeError(self.DRIVER_REQUIRED_MESSAGE)
 		return self.driver
+	def open_new_tab_impl(self, url=None):
+		"""
+		打开新标签页
+		
+		Args:
+			url: 可选，新标签页要打开的URL
+		"""
+		driver = self.require_driver()
+		driver.execute_script("window.open('');")
+		driver.switch_to.window(driver.window_handles[-1])
+		if url:
+			self.go_to_impl(url)
+	
+	def close_current_tab_impl(self):
+		"""
+		关闭当前标签页
+		"""
+		driver = self.require_driver()
+		if len(driver.window_handles) > 1:
+			driver.close()
+			driver.switch_to.window(driver.window_handles[-1])
+	
+	def switch_to_tab_impl(self, index):
+		"""
+		切换到指定索引的标签页
+		
+		Args:
+			index: 标签页索引（从0开始）
+		"""
+		driver = self.require_driver()
+		if 0 <= index < len(driver.window_handles):
+			driver.switch_to.window(driver.window_handles[index])
+	
+	def get_tab_count_impl(self):
+		"""
+		获取当前标签页数量
+		
+		Returns:
+			int: 标签页数量
+		"""
+		driver = self.require_driver()
+		return len(driver.window_handles)
+	
+	def get_current_tab_index_impl(self):
+		"""
+		获取当前标签页的索引
+		
+		Returns:
+			int: 当前标签页的索引
+		"""
+		driver = self.require_driver()
+		return driver.window_handles.index(driver.current_window_handle)
 
 class DragHelper:
 	def __init__(self, api_impl):
