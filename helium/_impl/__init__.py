@@ -109,6 +109,16 @@ class APIImpl:
 			result.add_argument('--headless')
 		elif maximize:
 			result.add_argument('--start-maximized')
+
+		# Chrome 140.0.7339.185 or earlier introduced password leak detection.
+		# Writing leaked credentials into an input field sometimes brings up a
+		# blocking browser notification "The password you just used was found in
+		# a data breach". Prevent this:
+		prefs = dict(result.experimental_options.get('prefs', {}))
+		if 'profile.password_manager_leak_detection' not in prefs:
+			prefs['profile.password_manager_leak_detection'] = False
+			result.add_experimental_option('prefs', prefs)
+
 		return result
 	def _kill_service(self, service):
 		old = service.send_remote_shutdown_command
