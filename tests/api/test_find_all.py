@@ -60,3 +60,13 @@ class FindAllTest(BrowserAT):
 			"test_interact_with_found_elements",
 			TextField("Example Text Field").value
 		)
+	def test_bound_element_as_spatial_constraint(self):
+		counts = []
+		for button in find_all(Button("Duplicate Button")):
+			below_this = find_all(Button("Duplicate Button", below=button))
+			counts.append(len(below_this))
+		self.assertEqual(
+			sorted(counts), [0, 0, 1, 1],
+			"Two buttons (those in row 1) have 1 button below, two (those in "
+			"row 2) have 0."
+		)
