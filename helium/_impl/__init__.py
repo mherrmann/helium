@@ -395,6 +395,31 @@ class APIImpl:
 		if not self.driver:
 			raise RuntimeError(self.DRIVER_REQUIRED_MESSAGE)
 		return self.driver
+	def open_new_tab_impl(self, url=None):
+		driver = self.require_driver()
+		driver.execute_script("window.open('');")
+		driver.switch_to.window(driver.window_handles[-1])
+		if url:
+			self.go_to_impl(url)
+	
+	def close_current_tab_impl(self):
+		driver = self.require_driver()
+		if len(driver.window_handles) > 1:
+			driver.close()
+			driver.switch_to.window(driver.window_handles[-1])
+	
+	def switch_to_tab_impl(self, index):
+		driver = self.require_driver()
+		if 0 <= index < len(driver.window_handles):
+			driver.switch_to.window(driver.window_handles[index])
+	
+	def get_tab_count_impl(self):
+		driver = self.require_driver()
+		return len(driver.window_handles)
+	
+	def get_current_tab_index_impl(self):
+		driver = self.require_driver()
+		return driver.window_handles.index(driver.current_window_handle)
 
 class DragHelper:
 	def __init__(self, api_impl):
