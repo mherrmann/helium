@@ -9,7 +9,6 @@ class DragTest(BrowserAT):
 	def get_page(self):
 		return 'test_drag/default.html'
 	def test_drag(self):
-		print(Text('Drag me.').exists())
 		drag("Drag me.", to=self.drag_target)
 		self.assertEqual('Success!', self.read_result_from_browser())
 	def test_drag_to_point(self):
