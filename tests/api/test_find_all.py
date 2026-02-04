@@ -26,14 +26,6 @@ class FindAllTest(BrowserAT):
 		self.assertEqual(
 			1, len(find_all(Button("Duplicate Button", below=button)))
 		)
-	def test_find_all_uses_first_occurrence_as_pivot(self):
-		# "Duplicate Button" has 4 occurrences in a 2x2 grid. When using it as a
-		# pivot, only the first occurrence should be used. The first button is
-		# in Row 1, Column 1. Only the button in Row 2, Column 1 is directly
-		# below it (has horizontal overlap).
-		pivot = Button("Duplicate Button")
-		buttons_below = find_all(Button("Duplicate Button", below=pivot))
-		self.assertEqual(1, len(buttons_below))
 	def test_find_all_non_existent_button(self):
 		self.assertEqual([], find_all(Button("Non-existent Button")))
 	def test_find_all_yields_api_elements(self):
@@ -69,4 +61,13 @@ class FindAllTest(BrowserAT):
 			sorted(counts), [0, 0, 1, 1],
 			"Two buttons (those in row 1) have 1 button below, two (those in "
 			"row 2) have 0."
+		)
+	def test_very_nested_search_areas(self):
+		self.assertEqual(
+			1,
+			len(find_all(
+				Button('Duplicate Button', to_left_of=Button(
+					'Duplicate Button', below=Button('Duplicate Button')
+				))
+			))
 		)

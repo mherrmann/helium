@@ -739,18 +739,30 @@ class HTMLElementImpl(GUIElementImpl):
 	def _get_search_regions_in_curr_frame(self):
 		result = []
 		if self.below:
-			result.append([self.below.first_occurrence.location.is_above])
+			result.append([
+				elt.location.is_above
+				for elt in self._resolve_in_curr_frame(self.below)
+			])
 		if self.to_right_of:
 			result.append([
-				self.to_right_of.first_occurrence.location.is_to_left_of
+				elt.location.is_to_left_of
+				for elt in self._resolve_in_curr_frame(self.to_right_of)
 			])
 		if self.above:
-			result.append([self.above.first_occurrence.location.is_below])
+			result.append([
+				elt.location.is_below
+				for elt in self._resolve_in_curr_frame(self.above)
+			])
 		if self.to_left_of:
 			result.append([
-				self.to_left_of.first_occurrence.location.is_to_right_of
+				elt.location.is_to_right_of
+				for elt in self._resolve_in_curr_frame(self.to_left_of)
 			])
 		return result
+	def _resolve_in_curr_frame(self, element):
+		if element._is_bound():
+			return [element.first_occurrence]
+		return element._find_all_in_curr_frame()
 	def _is_in_any_search_region(self, element, search_regions):
 		for direction in search_regions:
 			found = False
