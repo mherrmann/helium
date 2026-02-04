@@ -1,5 +1,6 @@
 from helium import start_chrome, start_firefox, go_to, set_driver, \
 	kill_browser
+from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
 from tests.api.util import get_data_file_url
 from time import time, sleep
@@ -64,6 +65,11 @@ def start_browser(url=None):
 	kwargs = {}
 	if browser_name in ('chrome', 'firefox'):
 		kwargs['headless'] = True
+	if browser_name == 'chrome':
+		options = ChromeOptions()
+		# Fix the locale for inputting dates and times:
+		options.add_argument('lang=de-DE')
+		kwargs['options'] = options
 	return _TEST_BROWSERS[browser_name](url, **kwargs)
 
 _TEST_BROWSERS = {
