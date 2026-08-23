@@ -1158,6 +1158,21 @@ def highlight(element):
 	"""
 	_get_api_impl().highlight_impl(element)
 
+def open_new_tab(url=None):
+	return _get_api_impl().open_new_tab_impl(url)
+
+def close_current_tab():
+	return _get_api_impl().close_current_tab_impl()
+
+def switch_to_tab(index):
+	return _get_api_impl().switch_to_tab_impl(index)
+
+def get_tab_count():
+	return _get_api_impl().get_tab_count_impl()
+
+def get_current_tab_index():
+	return _get_api_impl().get_current_tab_index_impl()
+
 def _get_api_impl():
 	global _API_IMPL
 	if _API_IMPL is None:
