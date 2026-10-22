@@ -386,7 +386,7 @@ class APIImpl:
 			self.require_driver().unwrap(), timeout_secs,
 			poll_frequency=interval_secs
 		)
-		wait.until(condition)
+		return wait.until(condition)
 	@handle_unexpected_alert
 	def switch_to_impl(self, window):
 		driver = self.require_driver()

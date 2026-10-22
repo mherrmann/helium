@@ -471,13 +471,20 @@ def wait_until(condition_fn, timeout_secs=10, interval_secs=0.5):
 
 		wait_until(lambda: not Text("Uploading...").exists())
 
+	``wait_until`` returns the first true value of the condition function. This
+	lets you wait for a value and obtain it in one step::
+
+		buttons = wait_until(lambda: find_all(Button()))
+
 	``wait_until`` raises
 	:py:class:`selenium.common.exceptions.TimeoutException` if the condition is
 	not satisfied within the given number of seconds. The parameter
 	``interval_secs`` specifies the number of seconds Helium waits between
 	evaluating the condition function.
 	"""
-	_get_api_impl().wait_until_impl(condition_fn, timeout_secs, interval_secs)
+	return _get_api_impl().wait_until_impl(
+		condition_fn, timeout_secs, interval_secs
+	)
 
 class Config:
 	"""

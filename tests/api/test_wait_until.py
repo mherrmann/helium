@@ -21,6 +21,10 @@ class WaitUntilTest(BrowserAT):
 		wait_until(presence_of_element_located((By.ID, "result")))
 		end_time = time()
 		self.assertGreaterEqual(end_time - start_time, 0.8)
+	def test_wait_until_returns_condition_value(self):
+		click("Click me!")
+		result = wait_until(presence_of_element_located((By.ID, "result")))
+		self.assertEqual("Success!", result.text)
 	def test_wait_until_lambda_expires(self):
 		with self.assertRaises(TimeoutException):
 			wait_until(lambda: False, timeout_secs=1)
